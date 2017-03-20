@@ -24,6 +24,10 @@ class CommentsManagerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../resources/assets/js/components/core' => base_path('resources/assets/js/components/core'),
         ], 'comments-component');
+
+        $this->publishes([
+            __DIR__.'/notifications' => app_path('notifications'),
+        ], 'comments-notification');
     }
 
     /**
