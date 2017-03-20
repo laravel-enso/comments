@@ -24,15 +24,16 @@ class CommentTagNotification extends Notification implements ShouldQueue
     public function __construct($commentable, $type, $body, $link)
     {
         $this->commentable = $commentable;
-        $this->type        = $type;
-        $this->body        = $body;
-        $this->link        = $link;
+        $this->type = $type;
+        $this->body = $body;
+        $this->link = $link;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
@@ -43,13 +44,14 @@ class CommentTagNotification extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->line('Ai fost tagguit intr-un mesaj postat in aplicatia ' . env('APP_NAME'))
+        return (new MailMessage())
+            ->line('Ai fost tagguit intr-un mesaj postat in aplicatia '.env('APP_NAME'))
             ->line($this->body)
             ->line('Pentru a raspunde logheaza-te in aplicatie')
             ->action(env('APP_NAME'), env('APP_URL'))
@@ -59,7 +61,8 @@ class CommentTagNotification extends Notification implements ShouldQueue
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
@@ -67,7 +70,7 @@ class CommentTagNotification extends Notification implements ShouldQueue
         return [
 
             // customize the body
-            'body' => $this->commentable->name . ': ' . $this->body,
+            'body' => $this->commentable->name.': '.$this->body,
             'link' => $this->link,
         ];
     }

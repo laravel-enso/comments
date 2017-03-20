@@ -16,10 +16,11 @@ class InsertPermissionsForCommentsManager extends Migration
     {
         $permissionsGroup = PermissionsGroup::whereName('core.comments')->first();
 
-        if ($permissionsGroup) return;
+        if ($permissionsGroup) {
+            return;
+        }
 
         \DB::transaction(function () {
-
             $permissionsGroup = new PermissionsGroup([
                 'name'        => 'core.comments',
                 'description' => 'Comments Permissions Group',
