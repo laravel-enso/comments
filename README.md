@@ -1,4 +1,4 @@
-# Log Reporting
+# Comments Manager
 
 Comments Manager for commentables.
 
