@@ -17,6 +17,8 @@ class CommentsManagerServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'commentsmanager');
+
         $this->publishes([
             __DIR__.'/../database/migrations' => database_path('migrations'),
         ], 'comments-migration');
@@ -24,6 +26,10 @@ class CommentsManagerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../resources/assets/js/components' => resource_path('assets/js/components/laravel-enso'),
         ], 'comments-component');
+
+        $this->publishes([
+            __DIR__.'/../resources/assets/js/views' => resource_path('views/vendor/laravel-enso/commentsmanager'),
+        ], 'comments-partial');
 
         $this->publishes([
             __DIR__.'/notifications' => app_path('notifications/vendor/laravel-enso'),
