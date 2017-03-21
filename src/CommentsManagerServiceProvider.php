@@ -28,7 +28,7 @@ class CommentsManagerServiceProvider extends ServiceProvider
         ], 'comments-component');
 
         $this->publishes([
-            __DIR__.'/../resources/assets/js/views' => resource_path('views/vendor/laravel-enso/commentsmanager'),
+            __DIR__.'/../resources/views' => resource_path('views/vendor/laravel-enso/commentsmanager'),
         ], 'comments-partial');
 
         $this->publishes([
