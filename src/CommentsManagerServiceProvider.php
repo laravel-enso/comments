@@ -22,11 +22,11 @@ class CommentsManagerServiceProvider extends ServiceProvider
         ], 'comments-migration');
 
         $this->publishes([
-            __DIR__.'/../resources/assets/js/components/core' => base_path('resources/assets/js/components/core'),
+            __DIR__.'/../resources/assets/js/components' => resource_path('assets/js/components/laravel-enso'),
         ], 'comments-component');
 
         $this->publishes([
-            __DIR__.'/notifications' => app_path('notifications'),
+            __DIR__.'/notifications' => app_path('notifications/vendor/laravel-enso'),
         ], 'comments-notification');
     }
 
