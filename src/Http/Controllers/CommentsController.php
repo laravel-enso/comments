@@ -93,7 +93,7 @@ class CommentsController extends Controller
             $response[] = [
 
                 'id'     => $user->id,
-                'avatar' => $user->avatar_saved_name,
+                'avatar' => $user->avatar_link,
                 'name'   => $user->full_name,
             ];
         }
