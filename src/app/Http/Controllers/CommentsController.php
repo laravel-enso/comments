@@ -11,12 +11,12 @@ class CommentsController extends Controller
 {
     public function post()
     {
-        $comment     = new Comment();
-        $class       = request()->type;
+        $comment = new Comment();
+        $class = request()->type;
         $commentable = $class::find(request()->id);
 
         \DB::transaction(function () use ($commentable, $comment) {
-            $comment->body    = request()->comment;
+            $comment->body = request()->comment;
             $comment->user_id = request()->user()->id;
             $commentable->comments()->save($comment);
             $this->applyTags($comment, $commentable);
@@ -31,7 +31,7 @@ class CommentsController extends Controller
 
     public function update(Comment $comment)
     {
-        $comment->body      = request()->comment;
+        $comment->body = request()->comment;
         $comment->is_edited = 1;
         $comment->save();
         $usersList = array_column(request()->taggedUsers, 'id');
@@ -67,11 +67,12 @@ class CommentsController extends Controller
         $comment->delete();
     }
 
-    function list() {
-        $class       = request('type');
+    public function list()
+    {
+        $class = request('type');
         $commentable = $class::find(request('id'));
-        $list        = $commentable->comments()->orderBy('id', 'desc')->with('user')->with('tagged_users')->skip(request('offset'))->take(request('paginate'))->get();
-        $count       = $commentable->comments()->count();
+        $list = $commentable->comments()->orderBy('id', 'desc')->with('user')->with('tagged_users')->skip(request('offset'))->take(request('paginate'))->get();
+        $count = $commentable->comments()->count();
 
         return [
 
@@ -82,8 +83,8 @@ class CommentsController extends Controller
 
     public function getUsersList($query = null)
     {
-        $query     = null;
-        $usersList = User::where('first_name', 'like', '%' . $query . '%')->orWhere('last_name', 'like', '%' . $query . '%')->limit(5)->get();
+        $query = null;
+        $usersList = User::where('first_name', 'like', '%'.$query.'%')->orWhere('last_name', 'like', '%'.$query.'%')->limit(5)->get();
 
         $response = [];
 
