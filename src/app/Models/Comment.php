@@ -1,9 +1,9 @@
 <?php
 
-namespace LaravelEnso\CommentsManager;
+namespace LaravelEnso\CommentsManager\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\TrackWho\Traits\UpdatedBy;
+use LaravelEnso\TrackWho\App\Traits\UpdatedBy;
 
 class Comment extends Model
 {
@@ -11,7 +11,7 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->belongsTo('LaravelEnso\Core\Models\User');
+        return $this->belongsTo('LaravelEnso\Core\App\Models\User');
     }
 
     public function commentable()
@@ -21,6 +21,6 @@ class Comment extends Model
 
     public function tagged_users()
     {
-        return $this->belongsToMany('LaravelEnso\Core\Models\User');
+        return $this->belongsToMany('LaravelEnso\Core\App\Models\User');
     }
 }

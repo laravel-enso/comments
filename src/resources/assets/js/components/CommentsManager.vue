@@ -36,7 +36,7 @@
             style="overflow-y:scroll; max-height: 300px">
             <div class="item"
                 v-for="(comment, index) in filteredCommentsList">
-                <img :src="comment.user.avatar_saved_name"
+                <img :src="comment.user.avatar_link"
                     alt="user image"
                     class="offline">
                 <p class="message"

@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['namespace' => 'LaravelEnso\CommentsManager\Http\Controllers', 'middleware' => ['web', 'auth', 'core']], function () {
+Route::group(['namespace' => 'LaravelEnso\CommentsManager\App\Http\Controllers', 'middleware' => ['web', 'auth', 'core']], function () {
     Route::group(['prefix' => 'core/comments', 'as' => 'core.comments.'], function () {
         Route::get('list', 'CommentsController@list')->name('list');
         Route::post('post', 'CommentsController@post')->name('post');
