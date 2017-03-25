@@ -63,7 +63,6 @@ class CommentsController extends Controller
 
     public function destroy(Comment $comment)
     {
-        $id = $comment->id;
         $comment->delete();
     }
 
