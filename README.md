@@ -1,5 +1,7 @@
 # Comments Manager
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d96ab52d782d46b9a94e00ea6059b34c)](https://www.codacy.com/app/laravel-enso/CommentsManager?utm_source=github.com&utm_medium=referral&utm_content=laravel-enso/CommentsManager&utm_campaign=badger)
+
 Comments Manager for commentables.
 
 ## Don't forget to
