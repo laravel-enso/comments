@@ -5,7 +5,7 @@ namespace LaravelEnso\CommentsManager\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use LaravelEnso\CommentsManager\App\Models\Comment;
 use LaravelEnso\CommentsManager\App\Notifications\CommentTagNotification;
-use LaravelEnso\Core\App\Models\User;
+use App\User;
 
 class CommentsController extends Controller
 {

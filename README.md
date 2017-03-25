@@ -15,6 +15,20 @@ include the vue-component in your app.js
 
 run gulp
 
+add to the User model
+
+```php
+	public function comments()
+    {
+        return $this->hasMany('LaravelEnso\CommentsManager\App\Models\Comment');
+    }
+
+    public function comments_tags()
+    {
+        return $this->belongsToMany('LaravelEnso\CommentsManager\App\Models\Comment');
+    }
+```
+
 ## You can
 
 Build a partial to use with the vue component in your app/resources/views/partials/comments-labels.blade.php
