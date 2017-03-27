@@ -20,12 +20,12 @@ add to the User model
 ```php
 	public function comments()
     {
-        return $this->hasMany('LaravelEnso\CommentsManager\App\Models\Comment');
+        return $this->hasMany('LaravelEnso\CommentsManager\app\Models\Comment');
     }
 
     public function comments_tags()
     {
-        return $this->belongsToMany('LaravelEnso\CommentsManager\App\Models\Comment');
+        return $this->belongsToMany('LaravelEnso\CommentsManager\app\Models\Comment');
     }
 ```
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\CommentsManager\App\Notifications;
+namespace LaravelEnso\CommentsManager\app\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
