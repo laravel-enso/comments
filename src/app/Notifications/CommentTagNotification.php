@@ -51,10 +51,10 @@ class CommentTagNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->line('Ai fost tagguit intr-un mesaj postat in aplicatia '.env('APP_NAME'))
+            ->line('Ai fost tagguit intr-un mesaj postat in aplicatia '.config('app.name'))
             ->line($this->body)
             ->line('Pentru a raspunde logheaza-te in aplicatie')
-            ->action(env('APP_NAME'), env('APP_URL'))
+            ->action(config('app.name'), config('app.url'))
             ->line('Iti multumim!');
     }
 

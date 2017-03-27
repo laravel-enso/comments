@@ -3,7 +3,6 @@
 namespace LaravelEnso\CommentsManager\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\User;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
 
@@ -44,9 +43,9 @@ class CommentsController extends Controller
     public function applyTags($comment, $commentable = null)
     {
         $commentable = $commentable ?: $comment->commentable_type::find($comment->commentable_id);
-
+        $userClass = config('auth.providers.users.model');
         foreach (request()->taggedUsers as $taggedUser) {
-            $user = User::find($taggedUser['id']);
+            $user = $userClass::find($taggedUser['id']);
 
             if (!$user->comments_tags->contains($comment)) {
                 $user->comments_tags()->save($comment);
@@ -83,7 +82,8 @@ class CommentsController extends Controller
     public function getUsersList($query = null)
     {
         $query = null;
-        $usersList = User::where('first_name', 'like', '%'.$query.'%')->orWhere('last_name', 'like', '%'.$query.'%')->limit(5)->get();
+        $userClass = config('auth.providers.users.model');
+        $usersList = $userClass::where('first_name', 'like', '%'.$query.'%')->orWhere('last_name', 'like', '%'.$query.'%')->limit(5)->get();
 
         $response = [];
 
