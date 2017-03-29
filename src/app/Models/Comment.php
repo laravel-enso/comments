@@ -9,6 +9,8 @@ class Comment extends Model
 {
     use UpdatedBy;
 
+    protected $fillable = ['user_id', 'body', 'is_edited'];
+
     public function user()
     {
         return $this->belongsTo('LaravelEnso\Core\app\Models\User');
