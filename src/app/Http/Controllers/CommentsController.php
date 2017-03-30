@@ -13,10 +13,10 @@ class CommentsController extends Controller
         $comment = new Comment();
         $commentable = request('type')::find(request('id'));
 
-        \DB::transaction(function () use($comment, $commentable) {
+        \DB::transaction(function () use ($comment, $commentable) {
             $comment->fill([
-                'body' => request('comment'),
-                'user_id' => request()->user()->id
+                'body'    => request('comment'),
+                'user_id' => request()->user()->id,
             ]);
 
             $commentable->comments()->save($comment);
@@ -33,8 +33,8 @@ class CommentsController extends Controller
     public function update(Comment $comment)
     {
         $comment->fill([
-            'body' => request('comment'),
-            'is_edited' => true
+            'body'      => request('comment'),
+            'is_edited' => true,
         ]);
 
         $comment->save();
