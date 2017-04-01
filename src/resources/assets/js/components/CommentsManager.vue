@@ -177,7 +177,7 @@
             },
             getData: function() {
 
-                var params = {
+                let params = {
                     id: this.id,
                     type: this.type,
                     offset: this.commentsList.length,
@@ -206,7 +206,7 @@
             },
             checkTaggedUsers: function() {
 
-                var self = this;
+                let self = this;
 
                 self.taggedUsers.forEach(function(user, index) {
 
@@ -220,7 +220,7 @@
 
                 this.checkTaggedUsers();
 
-                var params = {
+                let params = {
                     id: this.id,
                     type: this.type,
                     comment: this.commentInputValue,
@@ -242,7 +242,7 @@
 
                 this.updateCommentIndex = index;
                 this.commentInputValue = this.commentsList[this.updateCommentIndex].body;
-                var self = this;
+                let self = this;
 
                 this.commentsList[this.updateCommentIndex].tagged_users.forEach(function(user) {
 
@@ -253,7 +253,7 @@
 
                 this.checkTaggedUsers();
 
-                var commentId = this.commentsList[this.updateCommentIndex].id,
+                let commentId = this.commentsList[this.updateCommentIndex].id,
                     params = {
                         comment: this.commentInputValue,
                         taggedUsers: this.taggedUsers
@@ -287,7 +287,7 @@
             },
             highlightTaggedUsers: function(comment) {
 
-                var body = comment.body;
+                let body = comment.body;
 
                 comment.tagged_users.forEach(function(user) {
 
@@ -298,9 +298,9 @@
             }
         },
         mounted: function() {
-            var self = this;
+            let self = this;
 
-            var inputor = $('#textarea-' + this._uid).atwho({
+            let inputor = $('#textarea-' + this._uid).atwho({
                 at: "@",
                 displayTpl: "<li id='${id}'><img src='${avatar}' alt='User Image' class='atwho'> ${name}</li>",
                 callbacks: {
