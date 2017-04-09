@@ -52,8 +52,8 @@ class CommentsController extends Controller
         foreach (request('taggedUsers') as $taggedUser) {
             $user = config('auth.providers.users.model')::find($taggedUser['id']);
 
-            if (!$user->comments_tags->contains($comment)) {
-                $user->comments_tags()->save($comment);
+            if (!$user->comment_tags->contains($comment)) {
+                $user->comment_tags()->save($comment);
             }
 
             $user->notify(new CommentTagNotification($commentable, request('type'), $comment->body, '#'));
