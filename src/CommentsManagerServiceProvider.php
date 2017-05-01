@@ -28,7 +28,7 @@ class CommentsManagerServiceProvider extends ServiceProvider
         ], 'comments-component');
 
         $this->publishes([
-            __DIR__.'/app/Notifications' => app_path('Notifications/vendor/laravel-enso'),
+            __DIR__.'/resources/Classes/Notifications' => app_path('Notifications'),
         ], 'comments-notification');
     }
 
@@ -45,6 +45,6 @@ class CommentsManagerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // $this->app->register('LaravelEnso\CommentsManager\CommentsManagerAuthServiceProvider');
     }
 }

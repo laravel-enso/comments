@@ -10,53 +10,54 @@ class CommentsController extends Controller
 {
     public function post()
     {
-        $comment = new Comment();
+        $comment = new Comment([
+            'body'    => request('comment'),
+            'user_id' => request()->user()->id,
+        ]);
         $commentable = request('type')::find(request('id'));
 
         \DB::transaction(function () use ($comment, $commentable) {
-            $comment->fill([
-                'body'    => request('comment'),
-                'user_id' => request()->user()->id,
-            ]);
-
             $commentable->comments()->save($comment);
-            $this->applyTags($comment, $commentable);
+            $usersList = array_column(request('tagged_users_list'), 'id');
+            $comment->tagged_users()->sync($usersList);
+            $this->applyTags($comment);
         });
 
         return [
-
-            'comment' => $comment->fresh()->load(['user', 'tagged_users']),
+            'comment' => $comment->fresh(),
             'count'   => $commentable->comments()->count(),
         ];
     }
 
-    public function update(Comment $comment)
+    public function update()
     {
-        $comment->fill([
-            'body'      => request('comment'),
-            'is_edited' => true,
-        ]);
+        $comment = Comment::find(request('comment')['id']);
 
-        $comment->save();
-        $usersList = array_column(request('taggedUsers'), 'id');
-        $comment->tagged_users()->sync($usersList);
-        $this->applyTags($comment);
+        if (!$comment->is_editable) {
+            throw new \EnsoException("You are not allowed to do this action");
+        }
 
-        return $comment->load(['user', 'tagged_users']);
+        $comment->fill(request('comment'));
+
+        \DB::transaction(function () use ($comment) {
+            $comment->save();
+            $usersList = array_column(request('comment')['tagged_users_list'], 'id');
+            $comment->tagged_users()->sync($usersList);
+            $this->applyTags($comment);
+        });
+
+        return $comment;
     }
 
-    public function applyTags($comment, $commentable = null)
+    public function applyTags($comment)
     {
-        $commentable = $commentable ?: $comment->commentable_type::find($comment->commentable_id);
+        $commentable = $comment->commentable_type::find($comment->commentable_id);
 
-        foreach (request('taggedUsers') as $taggedUser) {
-            $user = config('auth.providers.users.model')::find($taggedUser['id']);
-
-            if (!$user->comment_tags->contains($comment)) {
-                $user->comment_tags()->save($comment);
-            }
-
-            $user->notify(new CommentTagNotification($commentable, request('type'), $comment->body, '#'));
+        foreach ($comment->tagged_users as $taggedUser) {
+            $taggedUser->notify(class_exists(\App\CommentTagNotification::class) ?
+                new \App\CommentTagNotification($commentable, request('type'), $comment->body, request('url')) :
+                new CommentTagNotification($commentable, request('type'), $comment->body, request('url'))
+            );
         }
     }
 
@@ -67,13 +68,19 @@ class CommentsController extends Controller
 
     public function destroy(Comment $comment)
     {
+        if (!$comment->is_editable) {
+            throw new \EnsoException("You are not allowed to do this action");
+        }
+
         $comment->delete();
     }
 
-    public function list()
-    {
+    public function list() {
         $commentable = request('type')::find(request('id'));
-        $list = $commentable->comments()->orderBy('id', 'desc')->with('user')->with('tagged_users')->skip(request('offset'))->take(request('paginate'))->get();
+        $list        = $commentable->comments()->orderBy('id', 'desc')
+            ->skip(request('offset'))
+            ->take(request('paginate'))
+            ->get();
         $count = $commentable->comments()->count();
 
         return [
@@ -85,9 +92,8 @@ class CommentsController extends Controller
 
     public function getUsersList($query = null)
     {
-        $query = null;
-        $usersList = config('auth.providers.users.model')::where('first_name', 'like', '%'.$query.'%')
-            ->orWhere('last_name', 'like', '%'.$query.'%')
+        $usersList = config('auth.providers.users.model')::where('first_name', 'like', '%' . $query . '%')
+            ->orWhere('last_name', 'like', '%' . $query . '%')
             ->limit(5)
             ->get();
 
@@ -95,9 +101,9 @@ class CommentsController extends Controller
 
         foreach ($usersList as $user) {
             $response[] = [
-                'id'     => $user->id,
-                'avatar' => $user->avatar_link,
-                'name'   => $user->full_name,
+                'id'          => $user->id,
+                'name'        => $user->full_name,
+                'avatar_link' => $user->avatar_link,
             ];
         }
 

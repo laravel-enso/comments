@@ -1,35 +1,49 @@
 # Comments Manager
-
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d96ab52d782d46b9a94e00ea6059b34c)](https://www.codacy.com/app/laravel-enso/CommentsManager?utm_source=github.com&utm_medium=referral&utm_content=laravel-enso/CommentsManager&utm_campaign=badger)
+[![StyleCI](https://styleci.io/repos/85583597/shield?branch=master)](https://styleci.io/repos/85583597)
+[![Total Downloads](https://poser.pugx.org/laravel-enso/commentsmanager/downloads)](https://packagist.org/packages/laravel-enso/commentsmanager)
+[![Latest Stable Version](https://poser.pugx.org/laravel-enso/commentsmanager/version)](https://packagist.org/packages/laravel-enso/commentsmanager)
 
-Comments Manager for commentables.
+Comments Manager for Laravel Enso. This package creates a Comment model that has a `commentable` morphTo relation.
 
-## Don't forget to
+### Installation
 
-artisan vendor:publish --tag=comments-migrations
-artisan vendor:publish --tag=comments-component
+1. Add `LaravelEnso\CommentsManager\CommentsManagerServiceProvider::class` to `config/app.php`. (included if you use LaravelEnso/coreplus)
 
-php artisan migrate
+2. Run migrations.
 
-include the vue-component in your app.js
+3. Publish the vue component with `php artisan vendor:publish --tag=comments-component`
 
-run gulp
+4. Include the vue-component in your app.js
 
-add to the User model
+5. Run gulp
+
+6. Add the following relationship to the Model that need comments
 
 ```php
-	public function comments()
-    {
-        return $this->hasMany('LaravelEnso\CommentsManager\app\Models\Comment');
-    }
-
-    public function comment_tags()
-    {
-        return $this->belongsToMany('LaravelEnso\CommentsManager\app\Models\Comment');
-    }
+public function comments()
+{
+    return $this->morphMany('LaravelEnso\CommentsManager\app\Models\Comment', 'commentable');
+}
 ```
 
-## You can
+7. Add the following relationships to the User model
+
+```php
+public function comments()
+{
+    return $this->hasMany('LaravelEnso\CommentsManager\app\Models\Comment');
+}
+
+public function comment_tags()
+{
+    return $this->belongsToMany('LaravelEnso\CommentsManager\app\Models\Comment');
+}
+```
+
+8. If you need to customize the CommentTagNotification you need to publish it first with `php artisan vendor:publish --tag=comments-notification`
+
+### You can
 
 Build a partial to use with the vue component in your app/resources/views/partials/comments-labels.blade.php
 
@@ -41,7 +55,23 @@ Build a partial to use with the vue component in your app/resources/views/partia
 and then you can use
 
 ```
-<comments-manager options>
-@include('partials.comments-labels')
+<comments-manager :id="modelId"
+    type="App\Model"
+    edited-label="edited"
+    :paginate="10"
+    placeholder="Custom Placeholer">
+    @include('partials.comments-labels')
 </comments-manager>
 ```
+
+### Options
+
+	`type` - the commentable model (required)
+	`id` - the id of the commentable model (required)
+	`paginate` - the paginate size, default value is 5 (optional)
+	`edited-label` - the label displayed when a comment has been edited (optional)
+	`placeholder` - the default value is 'Type a comment' (optional)
+
+### Contributions
+
+...are welcome
