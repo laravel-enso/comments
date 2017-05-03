@@ -30,6 +30,10 @@ class CommentsManagerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/resources/Classes/Notifications' => app_path('Notifications'),
         ], 'comments-notification');
+
+        $this->publishes([
+            __DIR__.'/resources/assets/js/components' => resource_path('assets/js/vendor/laravel-enso/components'),
+        ], 'update');
     }
 
     private function loadDependencies()
@@ -45,6 +49,6 @@ class CommentsManagerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // $this->app->register('LaravelEnso\CommentsManager\CommentsManagerAuthServiceProvider');
+        $this->app->register(CommentsManagerAuthServiceProvider::class);
     }
 }

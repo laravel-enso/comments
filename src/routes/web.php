@@ -6,7 +6,7 @@ Route::group(['namespace' => 'LaravelEnso\CommentsManager\app\Http\Controllers',
         Route::post('post', 'CommentsController@post')->name('post');
         Route::get('show/{comment}', 'CommentsController@show')->name('show');
         Route::delete('destroy/{comment}', 'CommentsController@destroy')->name('destroy');
-        Route::patch('update', 'CommentsController@update')->name('update');
+        Route::patch('update/{comment}', 'CommentsController@update')->name('update');
         Route::get('getUsersList/{query?}', 'CommentsController@getUsersList')->name('getUsersList');
     });
 });

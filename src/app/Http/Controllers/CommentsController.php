@@ -3,6 +3,7 @@
 namespace LaravelEnso\CommentsManager\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use LaravelEnso\CommentsManager\app\Http\Requests\ValidateCommentRequest;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
 
@@ -29,14 +30,9 @@ class CommentsController extends Controller
         ];
     }
 
-    public function update()
+    public function update(Comment $comment)
     {
-        $comment = Comment::find(request('comment')['id']);
-
-        if (!$comment->is_editable) {
-            throw new \EnsoException("You are not allowed to do this action");
-        }
-
+        $this->authorize('update', $comment);
         $comment->fill(request('comment'));
 
         \DB::transaction(function () use ($comment) {
@@ -54,8 +50,8 @@ class CommentsController extends Controller
         $commentable = $comment->commentable_type::find($comment->commentable_id);
 
         foreach ($comment->tagged_users as $taggedUser) {
-            $taggedUser->notify(class_exists(\App\CommentTagNotification::class) ?
-                new \App\CommentTagNotification($commentable, request('type'), $comment->body, request('url')) :
+            $taggedUser->notify(class_exists(\App\Notifications\CommentTagNotification::class) ?
+                new \App\Notifications\CommentTagNotification($commentable, request('type'), $comment->body, request('url')) :
                 new CommentTagNotification($commentable, request('type'), $comment->body, request('url'))
             );
         }
