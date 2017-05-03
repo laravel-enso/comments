@@ -3,7 +3,6 @@
 namespace LaravelEnso\CommentsManager\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use LaravelEnso\CommentsManager\app\Http\Requests\ValidateCommentRequest;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
 
