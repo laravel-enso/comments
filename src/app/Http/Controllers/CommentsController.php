@@ -65,15 +65,16 @@ class CommentsController extends Controller
     public function destroy(Comment $comment)
     {
         if (!$comment->is_editable) {
-            throw new \EnsoException("You are not allowed to do this action");
+            throw new \EnsoException('You are not allowed to do this action');
         }
 
         $comment->delete();
     }
 
-    public function list() {
+    public function list()
+    {
         $commentable = request('type')::find(request('id'));
-        $list        = $commentable->comments()->orderBy('id', 'desc')
+        $list = $commentable->comments()->orderBy('id', 'desc')
             ->skip(request('offset'))
             ->take(request('paginate'))
             ->get();
@@ -88,8 +89,8 @@ class CommentsController extends Controller
 
     public function getUsersList($query = null)
     {
-        $usersList = config('auth.providers.users.model')::where('first_name', 'like', '%' . $query . '%')
-            ->orWhere('last_name', 'like', '%' . $query . '%')
+        $usersList = config('auth.providers.users.model')::where('first_name', 'like', '%'.$query.'%')
+            ->orWhere('last_name', 'like', '%'.$query.'%')
             ->limit(5)
             ->get();
 
