@@ -1,6 +1,6 @@
 <template>
 
-    <div :class="'box box-' + headerClass">
+    <div :class="'box collapsed-box box-' + headerClass">
         <div class="box-header with-border">
             <i class="fa fa-comments-o">
             </i>
