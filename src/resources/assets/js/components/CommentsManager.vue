@@ -62,7 +62,7 @@
                         <i class="btn btn-xs btn-success fa fa-check"
                             @click="updateComment(comment)"
                             :key="'update-' + index"
-                            v-if="editedCommentIndex === index && comment.body">
+                            v-if="editedCommentIndex === index && comment.body.trim()">
                         </i>
                     </transition-group>
                     </small>
@@ -102,7 +102,7 @@
                             class="btn btn-success"
                             @click="addComment()">
                     <i class="fa fa-check"
-                        v-if="commentInputValue">
+                        v-if="isValidComment">
                     </i>
                     <i class="fa fa-ellipsis-h"
                         v-else>
@@ -162,6 +162,15 @@
 
                 return this.commentsList;
             },
+            isValidComment() {
+
+                //reject spaced strings
+                if(this.commentInputValue) {
+                    return this.commentInputValue.trim();
+                }
+
+                return false;
+            }
         },
         data() {
             return {
@@ -271,7 +280,7 @@
                 this.taggedUsers = [];
                 this.loading = true;
 
-                axios.patch('/core/comments/update', {comment: comment, url: this.url}).then(response => {
+                axios.patch('/core/comments/update/' + comment.id, {comment: comment, url: this.url}).then(response => {
                     this.loading = false;
                 }).catch(error => {
                     this.loading = false;
