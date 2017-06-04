@@ -3,6 +3,7 @@
 namespace LaravelEnso\CommentsManager\app\Policies;
 
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 
@@ -10,41 +11,36 @@ class CommentPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can create comments.
-     *
-     * @param \App\User $user
-     *
-     * @return mixed
-     */
-    public function create(User $user)
+    public function before($user, $ability)
     {
-        return request()->user()->isAdmin() || $this->user_id === request()->user()->id;
+        return $user->isAdmin();
     }
 
-    /**
-     * Determine whether the user can update the comment.
-     *
-     * @param \App\User    $user
-     * @param \App\Comment $comment
-     *
-     * @return mixed
-     */
+    public function create(User $user, Comment $comment)
+    {
+        return true;
+    }
+
     public function update(User $user, Comment $comment)
     {
-        return request()->user()->isAdmin() || $this->user_id === request()->user()->id;
+        return false;
+        return $this->userOwnsComment($user, $comment)
+            && $this->commentIsRecent($comment);
     }
 
-    /**
-     * Determine whether the user can delete the comment.
-     *
-     * @param \App\User    $user
-     * @param \App\Comment $comment
-     *
-     * @return mixed
-     */
-    public function delete(User $user, Comment $comment)
+    public function destroy(User $user, Comment $comment)
     {
-        return request()->user()->isAdmin() || $this->user_id === request()->user()->id;
+        return $this->userOwnsComment($user, $comment)
+            && $this->commentIsRecent($comment);
+    }
+
+    private function userOwnsComment(User $user, Comment $comment)
+    {
+        return $user->id === $comment->user_id;
+    }
+
+    private function commentIsRecent(Comment $comment)
+    {
+        return $comment->created_at->diffInHours(Carbon::now()) < config('comments.editableTimeLimitInHours');
     }
 }

@@ -19,7 +19,6 @@ class CreateCommentsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('restrict')->onDelete('restrict');
             $table->morphs('commentable');
             $table->string('body');
-            $table->boolean('is_edited')->default(0);
             $table->integer('updated_by')->unsigned()->index()->nullable();
             $table->foreign('updated_by')->references('id')->on('users')->onUpdate('restrict')->onDelete('restrict');
             $table->timestamps();

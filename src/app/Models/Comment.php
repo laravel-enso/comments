@@ -9,8 +9,9 @@ class Comment extends Model
 {
     use UpdatedBy;
 
-    protected $fillable = ['user_id', 'body', 'is_edited'];
-    protected $appends = ['tagged_users_list', 'owner', 'is_editable'];
+    protected $fillable = ['user_id', 'body'];
+
+    protected $appends = ['tagged_users_list', 'owner', 'is_editable', 'is_deletable', 'is_edited'];
 
     public function user()
     {
@@ -27,14 +28,18 @@ class Comment extends Model
         return $this->belongsToMany(config('auth.providers.users.model'));
     }
 
+    public function getIsEditedAttribute()
+    {
+        return $this->created_at->format('Y-m-d H:i:s') !== $this->updated_at->format('Y-m-d H:i:s');
+    }
+
     public function getTaggedUsersListAttribute()
     {
-        $taggedUsers = collect();
-        $this->tagged_users->each(function ($user) use ($taggedUsers) {
-            $taggedUsers->push([
-                'id'        => $user->id,
+        $taggedUsers = $this->tagged_users->map(function ($user) {
+            return [
+                'id' => $user->id,
                 'full_name' => $user->full_name,
-            ]);
+            ];
         });
 
         unset($this->tagged_users);
@@ -44,18 +49,23 @@ class Comment extends Model
 
     public function getOwnerAttribute()
     {
-        $attributes = [
+        $attribute = [
             'full_name'   => $this->user->full_name,
             'avatar_link' => $this->user->avatar_link,
         ];
 
         unset($this->user);
 
-        return $attributes;
+        return $attribute;
     }
 
     public function getIsEditableAttribute()
     {
-        return request()->user()->isAdmin() || $this->user_id === request()->user()->id;
+        return request()->user()->can('update', $this);
+    }
+
+    public function getIsDeletableAttribute()
+    {
+        return request()->user()->can('destroy', $this);
     }
 }

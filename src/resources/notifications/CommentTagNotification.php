@@ -17,14 +17,12 @@ class CommentTagNotification extends Notification implements ShouldQueue
      * @return void
      */
     private $commentable;
-    private $type;
     private $body;
     private $link;
 
-    public function __construct($commentable, $type, $body, $link)
+    public function __construct($commentable, $body, $link)
     {
         $this->commentable = $commentable;
-        $this->type = $type;
         $this->body = $body;
         $this->link = $link;
     }
@@ -68,7 +66,7 @@ class CommentTagNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            // customize the body $this->commentable->name
+            // customize the notification
             'body' => $this->body,
             'link' => $this->link,
         ];

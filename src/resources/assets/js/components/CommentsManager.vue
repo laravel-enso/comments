@@ -1,5 +1,4 @@
 <template>
-
     <div :class="'box collapsed-box box-' + headerClass">
         <div class="box-header with-border">
             <i class="fa fa-comments-o">
@@ -115,7 +114,6 @@
             <i class="fa fa-spinner fa-spin spinner-custom" ></i>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -151,6 +149,7 @@
                 default: 5
             }
         },
+
         computed: {
             filteredCommentsList() {
                 if (this.queryString) {
@@ -172,6 +171,7 @@
                 return false;
             }
         },
+
         data() {
             return {
                 commentInputValue: null,
