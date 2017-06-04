@@ -37,7 +37,7 @@ class Comment extends Model
     {
         $taggedUsers = $this->tagged_users->map(function ($user) {
             return [
-                'id' => $user->id,
+                'id'        => $user->id,
                 'full_name' => $user->full_name,
             ];
         });
