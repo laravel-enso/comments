@@ -3,7 +3,6 @@
 use App\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use LaravelEnso\CommentsManager\app\Models\Comment;
 use Tests\TestCase;
 
 class CommentTest extends TestCase
@@ -30,7 +29,7 @@ class CommentTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonFragment([
-                'body' => $data['body']
+                'body' => $data['body'],
             ]);
     }
 
@@ -38,12 +37,12 @@ class CommentTest extends TestCase
     public function tag_user()
     {
         $data = $this->postParams();
-        $data['tagged_users_list'] = [ ['id' => 1, 'full_name' => $this->user->full_name] ];
+        $data['tagged_users_list'] = [['id' => 1, 'full_name' => $this->user->full_name]];
         $response = $this->post('/core/comments', $data);
 
         $response->assertStatus(200)
             ->assertJsonFragment([
-                'tagged_users_list' => [ ['id' => 1, 'full_name' => $this->user->full_name ] ]
+                'tagged_users_list' => [['id' => 1, 'full_name' => $this->user->full_name]],
             ]);
     }
 
@@ -68,7 +67,7 @@ class CommentTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonFragment([
-                'body' => 'edited'
+                'body' => 'edited',
             ]);
     }
 
@@ -85,32 +84,32 @@ class CommentTest extends TestCase
     /** @test */
     public function get_taggable_users_with_query()
     {
-        $response = $this->get('/core/comments/getTaggableUsers/' . $this->user->full_name);
+        $response = $this->get('/core/comments/getTaggableUsers/'.$this->user->full_name);
 
         $response->assertStatus(200)
             ->assertJsonFragment([
-                'full_name' => $this->user->full_name
+                'full_name' => $this->user->full_name,
             ]);
     }
 
     private function postParams()
     {
         return [
-            'id' => 1,
-            'type' => 'owner',
-            'body' => $this->faker->sentence,
+            'id'                => 1,
+            'type'              => 'owner',
+            'body'              => $this->faker->sentence,
             'tagged_users_list' => [],
-            'url' => $this->faker->url,
+            'url'               => $this->faker->url,
         ];
     }
 
     public function getParams()
     {
         return [
-            'id' => 1,
-            'type' => 'owner',
-            'offset' => 0,
-            'paginate' => 5
+            'id'       => 1,
+            'type'     => 'owner',
+            'offset'   => 0,
+            'paginate' => 5,
         ];
     }
 }

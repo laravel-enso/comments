@@ -8,12 +8,12 @@ use LaravelEnso\CommentsManager\app\DAOs\Tags;
 
 class TaggableUserController extends Controller
 {
-	private $tags;
+    private $tags;
 
-	public function __construct(Request $request)
-	{
-		$this->tags = new Tags();
-	}
+    public function __construct(Request $request)
+    {
+        $this->tags = new Tags();
+    }
 
     public function getList($query = null)
     {
