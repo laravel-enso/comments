@@ -3,7 +3,6 @@
 namespace LaravelEnso\CommentsManager\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use LaravelEnso\CommentsManager\app\DAOs\Tags;
 
 class TaggableUserController extends Controller
