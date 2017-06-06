@@ -14,7 +14,7 @@ class ValidateCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'body' => 'required'
+            'body' => 'required',
         ];
     }
 }

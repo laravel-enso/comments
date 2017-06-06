@@ -1,8 +1,8 @@
 <?php
 
 return [
-	'editableTimeLimitInHours' => 24,
-	'commentables' => [
-	    'owner' => 'App\Owner',
-    ]
+    'editableTimeLimitInHours' => 24,
+    'commentables'             => [
+        'owner' => 'App\Owner',
+    ],
 ];

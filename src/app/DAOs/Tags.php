@@ -2,12 +2,11 @@
 
 namespace LaravelEnso\CommentsManager\app\DAOs;
 
-use Illuminate\Http\Request;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 
 class Tags
 {
-	private $request;
+    private $request;
 
 	public function __construct(array $request = [])
 	{
@@ -19,10 +18,10 @@ class Tags
 		$comment->tagged_users()->sync($this->getTaggedUserIds());
 	}
 
-	private function getTaggedUserIds()
-	{
-		return array_column($this->request['tagged_users_list'], 'id');
-	}
+    private function getTaggedUserIds()
+    {
+        return array_column($this->request['tagged_users_list'], 'id');
+    }
 
     public function getTaggableUsers($query)
     {
