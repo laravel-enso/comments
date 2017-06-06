@@ -10,7 +10,7 @@ class TaggableUserController extends Controller
 {
     private $tags;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
         $this->tags = new Tags();
     }
