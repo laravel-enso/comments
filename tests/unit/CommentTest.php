@@ -34,19 +34,6 @@ class CommentTest extends TestCase
     }
 
     /** @test */
-    public function tag_user()
-    {
-        $data = $this->postParams();
-        $data['tagged_users_list'] = [['id' => 1, 'full_name' => $this->user->full_name]];
-        $response = $this->post('/core/comments', $data);
-
-        $response->assertStatus(200)
-            ->assertJsonFragment([
-                'tagged_users_list' => [['id' => 1, 'full_name' => $this->user->full_name]],
-            ]);
-    }
-
-    /** @test */
     public function get_comments()
     {
         $this->post('/core/comments', $this->postParams());
@@ -89,6 +76,19 @@ class CommentTest extends TestCase
         $response->assertStatus(200)
             ->assertJsonFragment([
                 'full_name' => $this->user->full_name,
+            ]);
+    }
+
+    /** @test */
+    public function tag_user()
+    {
+        $data = $this->postParams();
+        $data['tagged_users_list'] = [['id' => 1, 'full_name' => $this->user->full_name]];
+        $response = $this->post('/core/comments', $data);
+
+        $response->assertStatus(200)
+            ->assertJsonFragment([
+                'tagged_users_list' => [['id' => 1, 'full_name' => $this->user->full_name]],
             ]);
     }
 
