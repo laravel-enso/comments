@@ -30,11 +30,11 @@ class CommentTagNotification extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage())
-            ->line(__('You were tagged in a message posted in') . ': ' . config('app.name'))
+            ->line(__('You were tagged in a message posted in').': '.config('app.name'))
             ->line($this->body)
             ->line(__('To answer click the link below'))
             ->action(config('app.name'), $this->link)
-            ->line(__('Thank you') . '!');
+            ->line(__('Thank you').'!');
     }
 
     public function toArray($notifiable)
