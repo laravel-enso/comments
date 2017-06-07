@@ -5,7 +5,8 @@ Route::group([
     'middleware' => ['web', 'auth', 'core'],
 ], function () {
     Route::group(['prefix' => 'core', 'as' => 'core.'], function () {
-        Route::get('comments/getTaggableUsers/{query?}', 'TaggableUserController@getList')->name('comments.getTaggableUsers');
+        Route::get('comments/getTaggableUsers/{query?}', 'TaggableUserController@getList')
+        	->name('comments.getTaggableUsers');
         Route::resource('comments', 'CommentController');
     });
 });
