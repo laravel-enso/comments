@@ -10,9 +10,9 @@ use LaravelEnso\CommentsManager\app\Models\Comment;
 
 class CommentService extends Controller
 {
+    private $request;
     private $comments;
     private $tags;
-    private $request;
 
     public function __construct(Request $request)
     {

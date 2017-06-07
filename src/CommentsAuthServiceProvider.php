@@ -8,18 +8,8 @@ use LaravelEnso\CommentsManager\app\Policies\CommentPolicy;
 
 class CommentsAuthServiceProvider extends ServiceProvider
 {
-    /**
-     * The policy mappings for the application.
-     *
-     * @var array
-     */
     protected $policies;
 
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
     public function boot()
     {
         $this->policies = [

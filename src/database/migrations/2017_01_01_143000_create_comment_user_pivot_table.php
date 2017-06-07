@@ -8,11 +8,6 @@ use Illuminate\Database\Schema\Blueprint;
  */
 class CreateCommentUserPivotTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('comment_user', function (Blueprint $table) {
@@ -24,11 +19,6 @@ class CreateCommentUserPivotTable extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::drop('comment_user');

@@ -23,8 +23,6 @@ class CommentPolicy
 
     public function update(User $user, Comment $comment)
     {
-        return false;
-
         return $this->userOwnsComment($user, $comment)
             && $this->commentIsRecent($comment);
     }
