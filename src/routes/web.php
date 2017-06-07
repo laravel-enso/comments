@@ -6,7 +6,7 @@ Route::group([
 ], function () {
     Route::group(['prefix' => 'core', 'as' => 'core.'], function () {
         Route::get('comments/getTaggableUsers/{query?}', 'TaggableUserController@getList')
-        	->name('comments.getTaggableUsers');
+            ->name('comments.getTaggableUsers');
         Route::resource('comments', 'CommentController');
     });
 });
