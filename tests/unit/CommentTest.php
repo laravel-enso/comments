@@ -103,7 +103,7 @@ class CommentTest extends TestCase
         ];
     }
 
-    public function getParams()
+    private function getParams()
     {
         return [
             'id'       => 1,
