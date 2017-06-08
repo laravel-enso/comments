@@ -12,7 +12,7 @@ Comments Manager for Laravel Enso. This package creates a Comment model that has
 
 2. Run migrations.
 
-3. Publish the vue component with `php artisan vendor:publish --tag=comments-config`.
+3. Publish the config file with `php artisan vendor:publish --tag=comments-config`.
 
 4. Publish the vue component with `php artisan vendor:publish --tag=comments-component`.
 
