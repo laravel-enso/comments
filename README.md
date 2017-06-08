@@ -12,13 +12,15 @@ Comments Manager for Laravel Enso. This package creates a Comment model that has
 
 2. Run migrations.
 
-3. Publish the vue component with `php artisan vendor:publish --tag=comments-component`
+3. Publish the vue component with `php artisan vendor:publish --tag=comments-config`.
 
-4. Include the vue-component in your app.js
+4. Publish the vue component with `php artisan vendor:publish --tag=comments-component`.
 
-5. Run gulp
+5. Include the vue-component in your app.js.
 
-6. Add the following relationship to the Model that need comments
+6. Run gulp.
+
+7. Add the following relationship to the Model that need comments.
 
 ```php
 public function comments()
@@ -27,7 +29,9 @@ public function comments()
 }
 ```
 
-7. Add the following relationships to the User model
+8. Define the 'model' => 'App\Model' mapping in the config.
+
+9. Because users make comments, and users can tag other users, you need to add the following relationships to the User model.
 
 ```php
 public function comments()
@@ -41,7 +45,7 @@ public function comment_tags()
 }
 ```
 
-8. If you need to customize the CommentTagNotification you need to publish it first with `php artisan vendor:publish --tag=comments-notification`
+10. If you need to customize the CommentTagNotification you need to publish it first with `php artisan vendor:publish --tag=comments-notification`.
 
 ### You can
 
@@ -56,7 +60,7 @@ and then you can use
 
 ```
 <comments-manager :id="modelId"
-    type="App\Model"
+    type="model"
     :paginate="5">
     @include('partials.comments-labels')
 </comments-manager>

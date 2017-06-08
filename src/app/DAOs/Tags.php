@@ -26,7 +26,8 @@ class Tags
     public function getTaggableUsers($query)
     {
         $args = collect(explode(' ', $query));
-        $userQuery = config('auth.providers.users.model')::limit(5);
+        $userQuery = config('auth.providers.users.model')::where('id', '<>', request()->user()->id)
+            ->limit(5);
 
         $args->each(function ($arg) use (&$userQuery) {
             $userQuery->where(function ($query) use ($arg) {
