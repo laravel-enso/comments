@@ -71,7 +71,7 @@ and then you can use
 	`type` - the commentable model (required)
 	`id` - the id of the commentable model (required)
 	`paginate` - the paginate size, default value is 5 (optional)
-    `header-class` - the box header class: info (default option) / default / primary / warning / danger / default
+    `header-class` - header class for the box element: info (default option) / default / primary / warning / danger / default
 
 ### Contributions
 
