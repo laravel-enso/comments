@@ -33,20 +33,6 @@ class Comment extends Model
         return $this->created_at->format('Y-m-d H:i:s') !== $this->updated_at->format('Y-m-d H:i:s');
     }
 
-    public function getTaggedUsersListAttribute()
-    {
-        $taggedUsers = $this->tagged_users->map(function ($user) {
-            return [
-                'id'        => $user->id,
-                'full_name' => $user->full_name,
-            ];
-        });
-
-        unset($this->tagged_users);
-
-        return $taggedUsers;
-    }
-
     public function getOwnerAttribute()
     {
         $attribute = [
@@ -67,5 +53,19 @@ class Comment extends Model
     public function getIsDeletableAttribute()
     {
         return request()->user()->can('destroy', $this);
+    }
+
+    public function getTaggedUsersListAttribute()
+    {
+        $taggedUsers = $this->tagged_users->map(function ($user) {
+            return [
+                'id'        => $user->id,
+                'full_name' => $user->full_name,
+            ];
+        });
+
+        unset($this->tagged_users);
+
+        return $taggedUsers;
     }
 }

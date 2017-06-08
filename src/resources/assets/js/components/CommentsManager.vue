@@ -1,111 +1,107 @@
 <template>
     <div :class="'box collapsed-box box-' + headerClass">
         <div class="box-header with-border">
-            <i class="fa fa-comments-o">
-            </i>
+            <i class="fa fa-comments-o"></i>
             <h3 class="box-title">
-                <slot name="comments-manager-title">
-                </slot>
+                <slot name="comments-manager-title"></slot>
             </h3>
              <div class="box-tools pull-right">
-                <i v-if="commentsList.length > 1"
+                <i v-if="commentList.length > 1"
                     class="fa fa-search">
                 </i>
                 <input type="text"
                     size="15"
                     class="comments-filter margin-right-xs"
-                    v-model="queryString"
-                    v-if="commentsList.length > 1">
+                    v-model="query"
+                    v-if="commentList.length > 1">
                 <span class="badge bg-orange">
                     {{ commentsCount }}
                 </span>
                 <button type="button"
                     class="btn btn-box-tool btn-sm"
-                    @click="getData">
+                    @click="get()">
                     <i class="fa fa-refresh"></i>
                 </button>
                 <button class="btn btn-box-tool btn-sm"
                     data-widget="collapse">
-                    <i class="fa fa-plus">
-                    </i>
+                    <i class="fa fa-plus"></i>
                 </button>
             </div>
         </div>
         <div class="box-body chat">
             <div class="item"
-                v-for="(comment, index) in filteredCommentsList">
+                v-for="(comment, index) in filteredCommentList">
                 <img :src="comment.owner.avatar_link"
                     alt="user image"
                     class="offline">
                 <p class="message">
-                <small class="text-muted pull-right">
-                    <span v-if="comment.is_edited">
-                        {{ editedLabel }}
-                    </span>
-                    <span v-else>
-                        {{ postedLabel }}
-                    </span>
-                    <i class="fa fa-clock-o">
-                    </i> {{ comment.updated_at | timeFromNow }}
-                    <transition-group name="fade" mode="out-in" v-if="comment.is_editable">
+                    <small class="pull-right margin-right-xs">
+                        <span v-if="editedCommentIndex === null" :key="'buttons-' + index">
+                            <span v-if="comment.is_edited">
+                                <i class="fa fa-pencil-square-o"></i>
+                                {{ comment.updated_at | timeFromNow }}
+                            </span>
+                            <span>
+                                <i class="fa fa-pencil"></i>
+                                {{ comment.created_at | timeFromNow }}
+                            </span>
+                        </span>
                         <i class="btn btn-xs btn-warning fa fa-pencil-square-o margin-right-xs"
                             :key="'edit-' + index"
                             @click="editedCommentIndex = index;taggedUsers=comment.tagged_users_list"
-                            v-if="editedCommentIndex === null">
+                            v-if="comment.is_editable && editedCommentIndex === null">
                         </i>
                         <i class="btn btn-xs btn-danger fa fa-trash-o"
                             :key="'delete-' + index"
-                            @click="deleteComment(index)"
-                            v-if="editedCommentIndex === null">
+                            @click="destroy(comment)"
+                            v-if="comment.is_deletable && editedCommentIndex === null">
                         </i>
                         <i class="btn btn-xs btn-success fa fa-check"
-                            @click="updateComment(comment)"
+                            @click="patch(comment)"
                             :key="'update-' + index"
                             v-if="editedCommentIndex === index && comment.body.trim()">
                         </i>
-                    </transition-group>
                     </small>
-                    <a href="#"
-                        class="name">
-                        {{ comment.owner.full_name }}
-                    </a>
-                    <span v-html="highlightTaggedUsers(comment)"
-                        v-if="editedCommentIndex !== index">
-                    </span>
-                    <textarea class="form-control comment"
-                        v-focus
-                        v-inputor-on-focus
-                        v-if="editedCommentIndex === index"
-                        v-model="comment.body">
-                    </textarea>
+                <a href="#"
+                    class="name">
+                    {{ comment.owner.full_name }}
+                </a>
+                <span v-html="highlightTaggedUsers(comment)"
+                    v-if="editedCommentIndex !== index">
+                </span>
+                <textarea class="form-control comment"
+                    v-focus
+                    v-inputor-on-focus
+                    v-if="editedCommentIndex === index"
+                    v-model="comment.body">
+                </textarea>
                 </p>
             </div>
             <center>
-                <small style="cursor: pointer;color: #909090"
-                    @click="getData"
-                    v-if="commentsList.length">
+                <small class="comments-more"
+                    @click="get()"
+                    v-if="commentList.length">
                     <slot name="comments-manager-load-more"></slot>
                 </small>
             </center>
         </div>
-        <div class="box-footer" v-if="!editedCommentIndex">
+        <div class="box-footer" v-if="editedCommentIndex === null">
             <div class="input-group">
                 <textarea class="form-control comment"
                     v-inputor-on-focus
-                    :placeholder="placeholder"
-                    v-model="commentInputValue"
+                    v-model="commentInput"
                     :id="'textarea-' + _uid">
                 </textarea>
                 <div class="input-group-btn">
                     <button type="button"
-                            class="btn btn-success"
-                            @click="addComment()">
-                    <i class="fa fa-check"
-                        v-if="isValidComment">
-                    </i>
-                    <i class="fa fa-ellipsis-h"
-                        v-else>
-                    </i>
+                        @click="hasComment ? post() : null"
+                        class="btn btn-success">
+                        <i class="fa fa-check"
+                            v-if="hasComment">
+                        </i>
+                        <i v-else
+                            class="fa fa-ellipsis-h">
+                        </i>
                     </button>
                 </div>
             </div>
@@ -132,18 +128,6 @@
                 type: String,
                 default: 'info'
             },
-            placeholder: {
-                type: String,
-                default: 'Type a comment'
-            },
-            editedLabel: {
-                type: String,
-                default: 'edited'
-            },
-            postedLabel: {
-                type: String,
-                default: 'edited'
-            },
             paginate: {
                 type: Number,
                 default: 5
@@ -151,69 +135,71 @@
         },
 
         computed: {
-            filteredCommentsList() {
-                if (this.queryString) {
-                    return this.commentsList.filter(comment => {
-                        return comment.body.toLowerCase().indexOf(this.queryString.toLowerCase()) > -1 ||
-                            comment.owner.full_name.toLowerCase().indexOf(this.queryString.toLowerCase()) > -1;
-                    })
+            filteredCommentList() {
+                if (this.query) {
+                    return this.commentList.filter(comment => {
+                        return comment.body.toLowerCase().indexOf(this.query.toLowerCase()) > -1
+                        || comment.owner.full_name.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
+                    });
                 }
 
-                return this.commentsList;
+                return this.commentList;
             },
-            isValidComment() {
-
-                //reject spaced strings
-                if(this.commentInputValue) {
-                    return this.commentInputValue.trim();
-                }
-
-                return false;
+            hasComment() {
+                return this.commentInput.trim();
             }
         },
 
         data() {
             return {
-                commentInputValue: null,
-                commentsList: [],
-                commentsCount: null,
+                commentInput: '',
+                commentList: [],
+                commentsCount: 0,
                 editedCommentIndex: null,
                 taggedUsers: [],
-                queryString: "",
+                query: "",
                 loading: false,
                 url: window.location.href
             };
         },
+
         directives: {
             inputorOnFocus: {
                 inserted(el, binding, vnode) {
                     $(el).atwho({
                         at: "@",
-                        displayTpl: "<li id='${id}'><img src='${avatar_link}' alt='User Image' class='atwho'> ${name}</li>",
+                        searchKey: "full_name",
+                        displayTpl: "<li id='${id}' name='${full_name}'><img src='${avatar_link}' alt='User Image' class='atwho'> ${full_name}</li>",
+                        insertTpl: "@${full_name}",
+                        acceptSpaceBar: true,
                         callbacks: {
-                            remoteFilter(query, callback) {
-                                axios.get('/core/comments/getUsersList/' + query).then(response => {
-                                    callback(response.data.usersList);
+                            remoteFilter: _.debounce((query, callback) => {
+                                axios.get('/core/comments/getTaggableUsers/' + query).then(response => {
+                                    callback(response.data);
                                 });
-                            }
+                            }, 200)
                         }
                     });
 
                     $(el).on('inserted.atwho', (event, li, query) => {
                         vnode.context.taggedUsers.push({
                             'id': $(li).attr('id'),
-                            'full_name': $(li).text().trim()
+                            'full_name': $(li).attr('name')
                         });
                     });
                 }
+            },
+            unbind(el, binding, vnode) {
+                $(el).atwho('destroy');
             }
         },
+
         methods: {
-            getData() {
+            get() {
                 this.loading = true;
 
-                axios.get('/core/comments/list', { params: this.getRequestParams() }).then(response => {
-                    this.commentsList =  this.commentsList.concat(response.data.list);
+                axios.get('/core/comments', { params: this.getParams() }).then(response => {
+                    this.commentList = this.commentList.concat(response.data.list);
                     this.commentsCount = response.data.count;
                     this.loading = false;
                 }).catch(error => {
@@ -224,35 +210,19 @@
                     }
                 });
             },
-            getRequestParams() {
+            getParams() {
                 return {
                     id: this.id,
                     type: this.type,
-                    offset: this.commentsList.length,
+                    offset: this.commentList.length,
                     paginate: this.paginate
                 };
             },
-            matchTaggedUsers(body) {
-                let self = this;
+            post() {
+                this.loading = true;
 
-                this.taggedUsers.forEach(function(user, index) {
-                    if (!body.includes(user.full_name)) {
-                        self.taggedUsers.splice(index, 1);
-                    }
-                });
-            },
-            addComment() {
-                if (!this.commentInputValue) {
-                    return;
-                }
-
-                this.matchTaggedUsers(this.commentInputValue);
-                let params = this.postRequestParams();
-                this.commentInputValue = null;
-                this.taggedUsers = [];
-
-                axios.post('/core/comments/post', params).then((response) => {
-                    this.commentsList.unshift(response.data.comment);
+                axios.post('/core/comments', this.postParams()).then(response => {
+                    this.commentList.unshift(response.data.comment);
                     this.commentsCount = response.data.count;
                     this.loading = false;
                 }).catch(error => {
@@ -263,37 +233,53 @@
                     }
                 });
             },
-            postRequestParams() {
-                return {
+            postParams() {
+                this.syncTaggedUsers(this.commentInput);
+
+                let params = {
                     id: this.id,
                     type: this.type,
-                    comment: this.commentInputValue,
+                    body: this.commentInput,
                     tagged_users_list: this.taggedUsers,
                     url: this.url
                 };
-            },
-            updateComment(comment) {
-                this.matchTaggedUsers(comment.body);
-                comment.is_edited = true;
-                comment.tagged_users_list = this.taggedUsers;
-                this.editedCommentIndex = null;
+
+                this.commentInput = '';
                 this.taggedUsers = [];
+
+                return params;
+            },
+            patch(comment) {
+                let index = this.commentList.indexOf(comment);
                 this.loading = true;
 
-                axios.patch('/core/comments/update/' + comment.id, {comment: comment, url: this.url}).then(response => {
+                axios.patch('/core/comments/' + comment.id, this.patchParams(comment)).then(response => {
                     this.loading = false;
+                    this.commentList.splice(index, 1);
+                    this.commentList.unshift(response.data.comment);
                 }).catch(error => {
                     this.loading = false;
+
                     if (error.response.data.level) {
                         toastr[error.response.data.level](error.response.data.message);
                     }
                 });
             },
-            deleteComment(index) {
+            patchParams(comment) {
+                this.syncTaggedUsers(comment.body);
+                comment.tagged_users_list = this.taggedUsers;
+                comment.url = this.url;
+                this.editedCommentIndex = null;
+                this.taggedUsers = [];
+
+                return comment;
+            },
+            destroy(comment) {
                 this.loading = true;
 
-                axios.delete('/core/comments/destroy/' + this.commentsList[index].id).then((response) => {
-                    this.commentsList.splice(index,1);
+                axios.delete('/core/comments/' + comment.id).then(response => {
+                    let index = this.commentList.indexOf(comment);
+                    this.commentList.splice(index,1);
                     this.commentsCount--;
                     this.loading = false;
                 }).catch(error => {
@@ -303,18 +289,29 @@
                     }
                 });
             },
+            syncTaggedUsers(body) {
+                let self = this;
+
+                this.taggedUsers.forEach(function(user, index) {
+                    if (!body.includes(user.full_name)) {
+                        self.taggedUsers.splice(index, 1);
+                    }
+                });
+            },
             highlightTaggedUsers(comment) {
                 let body = comment.body;
 
                 comment.tagged_users_list.forEach(user => {
-                    body = body.replace('@' + user.full_name, '<span style="color: #3097d1;">' + '@' + user.full_name + '</span>');
+                    let highlightedName = '<span style="color: #3097d1;">' + '@' + user.full_name + '</span>';
+                    body = body.replace('@' + user.full_name, highlightedName);
                 })
 
                 return body;
             }
         },
+
         mounted() {
-            this.getData();
+            this.get();
         }
     }
 
@@ -338,6 +335,11 @@
 
     textarea.comment {
         resize:vertical;
+    }
+
+    .comments-more {
+        cursor: pointer;
+        color: #909090;
     }
 
 </style>

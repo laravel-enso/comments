@@ -6,7 +6,7 @@
 
 Comments Manager for Laravel Enso. This package creates a Comment model that has a `commentable` morphTo relation.
 
-### Installation
+### Installation Steps
 
 1. Add `LaravelEnso\CommentsManager\CommentsManagerServiceProvider::class` to `config/app.php`. (included if you use LaravelEnso/coreplus)
 
@@ -57,9 +57,7 @@ and then you can use
 ```
 <comments-manager :id="modelId"
     type="App\Model"
-    edited-label="edited"
-    :paginate="10"
-    placeholder="Custom Placeholer">
+    :paginate="5">
     @include('partials.comments-labels')
 </comments-manager>
 ```
@@ -69,8 +67,7 @@ and then you can use
 	`type` - the commentable model (required)
 	`id` - the id of the commentable model (required)
 	`paginate` - the paginate size, default value is 5 (optional)
-	`edited-label` - the label displayed when a comment has been edited (optional)
-	`placeholder` - the default value is 'Type a comment' (optional)
+    `header-class` - the box header class: info (default option) / default / primary / warning / danger / default
 
 ### Contributions
 

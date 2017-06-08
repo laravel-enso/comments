@@ -20,7 +20,7 @@ class Comments
         $this->commentable = $this->getCommentable();
         $count = $this->commentable->comments()->count();
 
-        $list = $this->commentable->comments()->orderBy('updated_at', 'desc')
+        $list = $this->commentable->comments()->orderBy('created_at', 'desc')
             ->skip($this->request['offset'])
             ->take($this->request['paginate'])
             ->get();
