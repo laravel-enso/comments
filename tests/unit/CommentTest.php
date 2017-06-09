@@ -71,11 +71,12 @@ class CommentTest extends TestCase
     /** @test */
     public function get_taggable_users_with_query()
     {
-        $response = $this->get('/core/comments/getTaggableUsers/'.$this->user->full_name);
+        $tagUser = User::find(2);
+        $response = $this->get('/core/comments/getTaggableUsers/'.$tagUser->full_name);
 
         $response->assertStatus(200)
             ->assertJsonFragment([
-                'full_name' => $this->user->full_name,
+                'full_name' => $tagUser->full_name,
             ]);
     }
 
