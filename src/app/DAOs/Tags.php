@@ -25,14 +25,14 @@ class Tags
 
     public function getTaggableUsers($query)
     {
-        $args = collect(explode(' ', $query));
+        $arguments = collect(explode(' ', $query));
         $userQuery = config('auth.providers.users.model')::where('id', '<>', request()->user()->id)
             ->limit(5);
 
-        $args->each(function ($arg) use (&$userQuery) {
-            $userQuery->where(function ($query) use ($arg) {
-                $query->where('first_name', 'like', '%'.$arg.'%')
-                    ->orWhere('last_name', 'like', '%'.$arg.'%');
+        $arguments->each(function ($argument) use (&$userQuery) {
+            $userQuery->where(function ($query) use ($argument) {
+                $query->where('first_name', 'like', '%'.$argument.'%')
+                    ->orWhere('last_name', 'like', '%'.$argument.'%');
             });
         });
 
