@@ -38,11 +38,7 @@ class Comments
 
     public function store()
     {
-        $comment = new Comment([
-            'body'    => $this->request['body'],
-            'user_id' => request()->user()->id,
-        ]);
-
+        $comment = new Comment(['body' => $this->request['body']]);
         $commentable = $this->getCommentable();
         $commentable->comments()->save($comment);
 

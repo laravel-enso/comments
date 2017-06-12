@@ -3,19 +3,20 @@
 namespace LaravelEnso\CommentsManager\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
 
 class Comment extends Model
 {
-    use UpdatedBy;
+    use CreatedBy, UpdatedBy;
 
-    protected $fillable = ['user_id', 'body'];
+    protected $fillable = ['body'];
 
     protected $appends = ['tagged_users_list', 'owner', 'is_editable', 'is_deletable', 'is_edited'];
 
     public function user()
     {
-        return $this->belongsTo(config('auth.providers.users.model'));
+        return $this->belongsTo(config('auth.providers.users.model'), 'created_by', 'id');
     }
 
     public function commentable()

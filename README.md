@@ -36,7 +36,7 @@ public function comments()
 ```php
 public function comments()
 {
-    return $this->hasMany('LaravelEnso\CommentsManager\app\Models\Comment');
+    return $this->hasMany('LaravelEnso\CommentsManager\app\Models\Comment', 'created_by');
 }
 
 public function comment_tags()

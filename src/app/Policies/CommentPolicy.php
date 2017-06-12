@@ -16,11 +16,6 @@ class CommentPolicy
         return $user->isAdmin();
     }
 
-    public function create(User $user, Comment $comment)
-    {
-        return true;
-    }
-
     public function update(User $user, Comment $comment)
     {
         return $this->userOwnsComment($user, $comment)
@@ -35,7 +30,7 @@ class CommentPolicy
 
     private function userOwnsComment(User $user, Comment $comment)
     {
-        return $user->id === $comment->user_id;
+        return $user->id === $comment->created_by;
     }
 
     private function commentIsRecent(Comment $comment)

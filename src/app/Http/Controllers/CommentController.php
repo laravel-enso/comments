@@ -31,8 +31,6 @@ class CommentController extends Controller
 
     public function store(ValidateCommentRequest $request, Comment $comment)
     {
-        $this->authorize('create', $comment);
-
         return $this->service->store();
     }
 
