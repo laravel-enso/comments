@@ -2,7 +2,6 @@
 
 namespace LaravelEnso\CommentsManager\app\DAOs;
 
-use Illuminate\Http\Request;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 
 class Comments
