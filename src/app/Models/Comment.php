@@ -37,8 +37,8 @@ class Comment extends Model
     public function getOwnerAttribute()
     {
         $attribute = [
-            'full_name'   => $this->user->full_name,
-            'avatar_link' => $this->user->avatar_link,
+            'full_name' => $this->user->full_name,
+            'avatarId' => $this->user->avatar ? $this->user->avatar->id : null,
         ];
 
         unset($this->user);

@@ -31,7 +31,7 @@
         <div class="box-body chat">
             <div class="item"
                 v-for="(comment, index) in filteredCommentList">
-                <img :src="comment.owner.avatar_link"
+                <img :src="comment.owner.avatarId ? '/core/avatars/' + comment.owner.avatarId : '/images/profile.png'"
                     alt="user image"
                     class="offline">
                 <p class="message">
