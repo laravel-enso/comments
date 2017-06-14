@@ -2,13 +2,12 @@
 
 namespace LaravelEnso\CommentsManager\app\Http\Services;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use LaravelEnso\CommentsManager\app\DAOs\Comments;
 use LaravelEnso\CommentsManager\app\DAOs\Tags;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 
-class CommentService extends Controller
+class CommentService
 {
     private $request;
     private $comments;
