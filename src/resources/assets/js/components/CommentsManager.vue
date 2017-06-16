@@ -204,10 +204,7 @@
                     this.loading = false;
                 }).catch(error => {
                     this.loading = false;
-
-                    if (error.response.data.level) {
-                        toastr[error.response.data.level](error.response.data.message);
-                    }
+                    this.reportEnsoException(error);
                 });
             },
             getParams() {
@@ -227,10 +224,7 @@
                     this.loading = false;
                 }).catch(error => {
                     this.loading = false;
-
-                    if (error.response.data.level) {
-                        toastr[error.response.data.level](error.response.data.message);
-                    }
+                    this.reportEnsoException(error);
                 });
             },
             postParams() {
@@ -259,10 +253,7 @@
                     this.commentList.unshift(response.data.comment);
                 }).catch(error => {
                     this.loading = false;
-
-                    if (error.response.data.level) {
-                        toastr[error.response.data.level](error.response.data.message);
-                    }
+                    this.reportEnsoException(error);
                 });
             },
             patchParams(comment) {
@@ -284,10 +275,7 @@
                     this.loading = false;
                 }).catch(error => {
                     this.loading = false;
-
-                    if (error.response.data.level) {
-                        toastr[error.response.data.level](error.response.data.message);
-                    }
+                    this.reportEnsoException(error);
                 });
             },
             syncTaggedUsers(body) {
