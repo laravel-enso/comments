@@ -13,6 +13,6 @@ class CreateStructureForCommentsManager extends StructureMigration
         ['name' => 'core.comments.store', 'description' => 'Create Comment', 'type' => 1, 'default' => true],
         ['name' => 'core.comments.update', 'description' => 'Update Comment', 'type' => 1, 'default' => true],
         ['name' => 'core.comments.destroy', 'description' => 'Delete Comment', 'type' => 1, 'default' => true],
-        ['name' => 'core.comments.getTaggableUsers', 'description' => 'Get Taggable Users', 'type' => 0, 'default' => true]
+        ['name' => 'core.comments.getTaggableUsers', 'description' => 'Get Taggable Users', 'type' => 0, 'default' => true],
     ];
 }
