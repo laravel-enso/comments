@@ -37,10 +37,8 @@ class CommentService
         return ['comment' => $comment];
     }
 
-    public function store()
+    public function store(Comment $comment)
     {
-        $comment = null;
-
         \DB::transaction(function () use (&$comment) {
             $comment = $this->comments->store();
             $this->tags->update($comment);

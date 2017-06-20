@@ -3,9 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-/**
- * Used for tagging users to comments.
- */
 class CreateCommentUserPivotTable extends Migration
 {
     public function up()

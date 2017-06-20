@@ -31,7 +31,7 @@ class CommentController extends Controller
 
     public function store(ValidateCommentRequest $request, Comment $comment)
     {
-        return $this->service->store();
+        return $this->service->store($comment);
     }
 
     public function destroy(Comment $comment)

@@ -1,4 +1,5 @@
 <template>
+
     <div :class="'box collapsed-box box-' + headerClass">
         <div class="box-header with-border">
             <i class="fa fa-comments-o"></i>
@@ -110,6 +111,7 @@
             <i class="fa fa-spinner fa-spin spinner-custom" ></i>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -136,14 +138,12 @@
 
         computed: {
             filteredCommentList() {
-                if (this.query) {
-                    return this.commentList.filter(comment => {
+                return this.query
+                    ? this.commentList.filter(comment => {
                         return comment.body.toLowerCase().indexOf(this.query.toLowerCase()) > -1
-                        || comment.owner.full_name.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
-                    });
-                }
-
-                return this.commentList;
+                            || comment.owner.full_name.toLowerCase().indexOf(this.query.toLowerCase()) > -1;
+                    })
+                    : this.commentList;
             },
             hasComment() {
                 return this.commentInput.trim();
