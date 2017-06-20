@@ -1,7 +1,7 @@
 {
     "name": "laravel-enso/commentsmanager",
-    "description": "Library for adding comments to commentables",
-    "type": "library",
+    "description": "Commentable plugin for Laravel Enso",
+    "type": "plugin",
     "license": "MIT",
     "authors": [
         {
