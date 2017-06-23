@@ -5,14 +5,14 @@ use LaravelEnso\Core\app\Classes\StructureManager\StructureMigration;
 class CreateStructureForCommentsManager extends StructureMigration
 {
     protected $permissionGroup = [
-        'name' => 'core.comments', 'description' => 'Comments Permissions Group',
+        'name' => 'core.comments', 'description' => 'Comments permissions group',
     ];
 
     protected $permissions = [
-        ['name' => 'core.comments.index', 'description' => 'List Comments for Commentable', 'type' => 0, 'default' => true],
-        ['name' => 'core.comments.store', 'description' => 'Create Comment', 'type' => 1, 'default' => true],
-        ['name' => 'core.comments.update', 'description' => 'Update Comment', 'type' => 1, 'default' => true],
-        ['name' => 'core.comments.destroy', 'description' => 'Delete Comment', 'type' => 1, 'default' => true],
-        ['name' => 'core.comments.getTaggableUsers', 'description' => 'Get Taggable Users', 'type' => 0, 'default' => true],
+        ['name' => 'core.comments.index', 'description' => 'List comments for commentable', 'type' => 0, 'default' => true],
+        ['name' => 'core.comments.store', 'description' => 'Create comment', 'type' => 1, 'default' => true],
+        ['name' => 'core.comments.update', 'description' => 'Update edited comment', 'type' => 1, 'default' => true],
+        ['name' => 'core.comments.destroy', 'description' => 'Delete comment', 'type' => 1, 'default' => true],
+        ['name' => 'core.comments.getTaggableUsers', 'description' => 'Get taggable users list', 'type' => 0, 'default' => true],
     ];
 }
