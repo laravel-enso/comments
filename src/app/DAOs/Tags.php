@@ -3,6 +3,7 @@
 namespace LaravelEnso\CommentsManager\app\DAOs;
 
 use LaravelEnso\CommentsManager\app\Models\Comment;
+use LaravelEnso\Core\app\Models\User;
 
 class Tags
 {
@@ -26,7 +27,7 @@ class Tags
     public function getTaggableUsers($query)
     {
         $arguments = collect(explode(' ', $query));
-        $userQuery = config('auth.providers.users.model')::where('id', '<>', request()->user()->id)
+        $userQuery = User::where('id', '<>', request()->user()->id)
             ->limit(5);
 
         $arguments->each(function ($argument) use (&$userQuery) {

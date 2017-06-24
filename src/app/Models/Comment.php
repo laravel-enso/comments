@@ -16,7 +16,7 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->belongsTo(config('auth.providers.users.model'), 'created_by', 'id');
+        return $this->belongsTo('LaravelEnso\Core\app\Models\User', 'created_by', 'id');
     }
 
     public function commentable()
@@ -26,7 +26,7 @@ class Comment extends Model
 
     public function tagged_users()
     {
-        return $this->belongsToMany(config('auth.providers.users.model'));
+        return $this->belongsToMany('LaravelEnso\Core\app\Models\User');
     }
 
     public function getIsEditedAttribute()

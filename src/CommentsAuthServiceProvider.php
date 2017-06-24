@@ -6,7 +6,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use LaravelEnso\CommentsManager\app\Models\Comment;
 use LaravelEnso\CommentsManager\app\Policies\CommentPolicy;
 
-class CommentsAuthServiceProvider extends ServiceProvider
+class AuthServiceProvider extends ServiceProvider
 {
     protected $policies;
 
