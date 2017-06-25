@@ -12,40 +12,17 @@ Comments Manager for Laravel Enso. This package creates a Comment model that has
 
 2. Run migrations.
 
-3. Publish the config file with `php artisan vendor:publish --tag=comments-config`.
+3. Publish the config file with `php artisan vendor:publish --tag=comments-config`. Define the 'model' => 'App\Model' mapping in the config/comments.php file.
 
 4. Publish the vue component with `php artisan vendor:publish --tag=comments-component`.
 
-5. Include the vue-component in your app.js.
+5. Include the vue-component in your app.js. Compile.
 
-6. Run gulp.
+6. Add `use Commentable` in the Model that need comments and import the trait. This way you can call the $model->comments relationship.
 
-7. Add the following relationship to the Model that need comments.
+7. Because users make comments, and users can tag other users, you need to add `use Comments` trait the User model. Don't forget to import it.
 
-```php
-public function comments()
-{
-    return $this->morphMany('LaravelEnso\CommentsManager\app\Models\Comment', 'commentable');
-}
-```
-
-8. Define the 'model' => 'App\Model' mapping in the config.
-
-9. Because users make comments, and users can tag other users, you need to add the following relationships to the User model.
-
-```php
-public function comments()
-{
-    return $this->hasMany('LaravelEnso\CommentsManager\app\Models\Comment', 'created_by');
-}
-
-public function comment_tags()
-{
-    return $this->belongsToMany('LaravelEnso\CommentsManager\app\Models\Comment');
-}
-```
-
-10. If you need to customize the CommentTagNotification you need to publish it first with `php artisan vendor:publish --tag=comments-notification`.
+8. If you need to customize the CommentTagNotification you need to publish it first with `php artisan vendor:publish --tag=comments-notification`.
 
 ### You can
 

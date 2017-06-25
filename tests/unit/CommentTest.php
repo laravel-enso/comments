@@ -16,6 +16,7 @@ class CommentTest extends TestCase
     {
         parent::setUp();
 
+        $this->disableExceptionHandling();
         $this->user = User::first();
         $this->faker = Factory::create();
         $this->be($this->user);
@@ -49,7 +50,6 @@ class CommentTest extends TestCase
         $param = $this->postParams();
         $this->post('/core/comments', $param);
         $param['body'] = 'edited';
-
         $response = $this->patch('/core/comments/1', $param);
 
         $response->assertStatus(200)
