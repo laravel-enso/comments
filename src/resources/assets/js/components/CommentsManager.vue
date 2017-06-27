@@ -169,7 +169,7 @@
                     $(el).atwho({
                         at: "@",
                         searchKey: "full_name",
-                        displayTpl: "<li id='${id}' name='${full_name}'><img src='/core/avatars/${avatar_link}' alt='User Image' class='atwho'> ${full_name}</li>",
+                        displayTpl: "<li id='${id}' name='${full_name}'><img src='/core/avatars/${avatar_id}' alt='User Image' class='atwho'> ${full_name}</li>",
                         insertTpl: "@${full_name}",
                         acceptSpaceBar: true,
                         callbacks: {
