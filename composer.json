@@ -1,16 +1,16 @@
 {
     "name": "laravel-enso/commentsmanager",
-    "description": "Commentable plugin for Laravel Enso",
-    "type": "plugin",
+    "description": "Comments Manager for Laravel Enso",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "mishu",
+            "name": "Mishu",
             "email": "mishu@xtelecom.ro"
         }
     ],
     "require": {
-        "php": ">=5.6.4",
+        "php": ">=7.1.0",
         "laravel/framework": "5.4.*",
         "laravel-enso/core": "1.1.*",
         "laravel-enso/trackwho": "1.1.*"
