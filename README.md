@@ -4,44 +4,56 @@
 [![Total Downloads](https://poser.pugx.org/laravel-enso/commentsmanager/downloads)](https://packagist.org/packages/laravel-enso/commentsmanager)
 [![Latest Stable Version](https://poser.pugx.org/laravel-enso/commentsmanager/version)](https://packagist.org/packages/laravel-enso/commentsmanager)
 
-Comments Manager for Laravel Enso. This package creates a Comment model that has a `commentable` morphTo relation.
+Comments Manager for [Laravel Enso](https://github.com/laravel-enso/Enso). 
+
+### Details
+
+This package offers a quick and easy flow for adding comments to any model.
+
+- offers the possibility to add, update, delete comments
+- has the option of tagging other users in the comments using `@` and the user name
+- it notifies users when they're tagged
+- uses its own policies to ensure users edit comments only when they are allowed to do so
+- uses [TrackWho](https://github.com/laravel-enso/TrackWho) to keep track of the users that are posting comments
+- depends on [Avatar Manager](https://github.com/laravel-enso/AvatarManager) to display user avatars, when available
+- uses [At.js](https://github.com/ichord/At.js) for auto-completion
 
 ### Installation Steps
 
-1. Add `LaravelEnso\CommentsManager\CommentsManagerServiceProvider::class` to `config/app.php`. (included if you use LaravelEnso/coreplus)
+1. Add `LaravelEnso\CommentsManager\CommentsManagerServiceProvider::class` to `config/app.php`
 
-2. Run migrations.
+2. Run the migrations `php artisan migrate`
 
-3. Publish the config file with `php artisan vendor:publish --tag=comments-config`. Define the 'model' => 'App\Model' mapping in the config/comments.php file.
+3. Publish the config file with `php artisan vendor:publish --tag=comments-config`. Define the 'model' => 'App\Model' mapping in the `config/comments.php` file.
 
-4. Publish the vue component with `php artisan vendor:publish --tag=comments-component`.
+4. Publish the VueJS component with `php artisan vendor:publish --tag=comments-component`
 
-5. Include the vue-component in your app.js. Compile.
+5. Include the VueJS component in your `app.js` file and then compile with `gulp` / `npm run dev`
 
-6. Add `use Commentable` in the Model that need comments and import the trait. This way you can call the $model->comments relationship.
+6. Add `use Commentable` in the Model that need comments and import the trait. This way you can call the `$model->comments` relationship
 
-7. Because users make comments, and users can tag other users, you need to add `use Comments` trait the User model. Don't forget to import it.
+7. Because users make comments, and users can tag other users, you need to add `use Comments` trait the `User` model. Don't forget to import it
 
-8. If you need to customize the CommentTagNotification you need to publish it first with `php artisan vendor:publish --tag=comments-notification`.
+8. If you need to customize the CommentTagNotification you need to publish it first with `php artisan vendor:publish --tag=comments-notification`
 
 ### You can
 
 Build a partial to use with the vue component in your app/resources/views/partials/comments-labels.blade.php
 
-```
-<span slot="comments-manager-title">{{ __("Comments") }}</span>
-<span slot="comments-manager-load-more">{{ __("more") }}</span>
-```
+    ```
+    <span slot="comments-manager-title">{{ __("Comments") }}</span>
+    <span slot="comments-manager-load-more">{{ __("more") }}</span>
+    ```
 
 and then you can use
 
-```
-<comments-manager :id="modelId"
-    type="model"
-    :paginate="5">
-    @include('partials.comments-labels')
-</comments-manager>
-```
+    ```
+    <comments-manager :id="modelId"
+        type="model"
+        :paginate="5">
+        @include('partials.comments-labels')
+    </comments-manager>
+    ```
 
 ### Options
 
@@ -49,7 +61,16 @@ and then you can use
 	`id` - the id of the commentable model (required)
 	`paginate` - the paginate size, default value is 5 (optional)
     `header-class` - header class for the box element: info (default option) / default / primary / warning / danger / default
+    
+### Publishes
+- `php artisan vendor:publish --tag=comments-config` - configuration file
+- `php artisan vendor:publish --tag=comments-component` - the VueJS component
+- `php artisan vendor:publish --tag=comments-notification` - the queueable notification sent to the tagged users 
+- `php artisan vendor:publish --tag=enso-update` - a common alias for when wanting to update the VueJS component, 
+once a newer version is released
+- `php artisan vendor:publish --tag=enso-config` - a common alias for when wanting to update the config, 
+once a newer version is released
 
 ### Contributions
 
-...are welcome
+are welcome
