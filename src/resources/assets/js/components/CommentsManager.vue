@@ -80,7 +80,7 @@
             </div>
             <center>
                 <small class="comments-more"
-                    @click="get()"
+                    @click="more()"
                     v-if="commentList.length">
                     <slot name="comments-manager-load-more"></slot>
                 </small>
@@ -155,6 +155,7 @@
                 commentInput: '',
                 commentList: [],
                 commentsCount: 0,
+                offset: 0,
                 editedCommentIndex: null,
                 taggedUsers: [],
                 query: "",
@@ -196,6 +197,20 @@
 
         methods: {
             get() {
+                this.offset = 0;
+                this.loading = true;
+
+                axios.get('/core/comments', { params: this.getParams() }).then(response => {
+                    this.commentList = response.data.list;
+                    this.commentsCount = response.data.count;
+                    this.offset = this.commentList.length;
+                    this.loading = false;
+                }).catch(error => {
+                    this.loading = false;
+                    this.reportEnsoException(error);
+                });
+            },
+            more() {
                 this.loading = true;
 
                 axios.get('/core/comments', { params: this.getParams() }).then(response => {
@@ -211,7 +226,7 @@
                 return {
                     id: this.id,
                     type: this.type,
-                    offset: this.commentList.length,
+                    offset: this.offset,
                     paginate: this.paginate
                 };
             },
