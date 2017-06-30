@@ -17,7 +17,7 @@ This package offers a quick and easy flow for adding comments to any model.
 
 - offers the possibility to add, update, delete comments
 - has the option of tagging other users in the comments using `@` and the user name
-- it notifies users when they're tagged
+- users are notified via [Notifications](https://github.com/laravel-enso/Notifications) when they are tagged
 - uses its own policies to ensure users edit comments only when they are allowed to do so
 - uses [TrackWho](https://github.com/laravel-enso/TrackWho) to keep track of the users that are posting comments
 - depends on [Avatar Manager](https://github.com/laravel-enso/AvatarManager) to display user avatars, when available
