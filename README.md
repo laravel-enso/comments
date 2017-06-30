@@ -6,6 +6,11 @@
 
 Comments Manager for [Laravel Enso](https://github.com/laravel-enso/Enso). 
 
+[![Watch the demo](https://laravel-enso.github.io/commentsmanager/screenshots/Selection_018.png)](https://laravel-enso.github.io/commentsmanager/videos/demo_01.webm)
+
+<sup>click on the photo to view a short demo in compatible browsers</sup>
+
+
 ### Details
 
 This package offers a quick and easy flow for adding comments to any model.
