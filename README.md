@@ -48,6 +48,7 @@ Build a partial to use with the vue component in your app/resources/views/partia
     ```
     <span slot="comments-manager-title">{{ __("Comments") }}</span>
     <span slot="comments-manager-load-more">{{ __("more") }}</span>
+    @include('laravel-enso/core::partials.modal')
     ```
 
 and then you can use
