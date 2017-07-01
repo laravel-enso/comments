@@ -37,6 +37,7 @@ class CommentsServiceProvider extends ServiceProvider
 
     private function loadDependencies()
     {
+        $this->mergeConfigFrom(__DIR__.'/config', 'comments');
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
     }
