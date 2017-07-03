@@ -15,7 +15,7 @@ class CommentsServiceProvider extends ServiceProvider
     private function publishesAll()
     {
         $this->publishes([
-            __DIR__.'/config' => config_path(),
+            __DIR__.'/config/comments.php' => config_path('comments.php'),
         ], 'comments-config');
 
         $this->publishes([
@@ -37,6 +37,7 @@ class CommentsServiceProvider extends ServiceProvider
 
     private function loadDependencies()
     {
+        $this->mergeConfigFrom(__DIR__.'/config/comments.php', 'comments');
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
     }

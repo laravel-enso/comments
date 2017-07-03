@@ -38,7 +38,7 @@ class Comment extends Model
     {
         $owner = [
             'full_name' => $this->user->full_name,
-            'avatarId'  => $this->user->avatar_id,
+            'avatarId'  => $this->user->getAvatarId(),
         ];
 
         unset($this->user);

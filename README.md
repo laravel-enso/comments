@@ -18,7 +18,7 @@ This package offers a quick and easy flow for adding comments to any model.
 
 - offers the possibility to add, update, delete comments
 - has the option of tagging other users in the comments using `@` and the user name
-- it notifies users when they're tagged
+- users are notified via [Notifications](https://github.com/laravel-enso/Notifications) when they are tagged
 - uses its own policies to ensure users edit comments only when they are allowed to do so
 - uses [TrackWho](https://github.com/laravel-enso/TrackWho) to keep track of the users that are posting comments
 - depends on [Avatar Manager](https://github.com/laravel-enso/AvatarManager) to display user avatars, when available
@@ -49,6 +49,7 @@ Build a partial to use with the vue component in your `app/resources/views/parti
     ```
     <span slot="comments-manager-title">{{ __("Comments") }}</span>
     <span slot="comments-manager-load-more">{{ __("more") }}</span>
+    @include('laravel-enso/core::partials.modal')
     ```
 
 and then you can use

@@ -54,7 +54,7 @@
                         </i>
                         <i class="btn btn-xs btn-danger fa fa-trash-o"
                             :key="'delete-' + index"
-                            @click="destroy(comment)"
+                            @click="commentIdToBeDeleted = comment.id; showModal = true"
                             v-if="comment.is_deletable && editedCommentIndex === null">
                         </i>
                         <i class="btn btn-xs btn-success fa fa-check"
@@ -110,6 +110,22 @@
         <div class="overlay" v-if="loading">
             <i class="fa fa-spinner fa-spin spinner-custom" ></i>
         </div>
+        <modal :show="showModal"
+            @cancel-action="showModal = false; commentIdToBeDeleted = null"
+            @commit-action="destroy()">
+            <span slot="modal-body">
+                <slot name="modal-body">
+                </slot>
+            </span>
+            <span slot="modal-cancel">
+                <slot name="modal-cancel">
+                </slot>
+            </span>
+            <span slot="modal-ok">
+                <slot name="modal-ok">
+                </slot>
+            </span>
+        </modal>
     </div>
 
 </template>
@@ -160,7 +176,9 @@
                 taggedUsers: [],
                 query: "",
                 loading: false,
-                url: window.location.href
+                url: window.location.href,
+                showModal: false,
+                commentIdToBeDeleted: null
             };
         },
 
@@ -170,7 +188,7 @@
                     $(el).atwho({
                         at: "@",
                         searchKey: "full_name",
-                        displayTpl: "<li id='${id}' name='${full_name}'><img src='/core/avatars/${avatar_id}' alt='User Image' class='atwho'> ${full_name}</li>",
+                        displayTpl: "<li id='${id}' name='${full_name}'><img src='/core/avatars/${avatarId}' alt='User Image' class='atwho'> ${full_name}</li>",
                         insertTpl: "@${full_name}",
                         acceptSpaceBar: true,
                         callbacks: {
@@ -280,14 +298,21 @@
 
                 return comment;
             },
-            destroy(comment) {
+            destroy() {
+                this.showModal = false;
                 this.loading = true;
 
-                axios.delete('/core/comments/' + comment.id).then(response => {
-                    let index = this.commentList.indexOf(comment);
+                axios.delete('/core/comments/' + this.commentIdToBeDeleted).then(response => {
+                    let self = this;
+
+                    let index = this.commentList.findIndex(comment => {
+                        return comment.id === self.commentIdToBeDeleted;
+                    });
+
                     this.commentList.splice(index,1);
                     this.commentsCount--;
                     this.loading = false;
+                    this.commentIdToBeDeleted = null;
                 }).catch(error => {
                     this.loading = false;
                     this.reportEnsoException(error);
