@@ -1,6 +1,4 @@
-
-
-<!--h--> 
+<!--h-->
 # Comments Manager
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d96ab52d782d46b9a94e00ea6059b34c)](https://www.codacy.com/app/laravel-enso/CommentsManager?utm_source=github.com&utm_medium=referral&utm_content=laravel-enso/CommentsManager&utm_campaign=badger)
@@ -10,9 +8,9 @@
 [![Latest Stable Version](https://poser.pugx.org/laravel-enso/commentsmanager/version)](https://packagist.org/packages/laravel-enso/commentsmanager)
 <!--/h-->
 
-Comments Manager for [Laravel Enso](https://github.com/laravel-enso/Enso). 
+Comments Manager for [Laravel Enso](https://github.com/laravel-enso/Enso).
 
-[![Watch the demo](https://laravel-enso.github.io/commentsmanager/screenshots/Selection_018.png)](https://laravel-enso.github.io/commentsmanager/videos/demo_01.webm)
+[![Watch the demo](https://laravel-enso.github.io/commentsmanager/screenshots/Selection_018_thumb.png)](https://laravel-enso.github.io/commentsmanager/videos/demo_01.webm)
 
 <sup>click on the photo to view a short demo in compatible browsers</sup>
 
@@ -77,14 +75,14 @@ and then you can use
 - `id` - the id of the commentable model (required)
 - `paginate` - the paginate size, default value is 5 (optional)
 - `header-class` - header class for the box element: info (default option) / default / primary / warning / danger / default
-    
+
 ### Publishes
 - `php artisan vendor:publish --tag=comments-config` - configuration file
 - `php artisan vendor:publish --tag=comments-component` - the VueJS component
-- `php artisan vendor:publish --tag=comments-notification` - the queueable notification sent to the tagged users 
-- `php artisan vendor:publish --tag=enso-update` - a common alias for when wanting to update the VueJS component, 
+- `php artisan vendor:publish --tag=comments-notification` - the queueable notification sent to the tagged users
+- `php artisan vendor:publish --tag=enso-update` - a common alias for when wanting to update the VueJS component,
 once a newer version is released
-- `php artisan vendor:publish --tag=enso-config` - a common alias for when wanting to update the config, 
+- `php artisan vendor:publish --tag=enso-config` - a common alias for when wanting to update the config,
 once a newer version is released
 
 <!--h-->
