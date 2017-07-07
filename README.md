@@ -1,3 +1,6 @@
+
+
+<!--h--> 
 # Comments Manager
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d96ab52d782d46b9a94e00ea6059b34c)](https://www.codacy.com/app/laravel-enso/CommentsManager?utm_source=github.com&utm_medium=referral&utm_content=laravel-enso/CommentsManager&utm_campaign=badger)
@@ -5,6 +8,7 @@
 [![License](https://poser.pugx.org/laravel-enso/commentsmanager/license)](https://https://packagist.org/packages/laravel-enso/commentsmanager)
 [![Total Downloads](https://poser.pugx.org/laravel-enso/commentsmanager/downloads)](https://packagist.org/packages/laravel-enso/commentsmanager)
 [![Latest Stable Version](https://poser.pugx.org/laravel-enso/commentsmanager/version)](https://packagist.org/packages/laravel-enso/commentsmanager)
+<!--/h-->
 
 Comments Manager for [Laravel Enso](https://github.com/laravel-enso/Enso). 
 
@@ -13,7 +17,7 @@ Comments Manager for [Laravel Enso](https://github.com/laravel-enso/Enso).
 <sup>click on the photo to view a short demo in compatible browsers</sup>
 
 
-### Details
+### Features
 
 This package offers a quick and easy flow for adding comments to any model.
 
@@ -24,6 +28,10 @@ This package offers a quick and easy flow for adding comments to any model.
 - uses [TrackWho](https://github.com/laravel-enso/TrackWho) to keep track of the users that are posting comments
 - depends on [Avatar Manager](https://github.com/laravel-enso/AvatarManager) to display user avatars, when available
 - uses [At.js](https://github.com/ichord/At.js) for auto-completion
+
+### Under the Hood
+- polymorphic relationships are used, which makes it possible to attach comments to any other entity
+- within the entity to which we want to attach comments, we must use the `Commentable` trait
 
 ### Installation Steps
 
@@ -65,10 +73,10 @@ and then you can use
 
 ### Options
 
-	`type` - the commentable model (required)
-	`id` - the id of the commentable model (required)
-	`paginate` - the paginate size, default value is 5 (optional)
-    `header-class` - header class for the box element: info (default option) / default / primary / warning / danger / default
+- `type` - the commentable model (required)
+- `id` - the id of the commentable model (required)
+- `paginate` - the paginate size, default value is 5 (optional)
+- `header-class` - header class for the box element: info (default option) / default / primary / warning / danger / default
     
 ### Publishes
 - `php artisan vendor:publish --tag=comments-config` - configuration file
@@ -79,6 +87,12 @@ once a newer version is released
 - `php artisan vendor:publish --tag=enso-config` - a common alias for when wanting to update the config, 
 once a newer version is released
 
+<!--h-->
 ### Contributions
 
-are welcome
+are welcome. Pull requests are great, but issues are good too.
+
+### License
+
+This package is released under the MIT license.
+<!--/h-->
