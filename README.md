@@ -56,19 +56,19 @@ This package offers a quick and easy flow for adding comments to any model.
 Build a partial to use with the vue component in your `app/resources/views/partials/comments-labels.blade.php`
 
 ```
-    <span slot="comments-manager-title">{{ __("Comments") }}</span>
-    <span slot="comments-manager-load-more">{{ __("more") }}</span>
-    @include('laravel-enso/core::partials.modal')
+<span slot="comments-manager-title">{{ __("Comments") }}</span>
+<span slot="comments-manager-load-more">{{ __("more") }}</span>
+@include('laravel-enso/core::partials.modal')
 ```
 
 and then you can use
 
 ```
-    <comments-manager :id="modelId"
-        type="model"
-        :paginate="5">
-        @include('partials.comments-labels')
-    </comments-manager>
+<comments-manager :id="modelId"
+    type="model"
+    :paginate="5">
+    @include('partials.comments-labels')
+</comments-manager>
 ```
 
 ### Options
