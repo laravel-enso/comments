@@ -20,6 +20,7 @@ class CommentTest extends TestCase
         $this->user = User::first();
         $this->faker = Factory::create();
         $this->be($this->user);
+        config(['comments.commentables' => ['owner' => 'App\Owner']]);
     }
 
     /** @test */
