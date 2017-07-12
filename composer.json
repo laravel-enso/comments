@@ -1,12 +1,21 @@
 {
     "name": "laravel-enso/commentsmanager",
     "description": "Comments Manager for Laravel Enso",
+    "keywords": [
+        "laravel-enso",
+        "commentsmanager",
+        "comments-manager",
+        "comments"
+    ],
+    "homepage": "https://github.com/laravel-enso/CommentsManager",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "Mishu",
-            "email": "mishu@xtelecom.ro"
+            "name": "Adrian Ocneanu",
+            "email": "aocneanu@gmail.com",
+            "homepage": "https://laravel-enso.com",
+            "role": "Developer"
         }
     ],
     "require": {
@@ -18,6 +27,14 @@
     "autoload": {
         "psr-4": {
             "LaravelEnso\\CommentsManager\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelEnso\\CommentsManager\\CommentsServiceProvider"
+            ],
+            "aliases": {}
         }
     }
 }

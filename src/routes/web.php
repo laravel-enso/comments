@@ -1,12 +1,13 @@
 <?php
 
-Route::group([
-    'namespace'  => 'LaravelEnso\CommentsManager\app\Http\Controllers',
-    'middleware' => ['web', 'auth', 'core'],
-], function () {
-    Route::group(['prefix' => 'core', 'as' => 'core.'], function () {
-        Route::get('comments/getTaggableUsers/{query?}', 'TaggableUserController@getList')
-            ->name('comments.getTaggableUsers');
-        Route::resource('comments', 'CommentController');
+Route::middleware(['web', 'auth', 'core'])
+    ->namespace('LaravelEnso\CommentsManager\app\Http\Controllers')
+    ->group(function () {
+        Route::prefix('core')->as('core.')
+            ->group(function () {
+                Route::get('comments/getTaggableUsers/{query?}', 'TaggableUserController@getList')
+                    ->name('comments.getTaggableUsers');
+
+                Route::resource('comments', 'CommentController', ['except' => ['show', 'edit', 'create']]);
+            });
     });
-});
