@@ -17,15 +17,15 @@ Comments Manager for [Laravel Enso](https://github.com/laravel-enso/Enso).
 
 ### Features
 
-This package offers a quick and easy flow for adding comments to any model.
+The package offers a quick and easy flow for adding comments to any model.
 
-- offers the possibility to add, update, delete comments
+- gives the possibility to add, update, delete comments
 - has the option of tagging other users in the comments using `@` and the user name
-- users are notified via [Notifications](https://github.com/laravel-enso/Notifications) when they are tagged
+- users are notified via push [Notifications](https://github.com/laravel-enso/Notifications) when they are tagged
 - uses its own policies to ensure users edit comments only when they are allowed to do so
 - uses [TrackWho](https://github.com/laravel-enso/TrackWho) to keep track of the users that are posting comments
 - depends on [Avatar Manager](https://github.com/laravel-enso/AvatarManager) to display user avatars, when available
-- uses [At.js](https://github.com/ichord/At.js) for auto-completion
+- uses [At.js](https://github.com/ichord/At.js) for tagged user auto-completion
 
 ### Under the Hood
 - polymorphic relationships are used, which makes it possible to attach comments to any other entity
@@ -37,7 +37,7 @@ This package offers a quick and easy flow for adding comments to any model.
 
 2. Run the migrations `php artisan migrate`
 
-3. Publish the config file with `php artisan vendor:publish --tag=comments-config`. Define the 'model' => 'App\Model' mapping in the `config/comments.php` file.
+3. Publish the config file with `php artisan vendor:publish --tag=comments-config`. Define the `'model_alias' => 'App\Model'` mapping in the `config/comments.php` file.
 
 4. Publish the VueJS component with `php artisan vendor:publish --tag=comments-component`
 
@@ -63,7 +63,7 @@ and then you can use
 
 ```
 <comments-manager :id="modelId"
-    type="model"
+    type="model_alias"
     :paginate="5">
     @include('partials.comments-labels')
 </comments-manager>
@@ -71,7 +71,7 @@ and then you can use
 
 ### Options
 
-- `type` - the commentable model (required)
+- `type` - the commentable model alias (required) you set at the installation step #3
 - `id` - the id of the commentable model (required)
 - `paginate` - the paginate size, default value is 5 (optional)
 - `header-class` - header class for the box element: info (default option) / default / primary / warning / danger / default
