@@ -13,7 +13,9 @@ class CommentPolicy
 
     public function before($user, $ability)
     {
-        return $user->isAdmin();
+        if ($user->isAdmin()) {
+            return true;
+        }
     }
 
     public function update(User $user, Comment $comment)
