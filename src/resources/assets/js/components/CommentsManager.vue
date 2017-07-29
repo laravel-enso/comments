@@ -4,7 +4,7 @@
         <div class="box-header with-border">
             <i class="fa fa-comments-o"></i>
             <h3 class="box-title">
-                <slot name="comments-manager-title"></slot>
+                {{ labels.comments }}
             </h3>
              <div class="box-tools pull-right">
                 <i v-if="commentList.length > 1"
@@ -82,7 +82,7 @@
                 <small class="comments-more"
                     @click="more()"
                     v-if="commentList.length">
-                    <slot name="comments-manager-load-more"></slot>
+                    {{ labels.more }}
                 </small>
             </center>
         </div>
@@ -168,6 +168,7 @@
 
         data() {
             return {
+                labels: Store.labels,
                 commentInput: '',
                 commentList: [],
                 commentsCount: 0,
