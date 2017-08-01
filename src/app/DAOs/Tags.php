@@ -16,21 +16,20 @@ class Tags
 
     public function update(Comment $comment)
     {
-        $comment->tagged_users()->sync($this->getTaggedUserIds());
+        $comment->taggedUsers()->sync($this->getTaggedUserIds());
     }
 
     private function getTaggedUserIds()
     {
-        return array_column($this->request['tagged_users_list'], 'id');
+        return array_column($this->request['taggedUserList'], 'id');
     }
 
     public function getTaggableUsers($query)
     {
-        $arguments = collect(explode(' ', $query));
         $userQuery = User::where('id', '<>', request()->user()->id)
             ->limit(5);
 
-        $arguments->each(function ($argument) use (&$userQuery) {
+        collect(explode(' ', $query))->each(function ($argument) use (&$userQuery) {
             $userQuery->where(function ($query) use ($argument) {
                 $query->where('first_name', 'like', '%'.$argument.'%')
                     ->orWhere('last_name', 'like', '%'.$argument.'%');

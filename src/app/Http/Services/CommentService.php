@@ -58,7 +58,7 @@ class CommentService
 
     private function notifyTaggedUsers(Comment $comment, string $url)
     {
-        $comment->tagged_users->each->notify(
+        $comment->taggedUsers->each->notify(
             class_exists(\App\Notifications\CommentTagNotification::class) ?
             new \App\Notifications\CommentTagNotification($comment->commentable, $comment->body, $url) :
             new \LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification($comment->commentable, $comment->body, $url)

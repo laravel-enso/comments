@@ -5,7 +5,7 @@ Route::middleware(['web', 'auth', 'core'])
     ->group(function () {
         Route::prefix('core')->as('core.')
             ->group(function () {
-                Route::get('comments/getTaggableUsers/{query?}', 'TaggableUserController@getList')
+                Route::get('comments/getTaggableUsers/{query?}', 'TaggableUserController')
                     ->name('comments.getTaggableUsers');
 
                 Route::resource('comments', 'CommentController', ['except' => ['show', 'edit', 'create']]);

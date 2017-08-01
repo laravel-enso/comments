@@ -6,7 +6,6 @@ use LaravelEnso\CommentsManager\app\Models\Comment;
 
 class Comments
 {
-    private $commentable;
     private $request;
 
     public function __construct(array $request)
@@ -16,17 +15,14 @@ class Comments
 
     public function index()
     {
-        $this->commentable = $this->getCommentable();
-        $count = $this->commentable->comments()->count();
-
-        $list = $this->commentable->comments()->orderBy('created_at', 'desc')
-            ->skip($this->request['offset'])
-            ->take($this->request['paginate'])
-            ->get();
+        $commentable = $this->getCommentable();
 
         return [
-            'list'  => $list,
-            'count' => $count,
+            'count' => $commentable->comments()->count(),
+            'list'  => $commentable->comments()->orderBy('created_at', 'desc')
+                            ->skip($this->request['offset'])
+                            ->take($this->request['paginate'])
+                            ->get(),
         ];
     }
 
@@ -38,8 +34,7 @@ class Comments
     public function store()
     {
         $comment = new Comment(['body' => $this->request['body']]);
-        $commentable = $this->getCommentable();
-        $commentable->comments()->save($comment);
+        $this->getCommentable()->comments()->save($comment);
 
         return $comment;
     }
@@ -56,11 +51,11 @@ class Comments
 
     private function getCommentableClass()
     {
-        $class = config('comments.commentables.'.$this->request['type']);
+        $class = config('comments.commentables.' . $this->request['type']);
 
         if (!$class) {
             throw new \EnsoException(
-                __('Current entity does not exist in comments.php config file: ').$this->request['type']
+                __('Current entity does not exist in comments.php config file: ') . $this->request['type']
             );
         }
 

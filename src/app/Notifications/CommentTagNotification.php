@@ -40,7 +40,7 @@ class CommentTagNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            // customize the notification
+            // customize the push / database notification
             'body' => $this->body,
             'link' => $this->link,
         ];

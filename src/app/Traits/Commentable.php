@@ -2,10 +2,12 @@
 
 namespace LaravelEnso\CommentsManager\app\Traits;
 
+use LaravelEnso\CommentsManager\app\Models\Comment;
+
 trait Commentable
 {
     public function comments()
     {
-        return $this->morphMany('LaravelEnso\CommentsManager\app\Models\Comment', 'commentable');
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

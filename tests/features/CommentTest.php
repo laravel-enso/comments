@@ -73,11 +73,11 @@ class CommentTest extends TestCase
     public function get_taggable_users_with_query()
     {
         $tagUser = User::find(2);
-        $response = $this->get('/core/comments/getTaggableUsers/'.$tagUser->full_name);
+        $response = $this->get('/core/comments/getTaggableUsers/'.$tagUser->fullName);
 
         $response->assertStatus(200)
             ->assertJsonFragment([
-                'full_name' => $tagUser->full_name,
+                'fullName' => $tagUser->fullName,
             ]);
     }
 
@@ -85,12 +85,12 @@ class CommentTest extends TestCase
     public function tag_user()
     {
         $data = $this->postParams();
-        $data['tagged_users_list'] = [['id' => 1, 'full_name' => $this->user->full_name]];
+        $data['taggedUserList'] = [['id' => 1, 'fullName' => $this->user->fullName]];
         $response = $this->post('/core/comments', $data);
 
         $response->assertStatus(200)
             ->assertJsonFragment([
-                'tagged_users_list' => [['id' => 1, 'full_name' => $this->user->full_name]],
+                'taggedUserList' => [['id' => 1, 'fullName' => $this->user->fullName]],
             ]);
     }
 
@@ -100,7 +100,7 @@ class CommentTest extends TestCase
             'id'                => 1,
             'type'              => 'owner',
             'body'              => $this->faker->sentence,
-            'tagged_users_list' => [],
+            'taggedUserList' => [],
             'url'               => $this->faker->url,
         ];
     }

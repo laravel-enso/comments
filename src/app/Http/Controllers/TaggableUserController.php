@@ -9,12 +9,12 @@ class TaggableUserController extends Controller
 {
     private $tags;
 
-    public function __construct()
+    public function __construct(Tags $tags)
     {
-        $this->tags = new Tags();
+        $this->tags = $tags;
     }
 
-    public function getList($query = null)
+    public function __invoke($query = null)
     {
         return $this->tags->getTaggableUsers($query);
     }

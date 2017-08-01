@@ -12,7 +12,7 @@ class Comment extends Model
 
     protected $fillable = ['body'];
 
-    protected $appends = ['tagged_users_list', 'owner', 'is_editable', 'is_deletable', 'is_edited'];
+    protected $appends = ['taggedUserList', 'owner', 'isEditable', 'isDeletable', 'isEdited'];
 
     public function user()
     {
@@ -24,7 +24,7 @@ class Comment extends Model
         return $this->morphTo();
     }
 
-    public function tagged_users()
+    public function taggedUsers()
     {
         return $this->belongsToMany(config('auth.providers.users.model'));
     }
@@ -37,8 +37,8 @@ class Comment extends Model
     public function getOwnerAttribute()
     {
         $owner = [
-            'full_name' => $this->user->full_name,
-            'avatarId'  => $this->user->getAvatarId(),
+            'fullName' => $this->user->fullName,
+            'avatarId'  => $this->user->avatarId,
         ];
 
         unset($this->user);
@@ -56,16 +56,16 @@ class Comment extends Model
         return request()->user()->can('destroy', $this);
     }
 
-    public function getTaggedUsersListAttribute()
+    public function getTaggedUserListAttribute()
     {
-        $taggedUsers = $this->tagged_users->map(function ($user) {
+        $taggedUsers = $this->taggedUsers->map(function ($user) {
             return [
                 'id'        => $user->id,
-                'full_name' => $user->full_name,
+                'fullName' => $user->fullName,
             ];
         });
 
-        unset($this->tagged_users);
+        unset($this->taggedUsers);
 
         return $taggedUsers;
     }
