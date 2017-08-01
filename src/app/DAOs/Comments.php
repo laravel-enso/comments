@@ -51,11 +51,11 @@ class Comments
 
     private function getCommentableClass()
     {
-        $class = config('comments.commentables.' . $this->request['type']);
+        $class = config('comments.commentables.'.$this->request['type']);
 
         if (!$class) {
             throw new \EnsoException(
-                __('Current entity does not exist in comments.php config file: ') . $this->request['type']
+                __('Current entity does not exist in comments.php config file: ').$this->request['type']
             );
         }
 

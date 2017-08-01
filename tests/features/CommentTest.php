@@ -100,7 +100,7 @@ class CommentTest extends TestCase
             'id'                => 1,
             'type'              => 'owner',
             'body'              => $this->faker->sentence,
-            'taggedUserList' => [],
+            'taggedUserList'    => [],
             'url'               => $this->faker->url,
         ];
     }

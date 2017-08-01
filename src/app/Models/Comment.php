@@ -37,7 +37,7 @@ class Comment extends Model
     public function getOwnerAttribute()
     {
         $owner = [
-            'fullName' => $this->user->fullName,
+            'fullName'  => $this->user->fullName,
             'avatarId'  => $this->user->avatarId,
         ];
 
@@ -61,7 +61,7 @@ class Comment extends Model
         $taggedUsers = $this->taggedUsers->map(function ($user) {
             return [
                 'id'        => $user->id,
-                'fullName' => $user->fullName,
+                'fullName'  => $user->fullName,
             ];
         });
 
