@@ -4,7 +4,7 @@
         <div class="box-header with-border">
             <i class="fa fa-comments-o"></i>
             <h3 class="box-title">
-                {{ labels.comments }}
+                {{ title || labels.comments }}
             </h3>
              <div class="box-tools pull-right">
                 <i v-if="comments.length > 1"
@@ -133,6 +133,10 @@
             headerClass: {
                 type: String,
                 default: 'primary'
+            },
+            title: {
+                type: String,
+                default: ''
             },
             paginate: {
                 type: Number,
