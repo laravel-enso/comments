@@ -19,7 +19,7 @@ class Comments
 
         return [
             'count' => $commentable->comments()->count(),
-            'list'  => $commentable->comments()->orderBy('created_at', 'desc')
+            'comments'  => $commentable->comments()->orderBy('created_at', 'desc')
                             ->skip($this->request['offset'])
                             ->take($this->request['paginate'])
                             ->get(),

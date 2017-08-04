@@ -52,7 +52,7 @@ The package offers a quick and easy flow for adding comments to any model.
 ### Use
 
 ```
-<comments-manager :id="modelId"
+<comments :id="modelId"
     type="model_alias"
     :paginate="5">
 </comments-manager>
