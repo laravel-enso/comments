@@ -18,7 +18,7 @@ class Comments
         $commentable = $this->getCommentable();
 
         return [
-            'count' => $commentable->comments()->count(),
+            'count'     => $commentable->comments()->count(),
             'comments'  => $commentable->comments()->orderBy('created_at', 'desc')
                             ->skip($this->request['offset'])
                             ->take($this->request['paginate'])
