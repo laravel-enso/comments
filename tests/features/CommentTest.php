@@ -3,9 +3,11 @@
 use App\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Tests\TestCase;
+use Illuminate\Support\Facades\Notification;
+use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
+use LaravelEnso\TestHelper\app\Classes\TestHelper;
 
-class CommentTest extends TestCase
+class CommentTest extends TestHelper
 {
     use DatabaseMigrations;
 
@@ -16,10 +18,11 @@ class CommentTest extends TestCase
     {
         parent::setUp();
 
-        $this->disableExceptionHandling();
+        // $this->disableExceptionHandling();
+
         $this->user = User::first();
         $this->faker = Factory::create();
-        $this->be($this->user);
+        $this->signIn($this->user);
         config(['comments.commentables' => ['owner' => 'App\Owner']]);
     }
 
@@ -84,6 +87,7 @@ class CommentTest extends TestCase
     /** @test */
     public function tag_user()
     {
+        Notification::fake();
         $data = $this->postParams();
         $data['taggedUserList'] = [['id' => 1, 'fullName' => $this->user->fullName]];
         $response = $this->post('/core/comments', $data);
@@ -92,6 +96,8 @@ class CommentTest extends TestCase
             ->assertJsonFragment([
                 'taggedUserList' => [['id' => 1, 'fullName' => $this->user->fullName]],
             ]);
+
+        Notification::assertSentTo([$this->user], CommentTagNotification::class);
     }
 
     private function postParams()
