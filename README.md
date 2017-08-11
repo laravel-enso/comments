@@ -39,9 +39,15 @@ The package offers a quick and easy flow for adding comments to any model.
 
 3. Publish the config file with `php artisan vendor:publish --tag=comments-config`. Define the `'model_alias' => 'App\Model'` mapping in the `config/comments.php` file.
 
-4. Publish the VueJS component with `php artisan vendor:publish --tag=comments-component`
+4. Publish the VueJS components with `php artisan vendor:publish --tag=comments-component`
 
-5. Include the VueJS component in your `app.js` file and then compile with `gulp` / `npm run dev`
+5. Include the VueJS components in your `app.js` file and then compile with `gulp` / `npm run dev`
+
+```js
+Vue.component('comments', require('./vendor/laravel-enso/components/comments/Comments.vue'));
+Vue.component('comment', require('./vendor/laravel-enso/components/comments/Comment.vue'));
+Vue.component('inputor', require('./vendor/laravel-enso/components/comments/Inputor.vue'));
+```
 
 6. Add `use Commentable` in the Model that need comments and import the trait. This way you can call the `$model->comments` relationship
 
@@ -67,7 +73,7 @@ The package offers a quick and easy flow for adding comments to any model.
 
 ### Publishes
 - `php artisan vendor:publish --tag=comments-config` - configuration file
-- `php artisan vendor:publish --tag=comments-component` - the VueJS component
+- `php artisan vendor:publish --tag=comments-component` - the VueJS components
 - `php artisan vendor:publish --tag=comments-notification` - the queueable notification sent to the tagged users
 - `php artisan vendor:publish --tag=enso-update` - a common alias for when wanting to update the VueJS component,
 once a newer version is released
