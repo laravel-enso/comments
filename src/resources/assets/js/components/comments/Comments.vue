@@ -2,8 +2,9 @@
 
     <box :theme="theme"
         collapsible refresh search removable
+        :border="!solid"
         :solid="solid"
-        max-height="415px"
+        :body-style="{'max-height': '415px', 'overflow-y': 'auto'}"
         :open="open"
         footer
         @refresh="refresh()"
@@ -102,7 +103,7 @@
                 count: 0,
                 offset: 0,
                 comment: {},
-                loading: false,
+                loading: false
             };
         },
 
