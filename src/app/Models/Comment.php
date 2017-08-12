@@ -48,12 +48,16 @@ class Comment extends Model
 
     public function getIsEditableAttribute()
     {
-        return request()->user()->can('update', $this);
+        return request()->user()
+            ? request()->user()->can('update', $this)
+            : false;
     }
 
     public function getIsDeletableAttribute()
     {
-        return request()->user()->can('destroy', $this);
+        return request()->user()
+            ? request()->user()->can('destroy', $this)
+            : false;
     }
 
     public function getTaggedUserListAttribute()

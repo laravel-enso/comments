@@ -56,7 +56,7 @@ class CommentService
         $this->comments->destroy($comment);
     }
 
-    private function notifyTaggedUsers(Comment $comment, string $url)
+    private function notifyTaggedUsers(Comment $comment, $url)
     {
         $comment->taggedUsers->each->notify(
             class_exists(\App\Notifications\CommentTagNotification::class) ?
