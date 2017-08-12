@@ -45,8 +45,7 @@ class CommentTest extends TestHelper
     public function get_comments()
     {
         $this->createComment();
-
-        $this->get(route('core.comments.index', $this->getParams()))
+        $this->call('GET', '/core/comments', $this->getParams())
             ->assertJsonFragment(['count' => 1]);
     }
 
