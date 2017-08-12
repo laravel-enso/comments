@@ -91,12 +91,12 @@ class CommentTest extends TestHelper
 
         $data = $this->postParams();
         $data['taggedUserList'] = [
-            ['id' => 1, 'fullName' => $this->user->fullName]
+            ['id' => 1, 'fullName' => $this->user->fullName],
         ];
 
         $this->post('/core/comments', $data)
             ->assertStatus(200)
-            ->assertJsonFragment([ 'taggedUserList' => $data['taggedUserList'] ]);
+            ->assertJsonFragment(['taggedUserList' => $data['taggedUserList']]);
 
         Notification::assertSentTo([$this->user], CommentTagNotification::class);
     }
