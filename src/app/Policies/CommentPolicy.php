@@ -37,6 +37,6 @@ class CommentPolicy
 
     private function commentIsRecent(Comment $comment)
     {
-        return $comment->created_at->diffInHours(Carbon::now()) < config('comments.editableTimeLimitInHours');
+        return $comment->created_at->diffInHours(Carbon::now()) < config('enso.comments.editableTimeLimitInHours');
     }
 }
