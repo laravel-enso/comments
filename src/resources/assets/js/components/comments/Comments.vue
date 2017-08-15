@@ -11,11 +11,12 @@
         icon="fa fa-comments-o"
         :title="title || labels.comments"
         :overlay="loading"
+        ref="box"
         @query-update="query = $event"
         :badge="count">
         <span slot="btn-box-tool">
             <button class="btn btn-box-tool btn-sm fa fa-plus-square"
-                @click="!Object.keys(comment).length ? comment=emptyComment() : null">
+                @click="create()">
             </button>
         </span>
         <div class="chat">
@@ -103,7 +104,8 @@
                 count: 0,
                 offset: 0,
                 comment: {},
-                loading: false
+                loading: false,
+                query: null
             };
         },
 
@@ -145,6 +147,17 @@
                         fullName: Store.user.fullName
                     }
                 };
+            },
+            create() {
+                if (Object.keys(this.comment).length) {
+                    return false;
+                }
+
+                if (this.$refs.box.collapsed) {
+                    this.$refs.box.toggle();
+                }
+
+                this.comment=this.emptyComment();
             },
             add(event) {
                 this.comments.unshift(event.comment);
