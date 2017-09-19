@@ -23,14 +23,6 @@ class CommentsServiceProvider extends ServiceProvider
         ], 'enso-config');
 
         $this->publishes([
-            __DIR__.'/resources/assets/js/components' => resource_path('assets/js/vendor/laravel-enso/components'),
-        ], 'comments-component');
-
-        $this->publishes([
-            __DIR__.'/resources/assets/js/components' => resource_path('assets/js/vendor/laravel-enso/components'),
-        ], 'enso-update');
-
-        $this->publishes([
             __DIR__.'/resources/Notifications' => app_path('Notifications'),
         ], 'comments-notification');
     }
