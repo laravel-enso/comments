@@ -9,40 +9,38 @@ use LaravelEnso\CommentsManager\app\Models\Comment;
 
 class CommentService
 {
-    private $request;
     private $comments;
     private $tags;
 
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->request = $request;
-        $this->comments = new Comments($this->request->all());
-        $this->tags = new Tags($this->request->all());
+        $this->comments = new Comments();
+        $this->tags = new Tags();
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->comments->index();
+        return $this->comments->index($request->all());
     }
 
-    public function update(Comment $comment)
+    public function update(Request $request, Comment $comment)
     {
-        \DB::transaction(function () use ($comment) {
-            $this->comments->update($comment);
-            $this->tags->update($comment);
+        \DB::transaction(function () use ($request, $comment) {
+            $this->comments->update($request->all(), $comment);
+            $this->tags->update($request->all(), $comment);
         });
 
-        $this->notifyTaggedUsers($comment, $this->request->get('url'));
+        $this->notifyTaggedUsers($comment, $request->get('url'));
 
         return ['comment' => $comment];
     }
 
-    public function store(Comment $comment)
+    public function store(Request $request, Comment $comment)
     {
-        \DB::transaction(function () use (&$comment) {
-            $comment = $this->comments->store();
-            $this->tags->update($comment);
-            $this->notifyTaggedUsers($comment, $this->request->get('url'));
+        \DB::transaction(function () use ($request, &$comment) {
+            $comment = $this->comments->store($request->all());
+            $this->tags->update($request->all(), $comment);
+            $this->notifyTaggedUsers($comment, $request->get('url'));
         });
 
         return [

@@ -7,21 +7,14 @@ use LaravelEnso\Core\app\Models\User;
 
 class Tags
 {
-    private $request;
-
-    public function __construct(array $request = [])
+    public function update(array $request, Comment $comment)
     {
-        $this->request = $request;
+        $comment->taggedUsers()->sync($this->getTaggedUserIds($request));
     }
 
-    public function update(Comment $comment)
+    private function getTaggedUserIds(array $request)
     {
-        $comment->taggedUsers()->sync($this->getTaggedUserIds());
-    }
-
-    private function getTaggedUserIds()
-    {
-        return array_column($this->request['taggedUserList'], 'id');
+        return array_column($request['taggedUserList'], 'id');
     }
 
     public function getTaggableUsers($query)

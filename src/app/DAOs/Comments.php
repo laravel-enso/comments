@@ -6,35 +6,28 @@ use LaravelEnso\CommentsManager\app\Models\Comment;
 
 class Comments
 {
-    private $request;
-
-    public function __construct(array $request)
+    public function index(array $request)
     {
-        $this->request = $request;
-    }
-
-    public function index()
-    {
-        $commentable = $this->getCommentable();
+        $commentable = $this->getCommentable($request);
 
         return [
-            'count'     => $commentable->comments()->count(),
-            'comments'  => $commentable->comments()->orderBy('created_at', 'desc')
-                            ->skip($this->request['offset'])
-                            ->take($this->request['paginate'])
-                            ->get(),
+            'count'    => $commentable->comments()->count(),
+            'comments' => $commentable->comments()->orderBy('created_at', 'desc')
+                ->skip($request['offset'])
+                ->take($request['paginate'])
+                ->get(),
         ];
     }
 
-    public function update(Comment $comment)
+    public function update(array $request, Comment $comment)
     {
-        $comment->update($this->request);
+        $comment->update($request);
     }
 
-    public function store()
+    public function store(array $request)
     {
-        $comment = new Comment(['body' => $this->request['body']]);
-        $this->getCommentable()->comments()->save($comment);
+        $comment = new Comment(['body' => $request['body']]);
+        $this->getCommentable($request)->comments()->save($comment);
 
         return $comment;
     }
@@ -44,18 +37,18 @@ class Comments
         $comment->delete();
     }
 
-    private function getCommentable()
+    private function getCommentable(array $request)
     {
-        return $this->getCommentableClass()::find($this->request['id']);
+        return $this->getCommentableClass($request)::find($request['id']);
     }
 
-    private function getCommentableClass()
+    private function getCommentableClass(array $request)
     {
-        $class = config('enso.comments.commentables.'.$this->request['type']);
+        $class = config('enso.comments.commentables.' . $request['type']);
 
         if (!$class) {
             throw new \EnsoException(
-                __('Current entity does not exist in enso/comments.php config file: ').$this->request['type']
+                __('Current entity does not exist in enso/comments.php config file: ') . $request['type']
             );
         }
 
