@@ -44,11 +44,11 @@ class Comments
 
     private function getCommentableClass(array $request)
     {
-        $class = config('enso.comments.commentables.' . $request['type']);
+        $class = config('enso.comments.commentables.'.$request['type']);
 
         if (!$class) {
             throw new \EnsoException(
-                __('Current entity does not exist in enso/comments.php config file: ') . $request['type']
+                __('Current entity does not exist in enso/comments.php config file: ').$request['type']
             );
         }
 
