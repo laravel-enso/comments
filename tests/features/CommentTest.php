@@ -21,7 +21,7 @@ class CommentTest extends TestHelper
     {
         parent::setUp();
 
-        // $this->disableExceptionHandling();
+        $this->disableExceptionHandling();
         $this->user = User::first();
         $this->signIn($this->user);
         $this->faker = Factory::create();
