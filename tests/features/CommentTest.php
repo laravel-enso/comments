@@ -7,11 +7,12 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Support\Facades\Notification;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
-use LaravelEnso\TestHelper\app\Classes\TestHelper;
+use LaravelEnso\TestHelper\app\Traits\SignIn;
+use Tests\TestCase;
 
-class CommentTest extends TestHelper
+class CommentTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseMigrations, SignIn;
 
     private $user;
     private $owner;
@@ -21,7 +22,7 @@ class CommentTest extends TestHelper
     {
         parent::setUp();
 
-        $this->disableExceptionHandling();
+        // $this->withoutExceptionHandling();
         $this->user = User::first();
         $this->signIn($this->user);
         $this->faker = Factory::create();
@@ -32,7 +33,7 @@ class CommentTest extends TestHelper
     /** @test */
     public function create_comment()
     {
-        $data = $this->postParams();
+        $data     = $this->postParams();
         $response = $this->post('/core/comments', $data);
 
         $response->assertStatus(200)
@@ -52,10 +53,10 @@ class CommentTest extends TestHelper
     /** @test */
     public function edit_comment()
     {
-        $comment = $this->createComment();
+        $comment       = $this->createComment();
         $comment->body = 'edited';
 
-        $this->patch('/core/comments/'.$comment->id, $comment->toArray())
+        $this->patch('/core/comments/' . $comment->id, $comment->toArray())
             ->assertStatus(200)
             ->assertJsonFragment([
                 'body' => 'edited',
@@ -67,7 +68,7 @@ class CommentTest extends TestHelper
     {
         $comment = $this->createComment();
 
-        $this->delete('/core/comments/'.$comment->id)
+        $this->delete('/core/comments/' . $comment->id)
             ->assertStatus(200);
     }
 
@@ -76,7 +77,7 @@ class CommentTest extends TestHelper
     {
         $tagUser = User::find(2);
 
-        $this->get('/core/comments/getTaggableUsers/'.$tagUser->fullName)
+        $this->get('/core/comments/getTaggableUsers/' . $tagUser->fullName)
             ->assertStatus(200)
             ->assertJsonFragment([
                 'fullName' => $tagUser->fullName,
@@ -88,7 +89,7 @@ class CommentTest extends TestHelper
     {
         Notification::fake();
 
-        $data = $this->postParams();
+        $data                   = $this->postParams();
         $data['taggedUserList'] = [
             ['id' => 1, 'fullName' => $this->user->fullName],
         ];
@@ -103,11 +104,11 @@ class CommentTest extends TestHelper
     private function postParams()
     {
         return [
-            'id'                => $this->owner->id,
-            'type'              => 'owner',
-            'body'              => $this->faker->sentence,
-            'taggedUserList'    => [],
-            'url'               => $this->faker->url,
+            'id'             => $this->owner->id,
+            'type'           => 'owner',
+            'body'           => $this->faker->sentence,
+            'taggedUserList' => [],
+            'url'            => $this->faker->url,
         ];
     }
 
