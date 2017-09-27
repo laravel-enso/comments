@@ -33,7 +33,7 @@ class CommentTest extends TestCase
     /** @test */
     public function create_comment()
     {
-        $data     = $this->postParams();
+        $data = $this->postParams();
         $response = $this->post('/core/comments', $data);
 
         $response->assertStatus(200)
@@ -53,10 +53,10 @@ class CommentTest extends TestCase
     /** @test */
     public function edit_comment()
     {
-        $comment       = $this->createComment();
+        $comment = $this->createComment();
         $comment->body = 'edited';
 
-        $this->patch('/core/comments/' . $comment->id, $comment->toArray())
+        $this->patch('/core/comments/'.$comment->id, $comment->toArray())
             ->assertStatus(200)
             ->assertJsonFragment([
                 'body' => 'edited',
@@ -68,7 +68,7 @@ class CommentTest extends TestCase
     {
         $comment = $this->createComment();
 
-        $this->delete('/core/comments/' . $comment->id)
+        $this->delete('/core/comments/'.$comment->id)
             ->assertStatus(200);
     }
 
@@ -77,7 +77,7 @@ class CommentTest extends TestCase
     {
         $tagUser = User::find(2);
 
-        $this->get('/core/comments/getTaggableUsers/' . $tagUser->fullName)
+        $this->get('/core/comments/getTaggableUsers/'.$tagUser->fullName)
             ->assertStatus(200)
             ->assertJsonFragment([
                 'fullName' => $tagUser->fullName,
@@ -89,7 +89,7 @@ class CommentTest extends TestCase
     {
         Notification::fake();
 
-        $data                   = $this->postParams();
+        $data = $this->postParams();
         $data['taggedUserList'] = [
             ['id' => 1, 'fullName' => $this->user->fullName],
         ];
