@@ -30,7 +30,7 @@ class CommentService
             $this->tags->update($request->all(), $comment);
         });
 
-        $this->notifyTaggedUsers($comment, $request->get('url'));
+        $this->notifyTaggedUsers($comment, $request->path());
 
         return ['comment' => $comment];
     }
@@ -40,7 +40,7 @@ class CommentService
         \DB::transaction(function () use ($request, &$comment) {
             $comment = $this->comments->store($request->all());
             $this->tags->update($request->all(), $comment);
-            $this->notifyTaggedUsers($comment, $request->get('url'));
+            $this->notifyTaggedUsers($comment, $request->path());
         });
 
         return [
@@ -54,12 +54,12 @@ class CommentService
         $this->comments->destroy($comment);
     }
 
-    private function notifyTaggedUsers(Comment $comment, $url)
+    private function notifyTaggedUsers(Comment $comment, $path)
     {
         $comment->taggedUsers->each->notify(
             class_exists(\App\Notifications\CommentTagNotification::class) ?
-            new \App\Notifications\CommentTagNotification($comment->commentable, $comment->body, $url) :
-            new \LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification($comment->commentable, $comment->body, $url)
+            new \App\Notifications\CommentTagNotification($comment->commentable, $comment->body, $path) :
+            new \LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification($comment->commentable, $comment->body, $path)
         );
     }
 }

@@ -13,13 +13,13 @@ class CommentTagNotification extends Notification implements ShouldQueue
 
     private $commentable;
     private $body;
-    private $link;
+    private $path;
 
-    public function __construct($commentable, $body, $link)
+    public function __construct($commentable, $body, $path)
     {
         $this->commentable = $commentable;
         $this->body = $body;
-        $this->link = $link;
+        $this->path = $path;
     }
 
     public function via($notifiable)
@@ -33,7 +33,7 @@ class CommentTagNotification extends Notification implements ShouldQueue
             ->line(__('You were tagged in a message posted in').': '.config('app.name'))
             ->line($this->body)
             ->line(__('To answer click the link below'))
-            ->action(config('app.name'), $this->link)
+            ->action(config('app.name'), $this->path)
             ->line(__('Thank you').'!');
     }
 
@@ -42,7 +42,7 @@ class CommentTagNotification extends Notification implements ShouldQueue
         return [
             // customize the push / database notification
             'body' => $this->body,
-            'link' => $this->link,
+            'path' => $this->path,
         ];
     }
 }
