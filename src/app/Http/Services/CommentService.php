@@ -30,7 +30,7 @@ class CommentService
             $this->tags->update($request->all(), $comment);
         });
 
-        $this->notifyTaggedUsers($comment, $request->path());
+        $this->notifyTaggedUsers($comment, $request->get('path'));
 
         return ['comment' => $comment];
     }
@@ -40,7 +40,7 @@ class CommentService
         \DB::transaction(function () use ($request, &$comment) {
             $comment = $this->comments->store($request->all());
             $this->tags->update($request->all(), $comment);
-            $this->notifyTaggedUsers($comment, $request->path());
+            $this->notifyTaggedUsers($comment, $request->get('path'));
         });
 
         return [
