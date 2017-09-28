@@ -3,7 +3,7 @@
 use App\Owner;
 use App\User;
 use Faker\Factory;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
@@ -12,7 +12,7 @@ use Tests\TestCase;
 
 class CommentTest extends TestCase
 {
-    use DatabaseMigrations, SignIn;
+    use RefreshDatabase, SignIn;
 
     private $user;
     private $owner;
