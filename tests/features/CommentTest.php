@@ -34,7 +34,7 @@ class CommentTest extends TestCase
     public function create_comment()
     {
         $data = $this->postParams();
-        $response = $this->post('/core/comments', $data);
+        $response = $this->post(route('core.comments.store', [], false), $data);
 
         $response->assertStatus(200)
             ->assertJsonFragment([
@@ -46,7 +46,7 @@ class CommentTest extends TestCase
     public function get_comments()
     {
         $this->createComment();
-        $this->call('GET', '/core/comments', $this->getParams())
+        $this->get(route('core.comments.index', $this->getParams(), false))
             ->assertJsonFragment(['count' => 1]);
     }
 
@@ -56,7 +56,7 @@ class CommentTest extends TestCase
         $comment = $this->createComment();
         $comment->body = 'edited';
 
-        $this->patch('/core/comments/'.$comment->id, $comment->toArray())
+        $this->patch(route('core.comments.update', $comment->id, false), $comment->toArray())
             ->assertStatus(200)
             ->assertJsonFragment([
                 'body' => 'edited',
@@ -68,7 +68,7 @@ class CommentTest extends TestCase
     {
         $comment = $this->createComment();
 
-        $this->delete('/core/comments/'.$comment->id)
+        $this->delete(route('core.comments.destroy', $comment->id, false))
             ->assertStatus(200);
     }
 
@@ -77,7 +77,7 @@ class CommentTest extends TestCase
     {
         $tagUser = User::find(2);
 
-        $this->get('/core/comments/getTaggableUsers/'.$tagUser->fullName)
+        $this->get(route('core.comments.getTaggableUsers', $tagUser->fullName, false))
             ->assertStatus(200)
             ->assertJsonFragment([
                 'fullName' => $tagUser->fullName,
@@ -94,7 +94,7 @@ class CommentTest extends TestCase
             ['id' => 1, 'fullName' => $this->user->fullName],
         ];
 
-        $this->post('/core/comments', $data)
+        $this->post(route('core.comments.store', [], false), $data)
             ->assertStatus(200)
             ->assertJsonFragment(['taggedUserList' => $data['taggedUserList']]);
 

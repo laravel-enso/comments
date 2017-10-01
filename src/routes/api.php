@@ -1,6 +1,7 @@
 <?php
 
-Route::middleware(['web', 'auth', 'core'])
+Route::middleware(['auth:api', 'api', 'core'])
+	->prefix('api')
     ->namespace('LaravelEnso\CommentsManager\app\Http\Controllers')
     ->group(function () {
         Route::prefix('core')->as('core.')
