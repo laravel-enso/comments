@@ -33,13 +33,11 @@ The package offers a quick and easy flow for adding comments to any model.
 
 ### Installation Steps
 
-1. Add `LaravelEnso\CommentsManager\CommentsManagerServiceProvider::class` to `config/app.php`
-
 2. Run the migrations `php artisan migrate`
 
-3. Publish the config file with `php artisan vendor:publish --tag=comments-config`. Define the `'model_alias' => 'App\Model'` mapping in the `config/comments.php` file.
+3. Publish the config file with `php artisan vendor:publish --tag=comments-config`. Define the `'model_alias' => 'App\Model'` mapping in the `config/enso/comments.php` file.
 
-4. Publish the VueJS components with `php artisan vendor:publish --tag=comments-component`
+4. Publish the VueJS components with `php artisan vendor:publish --tag=vue-components`
 
 5. Include the VueJS components in your `app.js` file and then compile with `gulp` / `npm run dev`
 
@@ -66,19 +64,20 @@ Vue.component('inputor', require('./vendor/laravel-enso/components/comments/Inpu
 
 ### Options
 
-- `type` - the commentable model alias (required) you set at the installation step #3
-- `id` - the id of the commentable model (required)
-- `paginate` - the paginate size, default value is 5 (optional)
-- `header-class` - header class for the box element: info (default option) / default / primary / warning / danger / default
+- `id` - the id of the commentable model | required
+- `type` - the commentable model alias you set at the installation step #3 | required
+- `paginate` - the paginate size, default value is 5 | optional
+- `open` - boolean flag, makes the component start collapsed (default) or open | optional
+- `title` - title for the component, if nothing is given 'Comments' is used | optional
 
 ### Publishes
 - `php artisan vendor:publish --tag=comments-config` - configuration file
-- `php artisan vendor:publish --tag=comments-component` - the VueJS components
+- `php artisan vendor:publish --tag=vue-components` - the VueJS components
 - `php artisan vendor:publish --tag=comments-notification` - the queueable notification sent to the tagged users
 - `php artisan vendor:publish --tag=enso-update` - a common alias for when wanting to update the VueJS component,
-once a newer version is released
-- `php artisan vendor:publish --tag=enso-config` - a common alias for when wanting to update the config,
-once a newer version is released
+once a newer version is released, can be used with the `--force` flag
+- `php artisan vendor:publish --tag=enso-assets` - a common alias for when wanting to update the config,
+once a newer version is released, can be used with the `--force` flag
 
 <!--h-->
 ### Contributions
