@@ -79,6 +79,20 @@ once a newer version is released, can be used with the `--force` flag
 - `php artisan vendor:publish --tag=enso-assets` - a common alias for when wanting to update the config,
 once a newer version is released, can be used with the `--force` flag
 
+
+### Notes
+
+The [Laravel Enso](https://github.com/laravel-enso/Enso) package comes with this package included.
+
+Depends on:
+ - [Core](https://github.com/laravel-enso/Core) for middleware and user model 
+ - [Structure manager](https://github.com/laravel-enso/StructureManager) for the migrations
+ - [TrackWho](https://github.com/laravel-enso/TrackWho) for keeping track of the users making the changes to each contact
+ - [VueComponents](https://github.com/laravel-enso/VueComponents) for the accompanying VueJS components
+ - [AvatarManager](https://github.com/laravel-enso/AvatarManager) for showing the users' avatars
+ 
+
+
 <!--h-->
 ### Contributions
 
