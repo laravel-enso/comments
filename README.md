@@ -10,7 +10,7 @@
 
 Comments Manager for [Laravel Enso](https://github.com/laravel-enso/Enso).
 
-[![Watch the demo](https://laravel-enso.github.io/commentsmanager/screenshots/Selection_018_thumb.png)](https://laravel-enso.github.io/commentsmanager/videos/demo_01.webm)
+[![Watch the demo](https://laravel-enso.github.io/commentsmanager/screenshots/bulma_018_thumb.png)](https://laravel-enso.github.io/commentsmanager/videos/bulma_demo_01.webm)
 
 <sup>click on the photo to view a short demo in compatible browsers</sup>
 
@@ -76,7 +76,7 @@ Vue.component('inputor', require('./vendor/laravel-enso/components/comments/Inpu
 - `php artisan vendor:publish --tag=comments-notification` - the queueable notification sent to the tagged users
 - `php artisan vendor:publish --tag=enso-update` - a common alias for when wanting to update the VueJS component,
 once a newer version is released, can be used with the `--force` flag
-- `php artisan vendor:publish --tag=enso-assets` - a common alias for when wanting to update the config,
+- `php artisan vendor:publish --tag=enso-assets` - a common alias for when wanting to update the assets,
 once a newer version is released, can be used with the `--force` flag
 
 
