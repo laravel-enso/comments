@@ -33,34 +33,25 @@ The package offers a quick and easy flow for adding comments to any model.
 
 ### Installation Steps
 
-2. Run the migrations `php artisan migrate`
+The component is already included in the Enso install and should not require any additional installation steps.
 
-3. Publish the config file with `php artisan vendor:publish --tag=comments-config`. Define the `'model_alias' => 'App\Model'` mapping in the `config/enso/comments.php` file.
-
-4. Publish the VueJS components with `php artisan vendor:publish --tag=vue-components`
-
-5. Include the VueJS components in your `app.js` file and then compile with `gulp` / `npm run dev`
-
-```js
-Vue.component('comments', require('./vendor/laravel-enso/components/comments/Comments.vue'));
-Vue.component('comment', require('./vendor/laravel-enso/components/comments/Comment.vue'));
-Vue.component('inputor', require('./vendor/laravel-enso/components/comments/Inputor.vue'));
-```
-
-6. Add `use Commentable` in the Model that need comments and import the trait. This way you can call the `$model->comments` relationship
-
-7. Because users make comments, and users can tag other users, you need to add `use Comments` trait the `User` model. Don't forget to import it
-
-8. If you need to customize the CommentTagNotification you need to publish it first with `php artisan vendor:publish --tag=comments-notification`
 
 ### Use
 
-```
-<comments :id="modelId"
-    type="model_alias"
-    :paginate="5">
-</comments>
-```
+1. Define the `'model_alias' => 'App\Model'` mapping in the `config/enso/comments.php` file.
+2. Add the `Commentable` trait in the Model to which you need to add comments. 
+    You can then use the `$model->comments` relationship
+3. Since users post comments, and users can tag other users, the `User` model has the `Comments` trait, 
+    which give you access to the user's comments, as well as the comments he's tagged in 
+4. If you need to customize the `CommentTagNotification` you need to publish it first with
+    `php artisan vendor:publish --tag=comments-notification`
+5. Include the component in your pages/components
+    ```
+    <comments :id="modelId"
+        type="model_alias"
+        :paginate="5">
+    </comments>
+    ```
 
 ### Options
 
@@ -68,7 +59,7 @@ Vue.component('inputor', require('./vendor/laravel-enso/components/comments/Inpu
 - `type` - the commentable model alias you set at the installation step #3 | required
 - `paginate` - the paginate size, default value is 5 | optional
 - `open` - boolean flag, makes the component start collapsed (default) or open | optional
-- `title` - title for the component, if nothing is given 'Comments' is used | optional
+- `title` - title for the component, if nothing is given, 'Comments' is used | optional
 
 ### Publishes
 - `php artisan vendor:publish --tag=comments-config` - configuration file
@@ -90,8 +81,6 @@ Depends on:
  - [TrackWho](https://github.com/laravel-enso/TrackWho) for keeping track of the users making the changes to each contact
  - [VueComponents](https://github.com/laravel-enso/VueComponents) for the accompanying VueJS components
  - [AvatarManager](https://github.com/laravel-enso/AvatarManager) for showing the users' avatars
- 
-
 
 <!--h-->
 ### Contributions
