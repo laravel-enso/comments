@@ -3,8 +3,8 @@
 namespace LaravelEnso\CommentsManager\app\Http\Services;
 
 use Illuminate\Http\Request;
-use LaravelEnso\CommentsManager\app\DAOs\Comments;
 use LaravelEnso\CommentsManager\app\DAOs\Tags;
+use LaravelEnso\CommentsManager\app\DAOs\Comments;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 
 class CommentService
@@ -45,7 +45,7 @@ class CommentService
 
         return [
             'comment' => $comment,
-            'count'   => $comment->commentable->comments()->count(),
+            'count' => $comment->commentable->comments()->count(),
         ];
     }
 

@@ -2,8 +2,8 @@
 
 namespace LaravelEnso\CommentsManager\app\DAOs;
 
-use LaravelEnso\CommentsManager\app\Models\Comment;
 use LaravelEnso\Core\app\Models\User;
+use LaravelEnso\CommentsManager\app\Models\Comment;
 
 class Tags
 {

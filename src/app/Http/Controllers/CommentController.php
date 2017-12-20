@@ -2,11 +2,11 @@
 
 namespace LaravelEnso\CommentsManager\app\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use LaravelEnso\CommentsManager\app\Http\Requests\ValidateCommentRequest;
-use LaravelEnso\CommentsManager\app\Http\Services\CommentService;
+use App\Http\Controllers\Controller;
 use LaravelEnso\CommentsManager\app\Models\Comment;
+use LaravelEnso\CommentsManager\app\Http\Services\CommentService;
+use LaravelEnso\CommentsManager\app\Http\Requests\ValidateCommentRequest;
 
 class CommentController extends Controller
 {

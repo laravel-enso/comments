@@ -2,9 +2,9 @@
 
 namespace LaravelEnso\CommentsManager;
 
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 use LaravelEnso\CommentsManager\app\Policies\CommentPolicy;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {

@@ -11,7 +11,7 @@ class Comments
         $commentable = $this->getCommentable($request);
 
         return [
-            'count'    => $commentable->comments()->count(),
+            'count' => $commentable->comments()->count(),
             'comments' => $commentable->comments()->orderBy('created_at', 'desc')
                 ->skip($request['offset'])
                 ->take($request['paginate'])
@@ -46,7 +46,7 @@ class Comments
     {
         $class = config('enso.comments.commentables.'.$request['type']);
 
-        if (!$class) {
+        if (! $class) {
             throw new \EnsoException(
                 __('Current entity does not exist in enso/comments.php config file: ').$request['type']
             );
