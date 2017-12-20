@@ -46,7 +46,7 @@ class Comments
     {
         $class = config('enso.comments.commentables.'.$request['type']);
 
-        if (! $class) {
+        if (!$class) {
             throw new \EnsoException(
                 __('Current entity does not exist in enso/comments.php config file: ').$request['type']
             );
