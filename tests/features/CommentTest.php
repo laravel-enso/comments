@@ -104,11 +104,11 @@ class CommentTest extends TestCase
     private function postParams()
     {
         return [
-            'id'             => $this->owner->id,
-            'type'           => 'owner',
-            'body'           => $this->faker->sentence,
+            'id' => $this->owner->id,
+            'type' => 'owner',
+            'body' => $this->faker->sentence,
             'taggedUserList' => [],
-            'url'            => $this->faker->url,
+            'url' => $this->faker->url,
         ];
     }
 
@@ -123,9 +123,9 @@ class CommentTest extends TestCase
     private function getParams()
     {
         return [
-            'id'       => $this->owner->id,
-            'type'     => 'owner',
-            'offset'   => 0,
+            'id' => $this->owner->id,
+            'type' => 'owner',
+            'offset' => 0,
             'paginate' => 5,
         ];
     }

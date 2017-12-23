@@ -29,7 +29,7 @@ class CommentsServiceProvider extends ServiceProvider
 
     private function loadDependencies()
     {
-        $this->mergeConfigFrom(__DIR__.'/config/comments.php', 'comments');
+        $this->mergeConfigFrom(__DIR__.'/config/comments.php', 'enso.comments');
         $this->loadRoutesFrom(__DIR__.'/routes/api.php');
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
     }
