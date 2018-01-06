@@ -51,7 +51,7 @@ class CommentService
 
     public function destroy(Comment $comment)
     {
-        $this->comments->destroy($comment);
+        return $this->comments->destroy($comment);
     }
 
     private function notifyTaggedUsers(Comment $comment, $path)

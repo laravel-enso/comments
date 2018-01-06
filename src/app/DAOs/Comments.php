@@ -34,7 +34,10 @@ class Comments
 
     public function destroy(Comment $comment)
     {
+        $commentable = $comment->commentable;
         $comment->delete();
+
+        return ['count' => $commentable->comments()->count()];
     }
 
     private function getCommentable(array $request)

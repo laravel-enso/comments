@@ -38,6 +38,6 @@ class CommentController extends Controller
     {
         $this->authorize('destroy', $comment);
 
-        $this->service->destroy($comment);
+        return $this->service->destroy($comment);
     }
 }
