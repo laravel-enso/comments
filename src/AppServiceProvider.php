@@ -4,7 +4,7 @@ namespace LaravelEnso\CommentsManager;
 
 use Illuminate\Support\ServiceProvider;
 
-class CommentsServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
     public function boot()
     {

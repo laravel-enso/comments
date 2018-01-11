@@ -38,7 +38,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LaravelEnso\\CommentsManager\\CommentsServiceProvider",
+                "LaravelEnso\\CommentsManager\\AppServiceProvider",
                 "LaravelEnso\\CommentsManager\\AuthServiceProvider"
             ],
             "aliases": {}
