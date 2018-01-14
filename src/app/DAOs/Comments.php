@@ -3,6 +3,7 @@
 namespace LaravelEnso\CommentsManager\app\DAOs;
 
 use LaravelEnso\CommentsManager\app\Models\Comment;
+use LaravelEnso\CommentsManager\app\Exceptions\CommentException;
 
 class Comments
 {
@@ -50,9 +51,10 @@ class Comments
         $class = config('enso.comments.commentables.'.$request['type']);
 
         if (!$class) {
-            throw new \EnsoException(
-                __('Current entity does not exist in enso/comments.php config file: ').$request['type']
-            );
+            throw new CommentException(__(
+                'Entity ":entity" does not exist in enso/comments.php config file',
+                ['entity' => $request['type']]
+            ));
         }
 
         return $class;
