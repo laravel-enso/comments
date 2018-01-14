@@ -10,7 +10,7 @@ class Comment extends Model
 {
     use CreatedBy, UpdatedBy;
 
-    protected $fillable = ['body'];
+    protected $fillable = ['commentable_id', 'commentable_type', 'body'];
 
     protected $appends = ['taggedUserList', 'owner', 'isEditable', 'isDeletable', 'isEdited'];
 

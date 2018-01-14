@@ -10,34 +10,27 @@ use LaravelEnso\CommentsManager\app\Http\Requests\ValidateCommentRequest;
 
 class CommentController extends Controller
 {
-    private $service;
-
-    public function __construct(CommentService $service)
+    public function index(Request $request, CommentService $service)
     {
-        $this->service = $service;
+        return $service->index($request);
     }
 
-    public function index(Request $request)
-    {
-        return $this->service->index($request);
-    }
-
-    public function update(ValidateCommentRequest $request, Comment $comment)
+    public function update(ValidateCommentRequest $request, Comment $comment, CommentService $service)
     {
         $this->authorize('update', $comment);
 
-        return $this->service->update($request, $comment);
+        return $service->update($request, $comment);
     }
 
-    public function store(ValidateCommentRequest $request, Comment $comment)
+    public function store(ValidateCommentRequest $request, Comment $comment, CommentService $service)
     {
-        return $this->service->store($request, $comment);
+        return $service->store($request, $comment);
     }
 
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment, CommentService $service)
     {
         $this->authorize('destroy', $comment);
 
-        return $this->service->destroy($comment);
+        return $service->destroy($comment);
     }
 }
