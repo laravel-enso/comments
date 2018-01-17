@@ -21,7 +21,7 @@ class CommentCollection
     {
         return [
             'count' => $this->count(),
-            'comments' => $this->collection()
+            'comments' => $this->collection(),
         ];
     }
 
