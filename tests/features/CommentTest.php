@@ -55,6 +55,7 @@ class CommentTest extends TestCase
     {
         $comment = $this->createComment();
         $comment->body = 'edited';
+        $comment->path = $this->faker->url;
 
         $this->patch(route('core.comments.update', $comment->id, false), $comment->toArray())
             ->assertStatus(200)
@@ -104,11 +105,12 @@ class CommentTest extends TestCase
     private function postParams()
     {
         return [
+            'commentable_id' => $this->owner->id,
             'id' => $this->owner->id,
             'type' => 'owner',
             'body' => $this->faker->sentence,
             'taggedUserList' => [],
-            'url' => $this->faker->url,
+            'path' => $this->faker->url,
         ];
     }
 

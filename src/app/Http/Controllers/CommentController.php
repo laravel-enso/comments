@@ -5,32 +5,51 @@ namespace LaravelEnso\CommentsManager\app\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use LaravelEnso\CommentsManager\app\Models\Comment;
-use LaravelEnso\CommentsManager\app\Http\Services\CommentService;
+use LaravelEnso\CommentsManager\app\Classes\CommentCollection;
 use LaravelEnso\CommentsManager\app\Http\Requests\ValidateCommentRequest;
 
 class CommentController extends Controller
 {
-    public function index(Request $request, CommentService $service)
+    public function index(Request $request)
     {
-        return $service->index($request);
+        return (new CommentCollection($request->all()))
+            ->data();
     }
 
-    public function update(ValidateCommentRequest $request, Comment $comment, CommentService $service)
+    public function update(ValidateCommentRequest $request, Comment $comment)
     {
         $this->authorize('update', $comment);
 
-        return $service->update($request, $comment);
+        $comment->updateWithTags(
+            $request->only(['body', 'path']),
+            $request->get('taggedUserList')
+        );
+
+        return ['comment' => $comment];
     }
 
-    public function store(ValidateCommentRequest $request, Comment $comment, CommentService $service)
+    public function store(ValidateCommentRequest $request, Comment $comment)
     {
-        return $service->store($request, $comment);
+        $comment = $comment->createWithTags(
+            $request->only(['body', 'id', 'type', 'path']),
+            $request->get('taggedUserList')
+        );
+
+        return [
+            'comment' => $comment,
+            'count' => $comment->commentable
+                ->comments()
+                ->count(),
+        ];
     }
 
-    public function destroy(Comment $comment, CommentService $service)
+    public function destroy(Comment $comment)
     {
         $this->authorize('destroy', $comment);
 
-        return $service->destroy($comment);
+        $count = $comment->commentable->comments()->count();
+        $comment->delete();
+
+        return ['count' => $count - 1];
     }
 }

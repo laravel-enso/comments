@@ -5,6 +5,7 @@ namespace LaravelEnso\CommentsManager\app\Models;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
+use LaravelEnso\CommentsManager\app\Classes\Handler;
 
 class Comment extends Model
 {
@@ -72,5 +73,58 @@ class Comment extends Model
         unset($this->taggedUsers);
 
         return $taggedUsers;
+    }
+
+    public function updateWithTags(array $request, array $taggedUserList)
+    {
+        \DB::transaction(function () use ($request, $taggedUserList) {
+            $this->update(['body' => $request['body']]);
+
+            $this->syncTags(collect($taggedUserList)->pluck('id'));
+        });
+
+        $this->notifyTaggedUsers($this, $request['path']);
+    }
+
+    public function createWithTags(array $request, array $taggedUserList)
+    {
+        $comment = null;
+
+        \DB::transaction(function () use (&$comment, $request, $taggedUserList) {
+            $comment = $this->create([
+                'body' => $request['body'],
+                'commentable_id' => $request['id'],
+                'commentable_type' => (new Handler($request['type']))->commentable(),
+            ]);
+
+            $comment->syncTags(collect($taggedUserList)->pluck('id'));
+        });
+
+        $this->notifyTaggedUsers($comment, $request['path']);
+
+        return $comment;
+    }
+
+    public function syncTags($tags)
+    {
+        $this->taggedUsers()
+                ->sync($tags);
+    }
+
+    private function notifyTaggedUsers($comment, $path)
+    {
+        $comment->fresh()->taggedUsers->each->notify(
+            class_exists(\App\Notifications\CommentTagNotification::class)
+                ? new \App\Notifications\CommentTagNotification(
+                    $comment->commentable,
+                    $comment->body,
+                    config('app.url').$path
+                )
+                : new \LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification(
+                    $comment->commentable,
+                    $comment->body,
+                    config('app.url').$path
+                )
+        );
     }
 }
