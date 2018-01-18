@@ -20,22 +20,22 @@ class CommentPolicy
 
     public function update(User $user, Comment $comment)
     {
-        return $this->userOwnsComment($user, $comment)
-            && $this->commentIsRecent($comment);
+        return $this->ownsComment($user, $comment)
+            && $this->isRecent($comment);
     }
 
     public function destroy(User $user, Comment $comment)
     {
-        return $this->userOwnsComment($user, $comment)
-            && $this->commentIsRecent($comment);
+        return $this->ownsComment($user, $comment)
+            && $this->isRecent($comment);
     }
 
-    private function userOwnsComment(User $user, Comment $comment)
+    private function ownsComment(User $user, Comment $comment)
     {
         return $user->id === intval($comment->created_by);
     }
 
-    private function commentIsRecent(Comment $comment)
+    private function isRecent(Comment $comment)
     {
         return $comment->created_at->diffInHours(Carbon::now()) < config('enso.comments.editableTimeLimitInHours');
     }

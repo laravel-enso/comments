@@ -1,10 +1,10 @@
 <?php
 
-namespace LaravelEnso\CommentsManager\app\Classes;
+namespace LaravelEnso\CommentsManager\app\Handlers;
 
 use CommentConfigException;
 
-class Handler
+class ConfigMapper
 {
     protected $commentable;
     private $type;
@@ -14,7 +14,7 @@ class Handler
         $this->type = $type;
     }
 
-    public function commentable()
+    public function class()
     {
         $commentable = config('enso.comments.commentables.'.$this->type);
 

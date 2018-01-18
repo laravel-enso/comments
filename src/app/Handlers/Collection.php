@@ -1,10 +1,10 @@
 <?php
 
-namespace LaravelEnso\CommentsManager\app\Classes;
+namespace LaravelEnso\CommentsManager\app\Handlers;
 
 use LaravelEnso\CommentsManager\app\Models\Comment;
 
-class CommentCollection
+class Collection
 {
     private $request;
     private $commentable;
@@ -12,7 +12,7 @@ class CommentCollection
 
     public function __construct(array $request)
     {
-        $this->commentable = (new Handler($request['type']))->commentable();
+        $this->commentable = (new ConfigMapper($request['type']))->class();
         $this->request = $request;
         $this->query = $this->query();
     }

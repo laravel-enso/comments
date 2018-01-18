@@ -5,7 +5,7 @@ namespace LaravelEnso\CommentsManager\app\Models;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
-use LaravelEnso\CommentsManager\app\Classes\Handler;
+use LaravelEnso\CommentsManager\app\Handlers\ConfigMapper;
 
 class Comment extends Model
 {
@@ -94,7 +94,7 @@ class Comment extends Model
             $comment = $this->create([
                 'body' => $request['body'],
                 'commentable_id' => $request['id'],
-                'commentable_type' => (new Handler($request['type']))->commentable(),
+                'commentable_type' => (new ConfigMapper($request['type']))->class(),
             ]);
 
             $comment->syncTags(collect($taggedUserList)->pluck('id'));
@@ -113,18 +113,15 @@ class Comment extends Model
 
     private function notifyTaggedUsers($comment, $path)
     {
-        $comment->fresh()->taggedUsers->each->notify(
-            class_exists(\App\Notifications\CommentTagNotification::class)
-                ? new \App\Notifications\CommentTagNotification(
-                    $comment->commentable,
-                    $comment->body,
-                    config('app.url').$path
-                )
-                : new \LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification(
-                    $comment->commentable,
-                    $comment->body,
-                    config('app.url').$path
-                )
-        );
+        $notificationClass = class_exists(\App\Notifications\CommentTagNotification::class)
+                ? \App\Notifications\CommentTagNotification::class
+                : \LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification::class;
+
+        $comment->fresh()->taggedUsers->each
+            ->notify(new $notificationClass(
+                $comment->commentable,
+                $comment->body,
+                config('app.url').$path
+            ));
     }
 }
