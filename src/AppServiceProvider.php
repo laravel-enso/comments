@@ -23,6 +23,14 @@ class AppServiceProvider extends ServiceProvider
         ], 'enso-config');
 
         $this->publishes([
+            __DIR__.'/resources/assets/js' => resource_path('assets/js'),
+        ], 'comments-assets');
+
+        $this->publishes([
+            __DIR__.'/resources/assets/js' => resource_path('assets/js'),
+        ], 'enso-assets');
+
+        $this->publishes([
             __DIR__.'/resources/Notifications' => app_path('Notifications'),
         ], 'comments-notification');
     }
