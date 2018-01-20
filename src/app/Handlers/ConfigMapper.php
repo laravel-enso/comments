@@ -20,7 +20,7 @@ class ConfigMapper
         if (is_null($commentable)) {
             throw new CommentConfigException(__(
                 'Entity ":entity" does not exist in enso/comments.php config file',
-                ['entity' => $type]
+                ['entity' => $this->type]
             ));
         }
 
