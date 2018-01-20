@@ -7,12 +7,10 @@ use LaravelEnso\CommentsManager\app\Models\Comment;
 class Collection
 {
     private $request;
-    private $commentable;
     private $query;
 
     public function __construct(array $request)
     {
-        $this->commentable = (new ConfigMapper($request['type']))->class();
         $this->request = $request;
         $this->query = $this->query();
     }
@@ -27,7 +25,7 @@ class Collection
 
     private function query()
     {
-        return Comment::whereCommentableType($this->commentable)
+        return Comment::whereCommentableType($this->commentable())
             ->whereCommentableId($this->request['id'])
             ->orderBy('created_at', 'desc');
     }
@@ -42,5 +40,10 @@ class Collection
         return $this->query->skip($this->request['offset'])
             ->take($this->request['paginate'])
             ->get();
+    }
+
+    private function commentable()
+    {
+        return (new ConfigMapper($this->request['type']))->class();
     }
 }
