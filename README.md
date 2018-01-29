@@ -25,7 +25,7 @@ The package offers a quick and easy flow for adding comments to any model.
 - uses its own policies to ensure users edit comments only when they are allowed to do so
 - uses [TrackWho](https://github.com/laravel-enso/TrackWho) to keep track of the users that are posting comments
 - depends on [Avatar Manager](https://github.com/laravel-enso/AvatarManager) to display user avatars, when available
-- uses [At.js](https://github.com/ichord/At.js) for tagged user auto-completion
+- uses a light, internal mechanism for tagged user auto-completion
 
 ### Under the Hood
 - polymorphic relationships are used, which makes it possible to attach comments to any other entity
@@ -35,10 +35,10 @@ The package offers a quick and easy flow for adding comments to any model.
 
 The component is already included in the Enso install and should not require any additional installation steps.
 
-
 ### Use
 
-1. Define the `'model_alias' => 'App\Model'` mapping in the `config/enso/comments.php` file.
+1. Define the `'model_alias' => 'App\Model'` mapping in the `config/enso/comments.php` file, 
+    under the `commentables` section
 2. Add the `Commentable` trait in the Model to which you need to add comments. 
     You can then use the `$model->comments` relationship
 3. Since users post comments, and users can tag other users, the `User` model has the `Comments` trait, 
@@ -54,21 +54,25 @@ The component is already included in the Enso install and should not require any
     ```
 
 ### Options
+- `id` - number, the id of the commentable model | required
+- `type` - string, the commentable model alias you set at the installation step #3 | required
+- `paginate` - number, the paginate size | default is `5` | (optional)
+- `open` - boolean, flag, makes the component start collapsed or open | default is `false` | (optional)
+- `title` - string, title for the component | default is `'Comments'` | (optional)
 
-- `id` - the id of the commentable model | required
-- `type` - the commentable model alias you set at the installation step #3 | required
-- `paginate` - the paginate size, default value is 5 | optional
-- `open` - boolean flag, makes the component start collapsed (default) or open | optional
-- `title` - title for the component, if nothing is given, 'Comments' is used | optional
+### Configuration
+In the configuration file you may also set the time limit after which comments are no longer editable:
+- `editableTimeLimitInHours`, defaults to 24
+
 
 ### Publishes
 - `php artisan vendor:publish --tag=comments-config` - configuration file
-- `php artisan vendor:publish --tag=vue-components` - the VueJS components
+- `php artisan vendor:publish --tag=comments-assets` - the VueJS components
 - `php artisan vendor:publish --tag=comments-notification` - the queueable notification sent to the tagged users
-- `php artisan vendor:publish --tag=enso-update` - a common alias for when wanting to update the VueJS component,
-once a newer version is released, can be used with the `--force` flag
 - `php artisan vendor:publish --tag=enso-assets` - a common alias for when wanting to update the assets,
-once a newer version is released, can be used with the `--force` flag
+once a newer version is released, usually used with the `--force` flag
+- `php artisan vendor:publish --tag=enso-config` - a common alias for when wanting to update the configuration,
+once a newer version is released, usually used with the `--force` flag
 
 
 ### Notes
