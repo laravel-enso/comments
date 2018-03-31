@@ -114,15 +114,16 @@ export default {
         avatar() {
             return this.isNew
                 ? this.avatarLink
-                : route('core.avatars.show', this.comment.owner.avatarId || 'null', false).toString();
+                : route('core.avatars.show', this.comment.owner.avatarId || 'null');
         },
         highlightTaggedUsers() {
             let { body } = this.comment;
 
-            this.comment.taggedUserList.forEach((user) => {
-                const highlighted = `${'<span class="has-text-info">@'}${user.fullName}</span>`;
-                body = body.replace(`@${user.fullName}`, highlighted);
-            });
+            this.comment.taggedUserList
+                .forEach((user) => {
+                    const highlighted = `${'<span class="has-text-info">@'}${user.fullName}</span>`;
+                    body = body.replace(`@${user.fullName}`, highlighted);
+                });
 
             return body;
         },
