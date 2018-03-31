@@ -14,7 +14,7 @@
             <div class="has-margin-bottom-medium has-text-grey" v-if="!isNew">
                 <a><b>{{ comment.owner.fullName }}</b></a>
                 <span>
-                    {{ comment.updated_at || comment.created_at | timeFromNow }}
+                    {{ timeFromNow(comment.updated_at || comment.created_at) }}
                 </span>
                 <span v-if="comment.isEdited">
                     &bull; {{ __('edited') }}
@@ -78,6 +78,7 @@ import fontawesome from '@fortawesome/fontawesome';
 import { faPencilAlt, faTrashAlt } from '@fortawesome/fontawesome-free-solid/shakable.es';
 import Inputor from './Inputor.vue';
 import Popover from '../bulma/Popover.vue';
+import formatDistance from '../../../modules/enso/plugins/date-fns/formatDistance';
 
 fontawesome.library.add(faPencilAlt, faTrashAlt);
 
@@ -154,6 +155,9 @@ export default {
             this.$emit('save-comment');
 
             this.originalBody = null;
+        },
+        timeFromNow(date) {
+            return formatDistance(date);
         },
     },
 };
