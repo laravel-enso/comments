@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class CommentTagNotification extends Notification implements ShouldQueue
 {
@@ -27,20 +28,27 @@ class CommentTagNotification extends Notification implements ShouldQueue
         return ['mail', 'database', 'broadcast'];
     }
 
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'level' => 'info',
+            'body' => __('You were just tagged').': '.$this->body,
+        ]);
+    }
+
     public function toMail($notifiable)
     {
         return (new MailMessage())
             ->line(__('You were tagged in a message posted in').': '.config('app.name'))
             ->line($this->body)
             ->line(__('To answer click the link below'))
-            ->action(config('app.name'), $this->path)
+            ->action(config('app.name'), config('app.url').$this->path)
             ->line(__('Thank you').'!');
     }
 
     public function toArray($notifiable)
     {
         return [
-            // customize the push / database notification
             'body' => $this->body,
             'path' => $this->path,
         ];

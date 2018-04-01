@@ -121,7 +121,7 @@ class Comment extends Model
             ->notify(new $notificationClass(
                 $comment->commentable,
                 $comment->body,
-                config('app.url').$path
+                $path
             ));
     }
 }
