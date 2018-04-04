@@ -52,13 +52,25 @@ The component is already included in the Enso install and should not require any
         :paginate="5">
     </comments>
     ```
+   Note: you may substitute the comments component with the comments-card component as the two share the main properties
+   and the comments-card is a card wrapper for the bare comments component.
 
 ### Options
+
+####CommentsCard.vue
 - `id` - number, the id of the commentable model | required
 - `type` - string, the commentable model alias you set at the installation step #3 | required
-- `paginate` - number, the paginate size | default is `5` | (optional)
+- `paginate` - number, the pagination page size | default is `5` | (optional)
 - `open` - boolean, flag, makes the component start collapsed or open | default is `false` | (optional)
 - `title` - string, title for the component | default is `'Comments'` | (optional)
+- `icon` - string, font awesome icon class | default is `'faComments'` | (optional)
+
+####Comments.vue
+- `id` - number, the id of the commentable model | required
+- `type` - string, the commentable model alias you set at the installation step #3 | required
+- `paginate` - number, the pagination page size | default is `5` | (optional)
+- `query` - string, text for filtering out comments | default is `null` | (optional)
+
 
 ### Configuration
 In the configuration file you may also set the time limit after which comments are no longer editable:
