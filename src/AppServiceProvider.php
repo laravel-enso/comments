@@ -33,6 +33,14 @@ class AppServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/resources/Notifications' => app_path('Notifications'),
         ], 'comments-notification');
+
+        $this->publishes([
+            __DIR__.'/resources/views' => resource_path('views'),
+        ], 'email-notifications');
+
+        $this->publishes([
+            __DIR__.'/resources/views' => resource_path('views'),
+        ], 'comments-email-notification');
     }
 
     private function loadDependencies()
@@ -40,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/config/comments.php', 'enso.comments');
         $this->loadRoutesFrom(__DIR__.'/routes/api.php');
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadViewsFrom(__DIR__.'/resources/views','laravel-enso/commentsmanager');
     }
 
     public function register()
