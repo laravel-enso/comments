@@ -36,11 +36,11 @@ class AppServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views'),
-        ], 'email-notifications');
+        ], 'email-templates');
 
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views'),
-        ], 'comments-email-notification');
+        ], 'comments-email-templates');
     }
 
     private function loadDependencies()
