@@ -48,7 +48,7 @@ class AppServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/config/comments.php', 'enso.comments');
         $this->loadRoutesFrom(__DIR__.'/routes/api.php');
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
-        $this->loadViewsFrom(__DIR__.'/resources/views','laravel-enso/commentsmanager');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-enso/commentsmanager');
     }
 
     public function register()

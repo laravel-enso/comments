@@ -10,7 +10,6 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class CommentTagNotification extends Notification implements ShouldQueue
 {
-
     use Queueable;
 
     private $commentable;
@@ -33,7 +32,7 @@ class CommentTagNotification extends Notification implements ShouldQueue
     {
         return new BroadcastMessage([
             'level' => 'info',
-            'body'  => __('You were just tagged') . ': ' . $this->body,
+            'body' => __('You were just tagged').': '.$this->body,
         ]);
     }
 
@@ -42,12 +41,12 @@ class CommentTagNotification extends Notification implements ShouldQueue
         return (new MailMessage())
             ->view('emails.tagged',
                 [
-                    'line1'       => __('You were tagged in a message posted in') . ': ' . config('app.name'),
-                    'line2'       => __('To answer, click the button below.'),
-                    'line3'       => __('Thank you'),
+                    'line1' => __('You were tagged in a message posted in').': '.config('app.name'),
+                    'line2' => __('To answer, click the button below.'),
+                    'line3' => __('Thank you'),
                     'messageBody' => $this->body,
-                    'appName'     => config('app.name'),
-                    'appURL'      => config('app.url') . $this->path,
+                    'appName' => config('app.name'),
+                    'appURL' => config('app.url').$this->path,
                 ]);
     }
 
