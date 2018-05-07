@@ -1,5 +1,14 @@
 @extends('emails.layouts.main')
 
+@section('css')
+    <style>
+        .code {
+            background: #F8F8FF;
+            padding: 6px
+        }
+    </style>
+@endsection
+
 @section('content')
 
     <table style="margin: 0 auto;" cellspacing="0" cellpadding="0" class="force-width-80">
