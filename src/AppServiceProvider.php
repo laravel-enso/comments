@@ -33,6 +33,14 @@ class AppServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/resources/Notifications' => app_path('Notifications'),
         ], 'comments-notification');
+
+        $this->publishes([
+            __DIR__.'/resources/views' => resource_path('views'),
+        ], 'email-templates');
+
+        $this->publishes([
+            __DIR__.'/resources/views' => resource_path('views'),
+        ], 'comments-email-templates');
     }
 
     private function loadDependencies()
