@@ -39,6 +39,8 @@ class CommentTagNotification extends Notification implements ShouldQueue
 
     public function toMail($notifiable)
     {
+        app()->setLocale($notifiable->preferences->global->lang);
+
         return (new MailMessage())
             ->view('emails.tagged',
                 [

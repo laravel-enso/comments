@@ -10,30 +10,23 @@
 @endsection
 
 @section('content')
-    <table style="margin: 15px auto;" cellspacing="0" cellpadding="0" class="force-width-80">
-        <tr>
-            <td style="text-align:left; color: #6f6f6f;" class="spaced-out-lines code">
+    <p>
+        {{$intro}}
+    </p>
 
-                <p>
-                {{$intro}}
-                </p>
+    <p>
+        <code>
+            {{$messageBody}}
+        </code>
+    </p>
 
-                <p>
-                    <code>
-                        {{$messageBody}}
-                    </code>
-                </p>
+    <p>
+        {{$action}}
+    </p>
 
-                <p>
-                    {{$action}}
-                </p>
-
-                <p>
-                    {{$ending}}
-                </p>
-            </td>
-        </tr>
-    </table>
+    <p>
+        {{$ending}}
+    </p>
 @endsection
 
 @section('buttons')
