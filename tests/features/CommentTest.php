@@ -76,7 +76,7 @@ class CommentTest extends TestCase
     /** @test */
     public function get_taggable_users_with_query()
     {
-        $tagUser = User::find(1);
+        $tagUser = factory(User::class)->create();
 
         $this->get(route('core.comments.getTaggableUsers', $tagUser->fullName, false))
             ->assertStatus(200)
