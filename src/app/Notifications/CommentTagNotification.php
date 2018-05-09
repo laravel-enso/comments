@@ -39,7 +39,7 @@ class CommentTagNotification extends Notification implements ShouldQueue
                     'action'      => __('To answer, click the button below.'),
                     'ending'      => __('Thank you'),
                     'appName'     => config('app.name'),
-                    'appURL'      => config('app.url').$this->link,
+                    'appURL'      => $this->link,
                 ]);
     }
 
