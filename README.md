@@ -79,6 +79,9 @@ Vue.component('inputor', require('./vendor/laravel-enso/components/comments/Inpu
 once a newer version is released
 - `php artisan vendor:publish --tag=enso-config` - a common alias for when wanting to update the config,
 once a newer version is released
+- `php artisan vendor:publish --tag=comments-email-templates` - the notification email template
+- `php artisan vendor:publish --tag=email-templates` - a common alias for when wanting to update 
+the notification email template
 
 <!--h-->
 ### Contributions
