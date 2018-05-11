@@ -38,10 +38,11 @@ class CommentTagNotification extends Notification implements ShouldQueue
 
     public function toMail($notifiable)
     {
-        app()->setLocale($notifiable->preferences->global->lang);
+        app()->setLocale($notifiable->lang());
 
         return (new MailMessage())
-            ->view('laravel-enso/commentsmanager::emails.tagged',
+            ->view(
+                'laravel-enso/commentsmanager::emails.tagged',
                 [
                     'intro' => __('You were tagged in a message posted in').': '.config('app.name'),
                     'messageBody' => $this->body,
@@ -49,7 +50,8 @@ class CommentTagNotification extends Notification implements ShouldQueue
                     'ending' => __('Thank you'),
                     'appName' => config('app.name'),
                     'appURL' => config('app.url').$this->path,
-                ]);
+                ]
+            );
     }
 
     public function toArray($notifiable)
