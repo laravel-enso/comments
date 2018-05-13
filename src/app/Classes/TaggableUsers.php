@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\CommentsManager\app\Handlers;
+namespace LaravelEnso\CommentsManager\app\Classes;
 
 use LaravelEnso\Core\app\Models\User;
 
@@ -19,9 +19,8 @@ class TaggableUsers
 
     public function get()
     {
-        $this->query();
-
-        return $this->query->get(['id', 'first_name', 'last_name']);
+        return $this->query()
+            ->get(['id', 'first_name', 'last_name']);
     }
 
     private function query()
@@ -30,8 +29,10 @@ class TaggableUsers
             ->each(function ($argument) {
                 $this->query->where(function ($query) use ($argument) {
                     $query->where('first_name', 'like', '%'.$argument.'%')
-                    ->orWhere('last_name', 'like', '%'.$argument.'%');
+                        ->orWhere('last_name', 'like', '%'.$argument.'%');
                 });
             });
+
+        return $this->query;
     }
 }

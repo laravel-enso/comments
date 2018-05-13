@@ -36,7 +36,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/commentsmanager'),
-        ], 'comments-email-templates');
+        ], 'comments-email-template');
 
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/commentsmanager'),

@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\CommentsManager\app\Handlers;
+namespace LaravelEnso\CommentsManager\app\Classes;
 
 use LaravelEnso\CommentsManager\app\Models\Comment;
 

@@ -13,17 +13,14 @@
     <p>
         {{$intro}}
     </p>
-
     <p>
         <code>
             {{$messageBody}}
         </code>
     </p>
-
     <p>
         {{$action}}
     </p>
-
     <p>
         {{$ending}}
     </p>

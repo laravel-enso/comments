@@ -3,7 +3,7 @@
 namespace LaravelEnso\CommentsManager\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use LaravelEnso\CommentsManager\app\Handlers\TaggableUsers;
+use LaravelEnso\CommentsManager\app\Classes\TaggableUsers;
 
 class TaggableUserController extends Controller
 {

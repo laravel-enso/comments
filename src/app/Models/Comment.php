@@ -5,7 +5,7 @@ namespace LaravelEnso\CommentsManager\app\Models;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
-use LaravelEnso\CommentsManager\app\Handlers\ConfigMapper;
+use LaravelEnso\CommentsManager\app\Classes\ConfigMapper;
 
 class Comment extends Model
 {
