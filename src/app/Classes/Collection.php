@@ -27,8 +27,7 @@ class Collection implements Responsable
 
     private function query()
     {
-        $this->query = Comment::whereCommentableType($this->commentable())
-            ->whereCommentableId($this->request['id'])
+        $this->query = Comment::for($this->request)
             ->orderBy('created_at', 'desc');
     }
 
@@ -42,11 +41,5 @@ class Collection implements Responsable
         return $this->query->skip($this->request['offset'])
             ->take($this->request['paginate'])
             ->get();
-    }
-
-    private function commentable()
-    {
-        return (new ConfigMapper($this->request['type']))
-            ->class();
     }
 }

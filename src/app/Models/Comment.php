@@ -132,4 +132,12 @@ class Comment extends Model
                 $path
             ));
     }
+
+    public function scopeFor($query, array $request)
+    {
+        $query->whereCommentableId($request['id'])
+            ->whereCommentableType(
+                (new ConfigMapper($request['type']))->class()
+            );
+    }
 }
