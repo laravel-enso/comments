@@ -12,7 +12,7 @@ class CommentController extends Controller
 {
     public function index(Request $request)
     {
-        return (new Collection($request->all()));
+        return new Collection($request->all());
     }
 
     public function update(ValidateCommentRequest $request, Comment $comment)
