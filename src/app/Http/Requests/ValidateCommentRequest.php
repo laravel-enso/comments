@@ -21,7 +21,7 @@ class ValidateCommentRequest extends FormRequest
         if (request()->getMethod() === 'PATCH') {
             array_merge($rules, [
                 'id' => 'required',
-                'type' => 'required'
+                'type' => 'required',
             ]);
         }
 

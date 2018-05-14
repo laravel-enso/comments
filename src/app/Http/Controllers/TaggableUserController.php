@@ -9,6 +9,6 @@ class TaggableUserController extends Controller
 {
     public function __invoke($query = null)
     {
-        return (new TaggableUsers($query));
+        return new TaggableUsers($query);
     }
 }
