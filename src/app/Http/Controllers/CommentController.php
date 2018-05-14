@@ -12,7 +12,7 @@ class CommentController extends Controller
 {
     public function index(Request $request)
     {
-        return (new Collection($request->all()))->data();
+        return (new Collection($request->all()));
     }
 
     public function update(ValidateCommentRequest $request, Comment $comment)
@@ -46,7 +46,10 @@ class CommentController extends Controller
     {
         $this->authorize('destroy', $comment);
 
-        $count = $comment->commentable->comments()->count();
+        $count = $comment->commentable
+            ->comments()
+            ->count();
+
         $comment->delete();
 
         return ['count' => $count - 1];

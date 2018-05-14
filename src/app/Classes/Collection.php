@@ -2,21 +2,23 @@
 
 namespace LaravelEnso\CommentsManager\app\Classes;
 
+use Illuminate\Contracts\Support\Responsable;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 
-class Collection
+class Collection implements Responsable
 {
+    private $query = null;
     private $request;
-    private $query;
 
     public function __construct(array $request)
     {
         $this->request = $request;
-        $this->query = $this->query();
     }
 
-    public function data()
+    public function toResponse($request)
     {
+        $this->query();
+
         return [
             'count' => $this->count(),
             'comments' => $this->collection(),
@@ -25,7 +27,7 @@ class Collection
 
     private function query()
     {
-        return Comment::whereCommentableType($this->commentable())
+        $this->query = Comment::whereCommentableType($this->commentable())
             ->whereCommentableId($this->request['id'])
             ->orderBy('created_at', 'desc');
     }
@@ -44,6 +46,7 @@ class Collection
 
     private function commentable()
     {
-        return (new ConfigMapper($this->request['type']))->class();
+        return (new ConfigMapper($this->request['type']))
+            ->class();
     }
 }

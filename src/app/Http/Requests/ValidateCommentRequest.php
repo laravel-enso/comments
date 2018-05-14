@@ -13,8 +13,18 @@ class ValidateCommentRequest extends FormRequest
 
     public function rules()
     {
-        return [
+        $rules = [
             'body' => 'required',
+            'path' => 'required',
         ];
+
+        if (request()->getMethod() === 'PATCH') {
+            array_merge($rules, [
+                'id' => 'required',
+                'type' => 'required'
+            ]);
+        }
+
+        return $rules;
     }
 }

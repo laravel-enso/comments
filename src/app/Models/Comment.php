@@ -17,7 +17,11 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->belongsTo(config('auth.providers.users.model'), 'created_by', 'id');
+        return $this->belongsTo(
+            config('auth.providers.users.model'),
+            'created_by',
+            'id'
+        );
     }
 
     public function commentable()
@@ -32,7 +36,8 @@ class Comment extends Model
 
     public function getIsEditedAttribute()
     {
-        return $this->created_at->format('Y-m-d H:i:s') !== $this->updated_at->format('Y-m-d H:i:s');
+        return $this->created_at->format('Y-m-d H:i:s')
+            !== $this->updated_at->format('Y-m-d H:i:s');
     }
 
     public function getOwnerAttribute()
@@ -50,25 +55,28 @@ class Comment extends Model
     public function getIsEditableAttribute()
     {
         return request()->user()
-            ? request()->user()->can('update', $this)
+            ? request()->user()
+                ->can('update', $this)
             : false;
     }
 
     public function getIsDeletableAttribute()
     {
         return request()->user()
-            ? request()->user()->can('destroy', $this)
+            ? request()->user()
+                ->can('destroy', $this)
             : false;
     }
 
     public function getTaggedUserListAttribute()
     {
-        $taggedUsers = $this->taggedUsers->map(function ($user) {
-            return [
-                'id' => $user->id,
-                'fullName' => $user->fullName,
-            ];
-        });
+        $taggedUsers = $this->taggedUsers
+            ->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'fullName' => $user->fullName,
+                ];
+            });
 
         unset($this->taggedUsers);
 
