@@ -55,16 +55,14 @@ class Comment extends Model
     public function getIsEditableAttribute()
     {
         return request()->user()
-            ? request()->user()
-                ->can('update', $this)
+            ? request()->user()->can('update', $this)
             : false;
     }
 
     public function getIsDeletableAttribute()
     {
         return request()->user()
-            ? request()->user()
-                ->can('destroy', $this)
+            ? request()->user()->can('destroy', $this)
             : false;
     }
 
@@ -83,29 +81,31 @@ class Comment extends Model
         return $taggedUsers;
     }
 
-    public function updateWithTags(array $request, array $taggedUserList)
+    public function updateWithTags(array $request)
     {
-        \DB::transaction(function () use ($request, $taggedUserList) {
+        \DB::transaction(function () use ($request) {
             $this->update(['body' => $request['body']]);
-
-            $this->syncTags(collect($taggedUserList)->pluck('id'));
+            $this->syncTags(collect($request['taggedUserList'])->pluck('id'));
         });
 
         $this->notifyTaggedUsers($this, $request['path']);
     }
 
-    public function createWithTags(array $request, array $taggedUserList)
+    public function createWithTags(array $request)
     {
         $comment = null;
 
-        \DB::transaction(function () use (&$comment, $request, $taggedUserList) {
+        \DB::transaction(function () use (&$comment, $request) {
             $comment = $this->create([
                 'body' => $request['body'],
                 'commentable_id' => $request['id'],
                 'commentable_type' => (new ConfigMapper($request['type']))->class(),
             ]);
 
-            $comment->syncTags(collect($taggedUserList)->pluck('id'));
+            $comment->syncTags(
+                collect($request['taggedUserList'])
+                    ->pluck('id')
+            );
         });
 
         $this->notifyTaggedUsers($comment, $request['path']);
@@ -115,8 +115,7 @@ class Comment extends Model
 
     public function syncTags($tags)
     {
-        $this->taggedUsers()
-                ->sync($tags);
+        $this->taggedUsers()->sync($tags);
     }
 
     private function notifyTaggedUsers($comment, $path)
@@ -125,7 +124,8 @@ class Comment extends Model
                 ? \App\Notifications\CommentTagNotification::class
                 : \LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification::class;
 
-        $comment->fresh()->taggedUsers->each
+        $comment->fresh()->taggedUsers
+            ->each
             ->notify(new $notificationClass(
                 $comment->commentable,
                 $comment->body,

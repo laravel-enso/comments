@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\CommentsManager\app\Classes;
+namespace LaravelEnso\CommentsManager\app\Http\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
 
@@ -9,13 +9,10 @@ class TaggableUsers implements Responsable
     private $query = null;
     private $queryString;
 
-    public function __construct(string $queryString = null)
-    {
-        $this->queryString = $queryString;
-    }
-
     public function toResponse($request)
     {
+        $this->queryString = $request->get('query');
+
         return $this->query()
             ->filter()
             ->get();
@@ -29,7 +26,8 @@ class TaggableUsers implements Responsable
 
     private function query()
     {
-        $this->query = config('auth.providers.users.model')::where('id', '<>', auth()->user()->id)
+        $this->query = config('auth.providers.users.model')
+            ::where('id', '<>', auth()->user()->id)
             ->limit(5);
 
         return $this;

@@ -2,17 +2,16 @@
 
 namespace LaravelEnso\CommentsManager\app\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use LaravelEnso\CommentsManager\app\Models\Comment;
-use LaravelEnso\CommentsManager\app\Classes\Collection;
+use LaravelEnso\CommentsManager\app\Http\Responses\CommentsIndex;
 use LaravelEnso\CommentsManager\app\Http\Requests\ValidateCommentRequest;
 
 class CommentController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        return new Collection($request->all());
+        return new CommentsIndex();
     }
 
     public function update(ValidateCommentRequest $request, Comment $comment)
@@ -20,8 +19,7 @@ class CommentController extends Controller
         $this->authorize('update', $comment);
 
         $comment->updateWithTags(
-            $request->only(['body', 'path']),
-            $request->get('taggedUserList')
+            $request->only(['body', 'path', 'taggedUserList'])
         );
 
         return ['comment' => $comment];
@@ -30,8 +28,7 @@ class CommentController extends Controller
     public function store(ValidateCommentRequest $request, Comment $comment)
     {
         $comment = $comment->createWithTags(
-            $request->only(['body', 'id', 'type', 'path']),
-            $request->get('taggedUserList')
+            $request->only(['body', 'id', 'type', 'path', 'taggedUserList'])
         );
 
         return [
@@ -52,6 +49,6 @@ class CommentController extends Controller
 
         $comment->delete();
 
-        return ['count' => $count - 1];
+        return ['count' => --$count];
     }
 }

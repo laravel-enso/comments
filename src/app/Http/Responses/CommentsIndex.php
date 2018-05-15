@@ -1,22 +1,18 @@
 <?php
 
-namespace LaravelEnso\CommentsManager\app\Classes;
+namespace LaravelEnso\CommentsManager\app\Http\Responses;
 
 use Illuminate\Contracts\Support\Responsable;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 
-class Collection implements Responsable
+class CommentsIndex implements Responsable
 {
     private $query = null;
     private $request;
 
-    public function __construct(array $request)
-    {
-        $this->request = $request;
-    }
-
     public function toResponse($request)
     {
+        $this->request = $request;
         $this->query();
 
         return [
@@ -27,7 +23,8 @@ class Collection implements Responsable
 
     private function query()
     {
-        $this->query = Comment::for($this->request)
+        $this->query = Comment
+            ::for($this->request->only(['id', 'type']))
             ->orderBy('created_at', 'desc');
     }
 
@@ -38,8 +35,9 @@ class Collection implements Responsable
 
     private function collection()
     {
-        return $this->query->skip($this->request['offset'])
-            ->take($this->request['paginate'])
+        return $this->query
+            ->skip($this->request->get('offset'))
+            ->take($this->request->get('paginate'))
             ->get();
     }
 }
