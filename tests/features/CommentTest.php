@@ -1,6 +1,5 @@
 <?php
 
-use App\Owner;
 use App\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -26,8 +25,8 @@ class CommentTest extends TestCase
         $this->user = User::first();
         $this->signIn($this->user);
         $this->faker = Factory::create();
-        $this->owner = Owner::first();
-        config(['comments.commentables' => ['owner' => 'App\Owner']]);
+        $this->owner = config('enso.config.ownerModel')::first();
+        config(['comments.commentables' => ['owner' => config('enso.config.ownerModel')]]);
     }
 
     /** @test */
