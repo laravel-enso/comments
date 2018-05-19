@@ -74,7 +74,7 @@ The component is already included in the Enso install and should not require any
 
 ### Configuration
 In the configuration file you may also set the time limit after which comments are no longer editable:
-- `editableTimeLimit`, defaults to 24
+- `editableTimeLimit`, in seconds, defaults to `24 * 60 * 60` seconds (1 day)
 
 
 ### Publishes
