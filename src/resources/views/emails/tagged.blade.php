@@ -1,31 +1,18 @@
-@extends('laravel-enso/core::emails.layouts.main')
+@component('mail::message')
+{{ __('Hi :name', ['name' => $name]) }},
 
-@section('css')
-    <style>
-        code {
-            background: #F8F8FF;
-            padding: 6px
-        }
-    </style>
-@endsection
+{{ __("You were just tagged in a comment:") }}
 
-@section('content')
-    <p>
-        {{$intro}}
-    </p>
-    <p>
-        <code>
-            {{$messageBody}}
-        </code>
-    </p>
-    <p>
-        {{$action}}
-    </p>
-    <p>
-        {{$ending}}
-    </p>
-@endsection
+@component('mail::panel')
+{{ $body }}
+@endcomponent
 
-@section('buttons')
-    <a href="{{$appURL}}" style="background-color:#f5774e;color:#ffffff;display:inline-block;font-family:'Source Sans Pro', Helvetica, Arial, sans-serif;font-size:18px;font-weight:400;line-height:45px;text-align:center;text-decoration:none;width:220px;-webkit-text-size-adjust:none;">{{$appName}}</a>
-@endsection
+{{ __('To view the full conversation click the button below.') }}
+
+@component('mail::button', ['url' => $url, 'color' => 'green'])
+{{ __('View conversation') }}
+@endcomponent
+
+{{ __('Thank you') }},<br>
+{{ __(config('app.name')) }}
+@endcomponent

@@ -85,8 +85,8 @@ In the configuration file you may also set the time limit after which comments a
 once a newer version is released, usually used with the `--force` flag
 - `php artisan vendor:publish --tag=enso-config` - a common alias for when wanting to update the configuration,
 once a newer version is released, usually used with the `--force` flag
-- `php artisan vendor:publish --tag=comments-email-templates` - the templates used for notifications
-- `php artisan vendor:publish --tag=email-templates` - a common alias for when wanting to update the templates 
+- `php artisan vendor:publish --tag=comments-mail` - the templates used for notifications
+- `php artisan vendor:publish --tag=enso-mail` - a common alias for when wanting to update the templates 
 used for notifications
 
 

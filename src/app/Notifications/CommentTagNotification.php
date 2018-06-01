@@ -41,17 +41,12 @@ class CommentTagNotification extends Notification implements ShouldQueue
         app()->setLocale($notifiable->lang());
 
         return (new MailMessage())
-            ->view(
-                'laravel-enso/commentsmanager::emails.tagged',
-                [
-                    'intro' => __('You were tagged in a message posted in').': '.config('app.name'),
-                    'messageBody' => $this->body,
-                    'action' => __('To answer, click the button below.'),
-                    'ending' => __('Thank you'),
-                    'appName' => config('app.name'),
-                    'appURL' => config('app.url').$this->path,
-                ]
-            );
+            ->subject(__(config('app.name')).': '.__('Comment Tag Notification'))
+            ->markdown('laravel-enso/commentsmanager::emails.tagged', [
+                'name' => $notifiable->first_name,
+                'body' => $this->body,
+                'url' => url($this->path),
+            ]);
     }
 
     public function toArray($notifiable)
