@@ -7,14 +7,11 @@ use Illuminate\Contracts\Support\Responsable;
 class TaggableUsers implements Responsable
 {
     private $query = null;
-    private $queryString;
 
     public function toResponse($request)
     {
-        $this->queryString = $request->get('query');
-
         return $this->query()
-            ->filter()
+            ->filter($request->get('query'))
             ->get();
     }
 
@@ -33,9 +30,9 @@ class TaggableUsers implements Responsable
         return $this;
     }
 
-    private function filter()
+    private function filter($queryString)
     {
-        collect(explode(' ', $this->queryString))
+        collect(explode(' ', $queryString))
             ->each(function ($argument) {
                 $this->query->where(function ($query) use ($argument) {
                     $query->where('first_name', 'like', '%'.$argument.'%')

@@ -12,8 +12,8 @@ class CommentsIndex implements Responsable
 
     public function toResponse($request)
     {
-        $this->request = $request;
-        $this->query();
+        $this->request($request)
+            ->query();
 
         return [
             'count' => $this->count(),
@@ -39,5 +39,12 @@ class CommentsIndex implements Responsable
             ->skip($this->request->get('offset'))
             ->take($this->request->get('paginate'))
             ->get();
+    }
+
+    private function request($request)
+    {
+        $this->request = $request;
+
+        return $this;
     }
 }

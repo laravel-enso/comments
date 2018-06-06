@@ -18,10 +18,10 @@ class ValidateCommentRequest extends FormRequest
             'path' => 'required',
         ];
 
-        if (request()->getMethod() === 'PATCH') {
-            array_merge($rules, [
-                'id' => 'required',
-                'type' => 'required',
+        if ($this->method() === 'PATCH') {
+            $rules = array_merge($rules, [
+                'commentable_id' => 'required',
+                'commentable_type' => 'required',
             ]);
         }
 

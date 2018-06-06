@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
 use LaravelEnso\CommentsManager\app\Classes\ConfigMapper;
+use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
 
 class Comment extends Model
 {
@@ -13,7 +14,9 @@ class Comment extends Model
 
     protected $fillable = ['commentable_id', 'commentable_type', 'body'];
 
-    protected $appends = ['taggedUserList', 'owner', 'isEditable', 'isDeletable', 'isEdited'];
+    protected $appends = [
+        'taggedUserList', 'owner', 'isEditable', 'isDeletable', 'isEdited'
+    ];
 
     public function user()
     {
@@ -31,7 +34,9 @@ class Comment extends Model
 
     public function taggedUsers()
     {
-        return $this->belongsToMany(config('auth.providers.users.model'));
+        return $this->belongsToMany(
+            config('auth.providers.users.model')
+        );
     }
 
     public function getIsEditedAttribute()
@@ -55,15 +60,13 @@ class Comment extends Model
     public function getIsEditableAttribute()
     {
         return request()->user()
-            ? request()->user()->can('update', $this)
-            : false;
+            && request()->user()->can('update', $this);
     }
 
     public function getIsDeletableAttribute()
     {
         return request()->user()
-            ? request()->user()->can('destroy', $this)
-            : false;
+            && request()->user()->can('destroy', $this);
     }
 
     public function getTaggedUserListAttribute()
@@ -85,7 +88,10 @@ class Comment extends Model
     {
         \DB::transaction(function () use ($request) {
             $this->update(['body' => $request['body']]);
-            $this->syncTags(collect($request['taggedUserList'])->pluck('id'));
+            $this->syncTags(
+                collect($request['taggedUserList'])
+                    ->pluck('id')
+            );
         });
 
         $this->notifyTaggedUsers($this, $request['path']);
@@ -99,7 +105,8 @@ class Comment extends Model
             $comment = $this->create([
                 'body' => $request['body'],
                 'commentable_id' => $request['id'],
-                'commentable_type' => (new ConfigMapper($request['type']))->class(),
+                'commentable_type' => (new ConfigMapper($request['type']))
+                                        ->class(),
             ]);
 
             $comment->syncTags(
@@ -115,18 +122,19 @@ class Comment extends Model
 
     public function syncTags($tags)
     {
-        $this->taggedUsers()->sync($tags);
+        $this->taggedUsers()
+            ->sync($tags);
     }
 
     private function notifyTaggedUsers($comment, $path)
     {
-        $notificationClass = class_exists(\App\Notifications\CommentTagNotification::class)
-                ? \App\Notifications\CommentTagNotification::class
-                : \LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification::class;
+        $notification = class_exists(App\Notifications\CommentTagNotification::class)
+            ? App\Notifications\CommentTagNotification::class
+            : CommentTagNotification::class;
 
         $comment->fresh()->taggedUsers
             ->each
-            ->notify(new $notificationClass(
+            ->notify(new $notification(
                 $comment->commentable,
                 $comment->body,
                 $path
@@ -137,7 +145,8 @@ class Comment extends Model
     {
         $query->whereCommentableId($request['id'])
             ->whereCommentableType(
-                (new ConfigMapper($request['type']))->class()
+                (new ConfigMapper($request['type']))
+                    ->class()
             );
     }
 }

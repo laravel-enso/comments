@@ -11,7 +11,7 @@ class CommentPolicy
 {
     use HandlesAuthorization;
 
-    public function before($user, $ability)
+    public function before($user)
     {
         if ($user->isAdmin() || $user->isSupervisor()) {
             return true;

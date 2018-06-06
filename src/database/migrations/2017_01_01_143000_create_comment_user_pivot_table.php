@@ -11,6 +11,7 @@ class CreateCommentUserPivotTable extends Migration
             $table->integer('comment_id')->unsigned()->index();
             $table->foreign('comment_id')->references('id')->on('comments')
                 ->onDelete('cascade');
+
             $table->integer('user_id')->unsigned()->index();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade');
