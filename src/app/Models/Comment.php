@@ -15,7 +15,7 @@ class Comment extends Model
     protected $fillable = ['commentable_id', 'commentable_type', 'body'];
 
     protected $appends = [
-        'taggedUserList', 'owner', 'isEditable', 'isDeletable', 'isEdited'
+        'taggedUserList', 'owner', 'isEditable', 'isDeletable', 'isEdited',
     ];
 
     public function user()
