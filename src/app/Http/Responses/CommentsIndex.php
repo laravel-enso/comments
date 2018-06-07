@@ -24,7 +24,7 @@ class CommentsIndex implements Responsable
     private function query()
     {
         $this->query = Comment
-            ::for($this->request->only(['id', 'type']))
+            ::for($this->request->only(['commentable_id', 'commentable_type']))
             ->orderBy('created_at', 'desc');
     }
 

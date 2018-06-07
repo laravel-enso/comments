@@ -33,7 +33,7 @@ class CommentTest extends TestCase
     public function create_comment()
     {
         $data = $this->postParams();
-        $response = $this->post(route('core.comments.store', [], false), $data);
+        $response = $this->post(route('core.comments.store'), $data);
 
         $response->assertStatus(200)
             ->assertJsonFragment([
@@ -105,8 +105,7 @@ class CommentTest extends TestCase
     {
         return [
             'commentable_id' => $this->owner->id,
-            'id' => $this->owner->id,
-            'type' => 'owner',
+            'commentable_type' => 'owner',
             'body' => $this->faker->sentence,
             'taggedUserList' => [],
             'path' => $this->faker->url,
@@ -124,8 +123,8 @@ class CommentTest extends TestCase
     private function getParams()
     {
         return [
-            'id' => $this->owner->id,
-            'type' => 'owner',
+            'commentable_id' => $this->owner->id,
+            'commentable_type' => 'owner',
             'offset' => 0,
             'paginate' => 5,
         ];

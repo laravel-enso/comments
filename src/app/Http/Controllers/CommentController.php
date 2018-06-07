@@ -28,7 +28,7 @@ class CommentController extends Controller
     public function store(ValidateCommentRequest $request, Comment $comment)
     {
         $comment = $comment->createWithTags(
-            $request->only(['body', 'id', 'type', 'path', 'taggedUserList'])
+            $request->only(['body', 'commentable_id', 'commentable_type', 'path', 'taggedUserList'])
         );
 
         return [

@@ -14,9 +14,7 @@ class Comment extends Model
 
     protected $fillable = ['commentable_id', 'commentable_type', 'body'];
 
-    protected $appends = [
-        'taggedUserList', 'owner', 'isEditable', 'isDeletable', 'isEdited'
-    ];
+    protected $appends = ['taggedUserList', 'owner', 'isEditable', 'isDeletable'];
 
     public function user()
     {
@@ -37,12 +35,6 @@ class Comment extends Model
         return $this->belongsToMany(
             config('auth.providers.users.model')
         );
-    }
-
-    public function getIsEditedAttribute()
-    {
-        return $this->created_at->format('Y-m-d H:i:s')
-            !== $this->updated_at->format('Y-m-d H:i:s');
     }
 
     public function getOwnerAttribute()
@@ -104,8 +96,8 @@ class Comment extends Model
         \DB::transaction(function () use (&$comment, $request) {
             $comment = $this->create([
                 'body' => $request['body'],
-                'commentable_id' => $request['id'],
-                'commentable_type' => (new ConfigMapper($request['type']))
+                'commentable_id' => $request['commentable_id'],
+                'commentable_type' => (new ConfigMapper($request['commentable_type']))
                                         ->class(),
             ]);
 
@@ -143,9 +135,9 @@ class Comment extends Model
 
     public function scopeFor($query, array $request)
     {
-        $query->whereCommentableId($request['id'])
+        $query->whereCommentableId($request['commentable_id'])
             ->whereCommentableType(
-                (new ConfigMapper($request['type']))
+                (new ConfigMapper($request['commentable_type']))
                     ->class()
             );
     }
