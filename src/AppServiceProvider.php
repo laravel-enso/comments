@@ -3,16 +3,11 @@
 namespace LaravelEnso\CommentsManager;
 
 use Illuminate\Support\ServiceProvider;
-use LaravelEnso\CommentsManager\app\Commands\UpdateCommentsTable;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function boot()
-    {
-        $this->commands([
-            UpdateCommentsTable::class,
-        ]);
-
+    {o
         $this->publishesAll();
         $this->loadDependencies();
     }

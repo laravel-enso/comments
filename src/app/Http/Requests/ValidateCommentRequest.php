@@ -16,6 +16,7 @@ class ValidateCommentRequest extends FormRequest
         $rules = [
             'body' => 'required',
             'path' => 'required',
+            'taggedUserList' => 'array'
         ];
 
         if ($this->method() === 'PATCH') {
