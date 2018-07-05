@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     public function boot()
-    {o
+    {
         $this->publishesAll();
         $this->loadDependencies();
     }
