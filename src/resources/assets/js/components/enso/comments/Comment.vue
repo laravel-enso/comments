@@ -10,7 +10,7 @@
                     class="avatar">
             </p>
         </figure>
-        <div class="media-content has-background-light">
+        <div class="media-content">
             <div class="has-margin-bottom-medium has-text-grey" v-if="!isNew">
                 <a><b>{{ comment.owner.fullName }}</b></a>
                 <span>
@@ -180,8 +180,6 @@ export default {
 
     .media-content {
         overflow: unset;
-        border-radius: 10px;
-        padding: 10px;
     }
 
 </style>
