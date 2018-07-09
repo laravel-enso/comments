@@ -2,12 +2,14 @@
 
 use App\User;
 use Faker\Factory;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Notification;
-use LaravelEnso\CommentsManager\app\Models\Comment;
-use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
-use LaravelEnso\TestHelper\app\Traits\SignIn;
 use Tests\TestCase;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Notification;
+use LaravelEnso\TestHelper\app\Traits\SignIn;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use LaravelEnso\CommentsManager\app\Models\Comment;
+use LaravelEnso\CommentsManager\app\Traits\Commentable;
+use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
 
 class CommentTest extends TestCase
 {
@@ -25,8 +27,11 @@ class CommentTest extends TestCase
         $this->user = User::first();
         $this->signIn($this->user);
         $this->faker = Factory::create();
-        $this->owner = config('enso.config.ownerModel')::first();
-        config(['comments.commentables' => ['owner' => config('enso.config.ownerModel')]]);
+
+        $this->createTestModelsTable();
+        $this->testModel = $this->createTestModel();
+
+        config(['enso.comments.commentables' => ['testModel' => 'TestModel']]);
     }
 
     /** @test */
@@ -101,32 +106,53 @@ class CommentTest extends TestCase
         Notification::assertSentTo([$this->user], CommentTagNotification::class);
     }
 
+    private function createComment()
+    {
+        $comment = new Comment($this->postParams());
+        $this->testModel->comments()->save($comment);
+
+        return $comment->fresh();
+    }
+
     private function postParams()
     {
         return [
-            'commentable_id' => $this->owner->id,
-            'commentable_type' => 'owner',
+            'commentable_id' => $this->testModel->id,
+            'commentable_type' => 'testModel',
             'body' => $this->faker->sentence,
             'taggedUserList' => [],
             'path' => $this->faker->url,
         ];
     }
 
-    private function createComment()
-    {
-        $comment = new Comment($this->postParams());
-        $this->owner->comments()->save($comment);
-
-        return $comment->fresh();
-    }
-
     private function getParams()
     {
         return [
-            'commentable_id' => $this->owner->id,
-            'commentable_type' => 'owner',
+            'commentable_id' => $this->testModel->id,
+            'commentable_type' => 'testModel',
             'offset' => 0,
             'paginate' => 5,
         ];
     }
+
+    private function createTestModelsTable()
+    {
+        Schema::create('test_models', function ($table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+        });
+    }
+
+    private function createTestModel()
+    {
+        return TestModel::create(['name' => 'commentable']);
+    }
+}
+
+class TestModel extends Model
+{
+    use Commentable;
+
+    protected $fillable = ['name'];
 }

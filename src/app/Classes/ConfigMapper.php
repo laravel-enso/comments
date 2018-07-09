@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\CommentsManager\app\Classes;
 
-use CommentConfigException;
+use LaravelEnso\CommentsManager\app\Exceptions\CommentConfigException;
 
 class ConfigMapper
 {
