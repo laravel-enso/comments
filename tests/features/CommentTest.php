@@ -16,7 +16,6 @@ class CommentTest extends TestCase
     use RefreshDatabase, SignIn;
 
     private $user;
-    private $owner;
     private $faker;
 
     protected function setUp()
