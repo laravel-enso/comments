@@ -23,7 +23,7 @@
         "laravel-enso/core": "2.11.*",
         "laravel-enso/helpers": "1.7.*",
         "laravel-enso/trackwho": "1.5.*",
-        "laravel-enso/vuecomponents": "2.2.*",
+        "laravel-enso/vuecomponents": "2.3.*",
         "laravel-enso/structuremanager": "2.2.*",
         "laravel-enso/avatarmanager": "2.1.*"
     },
