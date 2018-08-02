@@ -20,7 +20,7 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "laravel-enso/core": "2.10.*",
+        "laravel-enso/core": "2.11.*",
         "laravel-enso/helpers": "1.7.*",
         "laravel-enso/trackwho": "1.5.*",
         "laravel-enso/vuecomponents": "2.2.*",
