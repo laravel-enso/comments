@@ -2,28 +2,23 @@
 
 namespace LaravelEnso\CommentsManager\app\Models;
 
+use App\Owner;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
+use LaravelEnso\ActivityLog\app\Traits\LogActivity;
 use LaravelEnso\CommentsManager\app\Classes\ConfigMapper;
 use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
 
 class Comment extends Model
 {
-    use CreatedBy, UpdatedBy;
+    use CreatedBy, UpdatedBy, LogActivity;
 
     protected $fillable = ['commentable_id', 'commentable_type', 'body'];
 
     protected $appends = ['taggedUserList', 'owner', 'isEditable', 'isDeletable'];
 
-    public function user()
-    {
-        return $this->belongsTo(
-            config('auth.providers.users.model'),
-            'created_by',
-            'id'
-        );
-    }
+    protected $loggable = ['body'];
 
     public function commentable()
     {
@@ -40,11 +35,11 @@ class Comment extends Model
     public function getOwnerAttribute()
     {
         $owner = [
-            'fullName' => $this->user->fullName,
-            'avatarId' => $this->user->avatarId,
+            'fullName' => $this->createdBy->fullName,
+            'avatarId' => $this->createdBy->avatarId,
         ];
 
-        unset($this->user);
+        unset($this->createdBy);
 
         return $owner;
     }
@@ -140,5 +135,10 @@ class Comment extends Model
                 (new ConfigMapper($request['commentable_type']))
                     ->class()
             );
+    }
+
+    public function getLoggableMorph()
+    {
+        return config('enso.comments.loggableMorph');
     }
 }
