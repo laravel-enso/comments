@@ -2,7 +2,6 @@
 
 namespace LaravelEnso\CommentsManager\app\Models;
 
-use App\Owner;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
@@ -17,6 +16,8 @@ class Comment extends Model
     protected $fillable = ['commentable_id', 'commentable_type', 'body'];
 
     protected $appends = ['taggedUserList', 'owner', 'isEditable', 'isDeletable'];
+
+    protected $loggableLabel = 'body';
 
     protected $loggable = ['body'];
 
