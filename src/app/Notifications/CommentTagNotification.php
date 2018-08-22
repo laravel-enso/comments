@@ -54,7 +54,7 @@ class CommentTagNotification extends Notification implements ShouldQueue
         return [
             'body' => $this->body,
             'path' => $this->path,
-            'icon' => 'envelope'
+            'icon' => 'envelope',
         ];
     }
 }
