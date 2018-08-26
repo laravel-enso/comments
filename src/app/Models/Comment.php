@@ -94,7 +94,7 @@ class Comment extends Model
                 'body' => $request['body'],
                 'commentable_id' => $request['commentable_id'],
                 'commentable_type' => (new ConfigMapper($request['commentable_type']))
-                                        ->model(),
+                                        ->class(),
             ]);
 
             $comment->syncTags(
@@ -134,7 +134,7 @@ class Comment extends Model
         $query->whereCommentableId($request['commentable_id'])
             ->whereCommentableType(
                 (new ConfigMapper($request['commentable_type']))
-                    ->model()
+                    ->class()
             );
     }
 

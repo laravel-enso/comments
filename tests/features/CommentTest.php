@@ -23,20 +23,26 @@ class CommentTest extends TestCase
         parent::setUp();
 
         // $this->withoutExceptionHandling();
-        $this->user = User::first();
-        $this->signIn($this->user);
+
+        $this->seed()
+            ->signIn($this->user = User::first());
+
         $this->faker = Factory::create();
 
         $this->createTestModelsTable();
+
         $this->testModel = $this->createTestModel();
 
-        config(['enso.comments.commentables' => ['testModel' => 'TestModel']]);
+        config([
+            'enso.comments.commentables' => ['testModel' => 'TestModel']
+        ]);
     }
 
     /** @test */
     public function create_comment()
     {
         $data = $this->postParams();
+
         $response = $this->post(route('core.comments.store'), $data);
 
         $response->assertStatus(200)
@@ -49,6 +55,7 @@ class CommentTest extends TestCase
     public function get_comments()
     {
         $this->createComment();
+
         $this->get(route('core.comments.index', $this->getParams(), false))
             ->assertJsonFragment(['count' => 1]);
     }
@@ -57,6 +64,7 @@ class CommentTest extends TestCase
     public function edit_comment()
     {
         $comment = $this->createComment();
+
         $comment->body = 'edited';
         $comment->path = $this->faker->url;
 
@@ -94,6 +102,7 @@ class CommentTest extends TestCase
         Notification::fake();
 
         $data = $this->postParams();
+
         $data['taggedUserList'] = [
             ['id' => 1, 'fullName' => $this->user->fullName],
         ];
@@ -108,6 +117,7 @@ class CommentTest extends TestCase
     private function createComment()
     {
         $comment = new Comment($this->postParams());
+
         $this->testModel->comments()->save($comment);
 
         return $comment->fresh();
