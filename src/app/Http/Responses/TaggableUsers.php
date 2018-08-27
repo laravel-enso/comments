@@ -18,7 +18,14 @@ class TaggableUsers implements Responsable
     private function get()
     {
         return $this->query
-            ->get(['id', 'first_name', 'last_name']);
+            ->get(['id', 'first_name', 'last_name'])
+            ->map(function ($user) {
+                return [
+                        'id' => $user->id,
+                        'fullName' => $user->fullName,
+                        'avatar' => $user->avatar,
+                    ];
+            });
     }
 
     private function query()

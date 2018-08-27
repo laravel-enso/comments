@@ -8,11 +8,19 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        $this->publishesAll();
-        $this->loadDependencies();
+        $this->load();
+        $this->publish();
     }
 
-    private function publishesAll()
+    private function load()
+    {
+        $this->mergeConfigFrom(__DIR__.'/config/comments.php', 'enso.comments');
+        $this->loadRoutesFrom(__DIR__.'/routes/api.php');
+        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-enso/commentsmanager');
+    }
+
+    private function publish()
     {
         $this->publishes([
             __DIR__.'/config' => config_path('enso'),
@@ -41,14 +49,6 @@ class AppServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/commentsmanager'),
         ], 'enso-mail');
-    }
-
-    private function loadDependencies()
-    {
-        $this->mergeConfigFrom(__DIR__.'/config/comments.php', 'enso.comments');
-        $this->loadRoutesFrom(__DIR__.'/routes/api.php');
-        $this->loadMigrationsFrom(__DIR__.'/database/migrations');
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-enso/commentsmanager');
     }
 
     public function register()

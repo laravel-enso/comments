@@ -68,7 +68,10 @@ class CommentTest extends TestCase
         $comment->body = 'edited';
         $comment->path = $this->faker->url;
 
-        $this->patch(route('core.comments.update', $comment->id, false), $comment->toArray())
+        $this->patch(
+            route('core.comments.update', $comment->id, false),
+            $comment->toArray() + ['taggedUsers' => []]
+        )
             ->assertStatus(200)
             ->assertJsonFragment([
                 'body' => 'edited',
@@ -103,13 +106,13 @@ class CommentTest extends TestCase
 
         $data = $this->postParams();
 
-        $data['taggedUserList'] = [
+        $data['taggedUsers'] = [
             ['id' => 1, 'fullName' => $this->user->fullName],
         ];
 
         $this->post(route('core.comments.store', [], false), $data)
             ->assertStatus(200)
-            ->assertJsonFragment(['taggedUserList' => $data['taggedUserList']]);
+            ->assertJsonFragment(['taggedUsers' => $data['taggedUsers']]);
 
         Notification::assertSentTo([$this->user], CommentTagNotification::class);
     }
@@ -129,7 +132,7 @@ class CommentTest extends TestCase
             'commentable_id' => $this->testModel->id,
             'commentable_type' => 'testModel',
             'body' => $this->faker->sentence,
-            'taggedUserList' => [],
+            'taggedUsers' => [],
             'path' => $this->faker->url,
         ];
     }

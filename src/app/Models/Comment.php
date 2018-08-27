@@ -15,8 +15,6 @@ class Comment extends Model
 
     protected $fillable = ['commentable_id', 'commentable_type', 'body'];
 
-    protected $appends = ['taggedUserList', 'owner', 'isEditable', 'isDeletable'];
-
     protected $loggableLabel = 'body';
 
     protected $loggable = ['body'];
@@ -33,43 +31,16 @@ class Comment extends Model
         );
     }
 
-    public function getOwnerAttribute()
-    {
-        $owner = [
-            'fullName' => $this->createdBy->fullName,
-            'avatarId' => $this->createdBy->avatarId,
-        ];
-
-        unset($this->createdBy);
-
-        return $owner;
-    }
-
-    public function getIsEditableAttribute()
+    public function isEditable()
     {
         return request()->user()
             && request()->user()->can('update', $this);
     }
 
-    public function getIsDeletableAttribute()
+    public function isDeletable()
     {
         return request()->user()
             && request()->user()->can('destroy', $this);
-    }
-
-    public function getTaggedUserListAttribute()
-    {
-        $taggedUsers = $this->taggedUsers
-            ->map(function ($user) {
-                return [
-                    'id' => $user->id,
-                    'fullName' => $user->fullName,
-                ];
-            });
-
-        unset($this->taggedUsers);
-
-        return $taggedUsers;
     }
 
     public function updateWithTags(array $request)
@@ -77,7 +48,7 @@ class Comment extends Model
         \DB::transaction(function () use ($request) {
             $this->update(['body' => $request['body']]);
             $this->syncTags(
-                collect($request['taggedUserList'])
+                collect($request['taggedUsers'])
                     ->pluck('id')
             );
         });
@@ -98,7 +69,7 @@ class Comment extends Model
             ]);
 
             $comment->syncTags(
-                collect($request['taggedUserList'])
+                collect($request['taggedUsers'])
                     ->pluck('id')
             );
         });
@@ -136,6 +107,11 @@ class Comment extends Model
                 (new ConfigMapper($request['commentable_type']))
                     ->class()
             );
+    }
+
+    public function scopeOrdered($query)
+    {
+        $query->orderBy('created_at', 'desc');
     }
 
     public function getLoggableMorph()
