@@ -85,11 +85,11 @@ class CommentTest extends TestCase
     }
 
     /** @test */
-    public function get_taggable_users_with_query()
+    public function filters_taggable_users_by_query()
     {
         $tagUser = factory(User::class)->create();
 
-        $this->get(route('core.comments.getTaggableUsers', $tagUser->fullName, false))
+        $this->get(route('core.comments.getTaggableUsers', ['query' => $tagUser->fullName], false))
             ->assertStatus(200)
             ->assertJsonFragment([
                 'fullName' => $tagUser->fullName,
