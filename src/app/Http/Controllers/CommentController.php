@@ -20,7 +20,7 @@ class CommentController extends Controller
                 ->get()
             )->additional([
                 'count' => Comment::for($request->validated())
-                    ->count()
+                    ->count(),
             ]);
     }
 
