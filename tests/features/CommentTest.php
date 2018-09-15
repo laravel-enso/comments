@@ -142,8 +142,6 @@ class CommentTest extends TestCase
         return [
             'commentable_id' => $this->testModel->id,
             'commentable_type' => 'testModel',
-            'offset' => 0,
-            'paginate' => 5,
         ];
     }
 

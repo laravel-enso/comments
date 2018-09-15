@@ -15,13 +15,8 @@ class CommentController extends Controller
             Comment::with(['createdBy', 'updatedBy', 'taggedUsers'])
                 ->ordered()
                 ->for($request->validated())
-                ->skip($request->get('offset'))
-                ->take($request->get('paginate'))
                 ->get()
-            )->additional([
-                'count' => Comment::for($request->validated())
-                    ->count(),
-            ]);
+            );
     }
 
     public function update(ValidateCommentRequest $request, Comment $comment)
@@ -41,9 +36,6 @@ class CommentController extends Controller
 
         return [
             'comment' => new Resource($comment->load(['createdBy', 'taggedUsers'])),
-            'count' => $comment->commentable
-                ->comments()
-                ->count(),
         ];
     }
 
