@@ -57,7 +57,7 @@ class CommentTest extends TestCase
         $this->createComment();
 
         $this->get(route('core.comments.index', $this->getParams(), false))
-            ->assertJsonFragment(['count' => 1]);
+            ->assertJsonStructure([['body']]);
     }
 
     /** @test */
