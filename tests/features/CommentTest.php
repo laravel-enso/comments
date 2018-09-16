@@ -1,8 +1,8 @@
 <?php
 
-use App\User;
 use Faker\Factory;
 use Tests\TestCase;
+use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Notification;
 use LaravelEnso\TestHelper\app\Traits\SignIn;
@@ -113,8 +113,8 @@ class CommentTest extends TestCase
         $this->post(route('core.comments.store', [], false), $data)
             ->assertStatus(200)
             ->assertJsonFragment(['taggedUsers' => $data['taggedUsers']]);
-
-        Notification::assertSentTo([$this->user], CommentTagNotification::class);
+        $appUser = \App\User::find($this->user->id);
+        Notification::assertSentTo([$appUser], CommentTagNotification::class);
     }
 
     private function createComment()
