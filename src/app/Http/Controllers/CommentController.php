@@ -2,13 +2,17 @@
 
 namespace LaravelEnso\CommentsManager\app\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use LaravelEnso\CommentsManager\app\Models\Comment;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use LaravelEnso\CommentsManager\app\Http\Resources\Comment as Resource;
 use LaravelEnso\CommentsManager\app\Http\Requests\ValidateCommentRequest;
 
 class CommentController extends Controller
 {
+    use AuthorizesRequests, ValidatesRequests;
+
     public function index(ValidateCommentRequest $request)
     {
         return Resource::collection(
