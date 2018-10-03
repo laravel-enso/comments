@@ -15,7 +15,7 @@ class CreateCommentsTable extends Migration
 
             $table->text('body');
 
-            $table->integer('created_by')->unsigned();
+            $table->integer('created_by')->unsigned()->nullable();
             $table->foreign('created_by')->references('id')->on('users');
 
             $table->integer('updated_by')->unsigned()->nullable();
