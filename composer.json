@@ -27,9 +27,6 @@
         "laravel-enso/vuecomponents": "2.5.*",
         "laravel-enso/structuremanager": "2.3.*"
     },
-    "require-dev": {
-        "laravel-enso/testhelper": "1.4.*"
-    },
     "autoload": {
         "psr-4": {
             "LaravelEnso\\CommentsManager\\": "src/"

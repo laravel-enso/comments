@@ -39,7 +39,7 @@ class CommentTest extends TestCase
             'commentable_type' => TestModel::class,
         ]);
 
-        $res = $this->post(
+        $this->post(
             route('core.comments.store'),
             $comment->toArray() + [
                 'taggedUsers' => [],
