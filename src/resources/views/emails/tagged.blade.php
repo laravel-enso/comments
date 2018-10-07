@@ -1,5 +1,5 @@
 @component('mail::message')
-{{ __('Hi :name', ['name' => $name]) }},
+{{ __('Hi :appellative', ['appellative' => $appellative]) }},
 
 {{ __("You were just tagged in a comment:") }}
 

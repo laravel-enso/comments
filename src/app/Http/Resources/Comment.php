@@ -24,10 +24,11 @@ class Comment extends JsonResource
     private function taggedUserList()
     {
         return $this->taggedUsers
+            ->load('person')
             ->map(function ($user) {
                 return [
                     'id' => $user->id,
-                    'fullName' => $user->fullName,
+                    'name' => $user->person->name,
                 ];
             });
     }

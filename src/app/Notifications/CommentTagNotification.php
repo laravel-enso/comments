@@ -45,7 +45,7 @@ class CommentTagNotification extends Notification implements ShouldQueue
         return (new MailMessage())
             ->subject(__(config('app.name')).': '.__('Comment Tag Notification'))
             ->markdown('laravel-enso/commentsmanager::emails.tagged', [
-                'name' => $notifiable->first_name,
+                'appellative' => $notifiable->person->appellative,
                 'body' => $this->body,
                 'url' => url($this->path),
             ]);

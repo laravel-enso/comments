@@ -2,16 +2,16 @@
 
 namespace LaravelEnso\CommentsManager\app\Models;
 
+use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
-use LaravelEnso\ActivityLog\app\Traits\LogActivity;
-use LaravelEnso\CommentsManager\app\Classes\ConfigMapper;
+use LaravelEnso\ActivityLog\app\Traits\LogsActivity;
 use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
 
 class Comment extends Model
 {
-    use CreatedBy, UpdatedBy, LogActivity;
+    use CreatedBy, UpdatedBy, LogsActivity;
 
     protected $fillable = ['commentable_id', 'commentable_type', 'body'];
 
@@ -26,9 +26,7 @@ class Comment extends Model
 
     public function taggedUsers()
     {
-        return $this->belongsToMany(
-            config('auth.providers.users.model')
-        );
+        return $this->belongsToMany(User::class);
     }
 
     public function isEditable()
@@ -56,17 +54,12 @@ class Comment extends Model
         $this->notifyTaggedUsers($this, $request['path']);
     }
 
-    public function createWithTags(array $request)
+    public function store(array $request)
     {
         $comment = null;
 
         \DB::transaction(function () use (&$comment, $request) {
-            $comment = $this->create([
-                'body' => $request['body'],
-                'commentable_id' => $request['commentable_id'],
-                'commentable_type' => (new ConfigMapper($request['commentable_type']))
-                                        ->class(),
-            ]);
+            $comment = self::create($request);
 
             $comment->syncTags(
                 collect($request['taggedUsers'])
@@ -100,13 +93,10 @@ class Comment extends Model
             ));
     }
 
-    public function scopeFor($query, array $request)
+    public function scopeFor($query, array $params)
     {
-        $query->whereCommentableId($request['commentable_id'])
-            ->whereCommentableType(
-                (new ConfigMapper($request['commentable_type']))
-                    ->class()
-            );
+        $query->whereCommentableId($params['commentable_id'])
+            ->whereCommentableType($params['commentable_type']);
     }
 
     public function scopeOrdered($query)

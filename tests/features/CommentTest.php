@@ -4,8 +4,6 @@ use Faker\Factory;
 use Tests\TestCase;
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Notification;
-use LaravelEnso\TestHelper\app\Traits\SignIn;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelEnso\CommentsManager\app\Models\Comment;
 use LaravelEnso\CommentsManager\app\Traits\Commentable;
@@ -13,10 +11,11 @@ use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
 
 class CommentTest extends TestCase
 {
-    use RefreshDatabase, SignIn;
+    use RefreshDatabase;
 
     private $user;
     private $faker;
+    private $testModel;
 
     protected function setUp()
     {
@@ -25,138 +24,124 @@ class CommentTest extends TestCase
         // $this->withoutExceptionHandling();
 
         $this->seed()
-            ->signIn($this->user = User::first());
+            ->actingAs($this->user = User::first());
 
         $this->faker = Factory::create();
 
-        $this->createTestModelsTable();
+        $this->testModel = $this->model();
+    }
 
-        $this->testModel = $this->createTestModel();
+    /** @test */
+    public function can_create_comment()
+    {
+        $comment = factory(Comment::class)->make([
+            'commentable_id' => $this->testModel->id,
+            'commentable_type' => TestModel::class,
+        ]);
 
-        config([
-            'enso.comments.commentables' => ['testModel' => 'TestModel']
+        $res = $this->post(
+            route('core.comments.store'),
+            $comment->toArray() + [
+                'taggedUsers' => [],
+                'path' => $this->faker->url
+        ]
+        )->assertStatus(200)
+        ->assertJsonFragment([
+            'body' => $comment['body'],
         ]);
     }
 
     /** @test */
-    public function create_comment()
+    public function can_get_comments_index()
     {
-        $data = $this->postParams();
+        $comment = factory(Comment::class)->create([
+            'commentable_id' => $this->testModel->id,
+            'commentable_type' => TestModel::class,
+        ]);
 
-        $response = $this->post(route('core.comments.store'), $data);
-
-        $response->assertStatus(200)
-            ->assertJsonFragment([
-                'body' => $data['body'],
-            ]);
+        $this->get(route('core.comments.index', [
+            'commentable_id' => $this->testModel->id,
+            'commentable_type' => $comment->commentable_type,
+        ], false))
+        ->assertStatus(200)
+        ->assertJsonStructure([['body']]);
     }
 
     /** @test */
-    public function get_comments()
+    public function can_edit_comment()
     {
-        $this->createComment();
-
-        $this->get(route('core.comments.index', $this->getParams(), false))
-            ->assertJsonStructure([['body']]);
-    }
-
-    /** @test */
-    public function edit_comment()
-    {
-        $comment = $this->createComment();
+        $comment = factory(Comment::class)->create([
+            'commentable_id' => $this->testModel->id,
+            'commentable_type' => TestModel::class,
+        ]);
 
         $comment->body = 'edited';
-        $comment->path = $this->faker->url;
 
         $this->patch(
             route('core.comments.update', $comment->id, false),
-            $comment->toArray() + ['taggedUsers' => []]
-        )
-            ->assertStatus(200)
+            $comment->toArray() + [
+                'taggedUsers' => [],
+                'path' => $this->faker->url,
+            ]
+        )->assertStatus(200)
             ->assertJsonFragment([
                 'body' => 'edited',
             ]);
     }
 
     /** @test */
-    public function delete_comment()
+    public function can_delete_comment()
     {
-        $comment = $this->createComment();
+        $comment = factory(Comment::class)->create([
+            'commentable_id' => $this->testModel->id,
+            'commentable_type' => TestModel::class,
+        ]);
 
         $this->delete(route('core.comments.destroy', $comment->id, false))
             ->assertStatus(200);
     }
 
     /** @test */
-    public function filters_taggable_users_by_query()
+    public function can_tag_user()
     {
-        $tagUser = factory(User::class)->create();
+        \Notification::fake();
 
-        $this->get(route('core.comments.getTaggableUsers', ['query' => $tagUser->fullName], false))
-            ->assertStatus(200)
-            ->assertJsonFragment([
-                'fullName' => $tagUser->fullName,
-            ]);
-    }
-
-    /** @test */
-    public function tag_user()
-    {
-        Notification::fake();
-
-        $data = $this->postParams();
-
-        $data['taggedUsers'] = [
-            ['id' => 1, 'fullName' => $this->user->fullName],
-        ];
-
-        $this->post(route('core.comments.store', [], false), $data)
-            ->assertStatus(200)
-            ->assertJsonFragment(['taggedUsers' => $data['taggedUsers']]);
-        $appUser = \App\User::find($this->user->id);
-        Notification::assertSentTo([$appUser], CommentTagNotification::class);
-    }
-
-    private function createComment()
-    {
-        $comment = new Comment($this->postParams());
-
-        $this->testModel->comments()->save($comment);
-
-        return $comment->fresh();
-    }
-
-    private function postParams()
-    {
-        return [
+        $comment = factory(Comment::class)->make([
             'commentable_id' => $this->testModel->id,
-            'commentable_type' => 'testModel',
-            'body' => $this->faker->sentence,
-            'taggedUsers' => [],
-            'path' => $this->faker->url,
-        ];
+            'commentable_type' => TestModel::class,
+        ]);
+
+        $taggedUsers = [[
+            'id' => $this->user->id,
+            'name' => $this->user->person->name,
+        ]];
+
+        $this->post(
+            route('core.comments.store', [], false),
+                $comment->toArray() + [
+                    'taggedUsers' => $taggedUsers,
+                    'path' => $this->faker->url,
+                ]
+            )->assertStatus(200)
+            ->assertJsonFragment(['taggedUsers' => $taggedUsers]);
+
+        \Notification::assertSentTo($this->user, CommentTagNotification::class);
     }
 
-    private function getParams()
+    private function model()
     {
-        return [
-            'commentable_id' => $this->testModel->id,
-            'commentable_type' => 'testModel',
-        ];
+        $this->createTestTable();
+
+        return TestModel::create(['name' => 'commentable']);
     }
 
-    private function createTestModelsTable()
+    private function createTestTable()
     {
         Schema::create('test_models', function ($table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
         });
-    }
-
-    private function createTestModel()
-    {
-        return TestModel::create(['name' => 'commentable']);
     }
 }
 
