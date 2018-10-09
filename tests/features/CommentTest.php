@@ -68,7 +68,7 @@ class CommentTest extends TestCase
     }
 
     /** @test */
-    public function can_edit_comment()
+    public function can_update_comment()
     {
         $comment = factory(Comment::class)->create([
             'commentable_id' => $this->testModel->id,
@@ -87,6 +87,8 @@ class CommentTest extends TestCase
             ->assertJsonFragment([
                 'body' => 'edited',
             ]);
+
+        $this->assertEquals($comment->fresh()->body, 'edited');
     }
 
     /** @test */
@@ -102,7 +104,7 @@ class CommentTest extends TestCase
     }
 
     /** @test */
-    public function can_tag_user()
+    public function can_store_with_tagged_user()
     {
         \Notification::fake();
 
@@ -111,9 +113,11 @@ class CommentTest extends TestCase
             'commentable_type' => TestModel::class,
         ]);
 
+        $taggedUser = factory(User::class)->create();
+
         $taggedUsers = [[
-            'id' => $this->user->id,
-            'name' => $this->user->person->name,
+            'id' => $taggedUser->id,
+            'name' => $taggedUser->person->name,
         ]];
 
         $this->post(
@@ -125,7 +129,48 @@ class CommentTest extends TestCase
             )->assertStatus(200)
             ->assertJsonFragment(['taggedUsers' => $taggedUsers]);
 
-        \Notification::assertSentTo($this->user, CommentTagNotification::class);
+        $this->assertEquals(
+            Comment::latest()->first()->taggedUsers()->first()->id,
+            $taggedUser->id
+        );
+
+        \Notification::assertSentTo($taggedUser, CommentTagNotification::class);
+    }
+
+    /** @test */
+    public function can_update_with_tagged_user()
+    {
+        \Notification::fake();
+
+        $comment = factory(Comment::class)->create([
+            'commentable_id' => $this->testModel->id,
+            'commentable_type' => TestModel::class,
+        ]);
+
+        $taggedUser = factory(User::class)->create();
+
+        $comment->body = 'edited';
+
+        $taggedUsers = [[
+            'id' => $taggedUser->id,
+            'name' => $taggedUser->person->name,
+        ]];
+
+        $this->patch(
+            route('core.comments.update', [$comment->id], false),
+                $comment->toArray() + [
+                    'taggedUsers' => $taggedUsers,
+                    'path' => $this->faker->url,
+                ]
+            )->assertStatus(200)
+            ->assertJsonFragment(['taggedUsers' => $taggedUsers]);
+
+        $this->assertEquals(
+            $comment->taggedUsers()->first()->id,
+            $taggedUser->id
+        );
+
+        \Notification::assertSentTo($taggedUser, CommentTagNotification::class);
     }
 
     private function model()
