@@ -13,19 +13,38 @@ class ValidateCommentRequest extends FormRequest
 
     public function rules()
     {
+        $morphRules = [
+            'commentable_id' => 'required',
+            'commentable_type' => 'required|string',
+        ];
+
+        if ($this->method() === 'GET') {
+            return $morphRules;
+        }
+
         $rules = [
             'body' => 'required',
             'path' => 'required',
             'taggedUsers' => 'array',
         ];
 
-        if ($this->method() === 'POST') {
-            $rules = $rules + [
-                'commentable_id' => 'required',
-                'commentable_type' => 'required|string',
-            ];
+        return $this->method() === 'PATCH'
+            ? $rules
+            : $morphRules + $rules;
+    }
+
+    public function withValidator($validator)
+    {
+        if ($this->method() === 'PATCH') {
+            return;
         }
 
-        return $rules;
+        $validator->after(function ($validator) {
+            if (! class_exists($this->get('commentable_type'))) {
+                throw new CommentException(
+                    'The "commentable_type" property must be a valid model class'
+                );
+            }
+        });
     }
 }

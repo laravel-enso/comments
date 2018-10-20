@@ -44,11 +44,10 @@ class Comment extends Model
     public function updateWithTags(array $request)
     {
         \DB::transaction(function () use ($request) {
-            $this->update(['body' => $request['body']]);
-            $this->syncTags(
-                collect($request['taggedUsers'])
-                    ->pluck('id')
-            );
+            tap($this)->update(['body' => $request['body']])
+                ->syncTags(
+                    collect($request['taggedUsers'])->pluck('id')
+                );
         });
 
         $this->notifyTaggedUsers($this, $request['path']);
@@ -84,7 +83,8 @@ class Comment extends Model
             ? App\Notifications\CommentTagNotification::class
             : CommentTagNotification::class;
 
-        $comment->fresh()->taggedUsers
+        $comment->fresh()
+            ->taggedUsers
             ->each
             ->notify(new $notification(
                 $comment->commentable,

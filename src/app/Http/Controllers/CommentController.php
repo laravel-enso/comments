@@ -7,13 +7,12 @@ use LaravelEnso\CommentsManager\app\Models\Comment;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use LaravelEnso\CommentsManager\app\Http\Resources\Comment as Resource;
 use LaravelEnso\CommentsManager\app\Http\Requests\ValidateCommentRequest;
-use LaravelEnso\CommentsManager\app\Http\Requests\ValidateCommentIndexRequest;
 
 class CommentController extends Controller
 {
     use AuthorizesRequests;
 
-    public function index(ValidateCommentIndexRequest $request)
+    public function index(ValidateCommentRequest $request)
     {
         return Resource::collection(
             Comment::with(['createdBy.person', 'updatedBy', 'taggedUsers'])
