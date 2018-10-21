@@ -3,6 +3,7 @@
 namespace LaravelEnso\CommentsManager\app\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use LaravelEnso\CommentsManager\app\Exceptions\CommentException;
 
 class ValidateCommentRequest extends FormRequest
 {
