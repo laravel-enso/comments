@@ -26,15 +26,16 @@ class CommentController extends Controller
     {
         $this->authorize('update', $comment);
 
-        $comment->updateWithTags($request->validated());
+        tap($comment)->update($request->only('body'))
+            ->syncTags($request->only('taggedUsers', 'path'));
 
         return new Resource($comment->load(['createdBy.person', 'taggedUsers.person']));
     }
 
     public function store(ValidateCommentRequest $request, Comment $comment)
     {
-        $comment = $comment
-            ->store($request->validated());
+        $comment = Comment::create($request->except('taggedUsers'))
+            ->syncTags($request->only('taggedUsers', 'path'));
 
         return [
             'comment' => new Resource(

@@ -4,10 +4,6 @@ use LaravelEnso\StructureManager\app\Classes\StructureMigration;
 
 class CreateStructureForCommentsManager extends StructureMigration
 {
-    protected $permissionGroup = [
-        'name' => 'core.comments', 'description' => 'Comments permissions group',
-    ];
-
     protected $permissions = [
         ['name' => 'core.comments.index', 'description' => 'List comments for commentable', 'type' => 0, 'is_default' => true],
         ['name' => 'core.comments.store', 'description' => 'Create comment', 'type' => 1, 'is_default' => true],

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
 use LaravelEnso\ActivityLog\app\Traits\LogsActivity;
-use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
+use LaravelEnso\CommentsManager\app\Contracts\NotifiesTaggedUsers;
 
 class Comment extends Model
 {
@@ -41,56 +41,28 @@ class Comment extends Model
             && request()->user()->can('destroy', $this);
     }
 
-    public function updateWithTags(array $request)
-    {
-        \DB::transaction(function () use ($request) {
-            tap($this)->update(['body' => $request['body']])
-                ->syncTags(
-                    collect($request['taggedUsers'])->pluck('id')
-                );
-        });
-
-        $this->notifyTaggedUsers($this, $request['path']);
-    }
-
-    public function store(array $request)
-    {
-        $comment = null;
-
-        \DB::transaction(function () use (&$comment, $request) {
-            $comment = self::create($request);
-
-            $comment->syncTags(
-                collect($request['taggedUsers'])
-                    ->pluck('id')
-            );
-        });
-
-        $this->notifyTaggedUsers($comment, $request['path']);
-
-        return $comment;
-    }
-
-    public function syncTags($tags)
+    public function syncTags($attributes)
     {
         $this->taggedUsers()
-            ->sync($tags);
+            ->sync(
+                collect($attributes['taggedUsers'])->pluck('id')
+            );
+
+        $this->notify($attributes['path']);
+
+        return $this;
     }
 
-    private function notifyTaggedUsers($comment, $path)
+    public function notify($path)
     {
-        $notification = class_exists(App\Notifications\CommentTagNotification::class)
-            ? App\Notifications\CommentTagNotification::class
-            : CommentTagNotification::class;
-
-        $comment->fresh()
+        $this->fresh()
             ->taggedUsers
             ->each
-            ->notify(new $notification(
-                $comment->commentable,
-                $comment->body,
-                $path
-            ));
+            ->notify(
+                app()->makeWith(NotifiesTaggedUsers::class, [
+                    'commentable' => $this->commentable, 'body' => $this->body, 'path' => $path
+                ])
+            );
     }
 
     public function scopeFor($query, array $params)

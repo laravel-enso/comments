@@ -41,10 +41,6 @@ class AppServiceProvider extends ServiceProvider
         ], 'enso-assets');
 
         $this->publishes([
-            __DIR__.'/resources/Notifications' => app_path('Notifications'),
-        ], 'comments-notification');
-
-        $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/commentsmanager'),
         ], 'comments-email-template');
 
