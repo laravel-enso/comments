@@ -60,7 +60,7 @@ class Comment extends Model
             ->each
             ->notify(
                 app()->makeWith(NotifiesTaggedUsers::class, [
-                    'commentable' => $this->commentable, 'body' => $this->body, 'path' => $path
+                    'commentable' => $this->commentable, 'body' => $this->body, 'path' => $path,
                 ])
             );
     }
