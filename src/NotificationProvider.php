@@ -8,8 +8,6 @@ use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
 
 class NotificationProvider extends ServiceProvider
 {
-    protected $defer = true;
-
     public function boot()
     {
         //
@@ -18,12 +16,8 @@ class NotificationProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            NotifiesTaggedUsers::class, CommentTagNotification::class
+            NotifiesTaggedUsers::class,
+            CommentTagNotification::class
         );
-    }
-
-    public function provides()
-    {
-        return [NotifiesTaggedUsers::class];
     }
 }
