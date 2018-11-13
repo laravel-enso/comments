@@ -25,8 +25,16 @@ class CommentTest extends TestCase
 
         $this->seed()
             ->actingAs($this->user = User::first());
+        
+        $this->createTestTable();
 
         $this->faker = Factory::create();
+
+        $this->postParams =  factory(Comment::class)->make([
+            'commentable_id' => TestModel::create(['name' => 'commentable'])->id,
+            'commentable_type' => TestModel::class,
+        ]);
+
 
         $this->testModel = $this->model();
     }
@@ -34,35 +42,22 @@ class CommentTest extends TestCase
     /** @test */
     public function can_create_comment()
     {
-        $comment = factory(Comment::class)->make([
-            'commentable_id' => $this->testModel->id,
-            'commentable_type' => TestModel::class,
-        ]);
-
         $this->post(
             route('core.comments.store'),
-            $comment->toArray() + [
+            $this->postParams->toArray() + [
                 'taggedUsers' => [],
                 'path' => $this->faker->url
         ]
         )->assertStatus(200)
         ->assertJsonFragment([
-            'body' => $comment['body'],
+            'body' => $this->postParams['body'],
         ]);
     }
 
     /** @test */
     public function can_get_comments_index()
     {
-        $comment = factory(Comment::class)->create([
-            'commentable_id' => $this->testModel->id,
-            'commentable_type' => TestModel::class,
-        ]);
-
-        $this->get(route('core.comments.index', [
-            'commentable_id' => $this->testModel->id,
-            'commentable_type' => $comment->commentable_type,
-        ], false))
+        $this->get(route('core.comments.index', $this->testModel->toArray(), false))
         ->assertStatus(200)
         ->assertJsonStructure([['body']]);
     }
@@ -70,16 +65,11 @@ class CommentTest extends TestCase
     /** @test */
     public function can_update_comment()
     {
-        $comment = factory(Comment::class)->create([
-            'commentable_id' => $this->testModel->id,
-            'commentable_type' => TestModel::class,
-        ]);
-
-        $comment->body = 'edited';
+        $this->testModel->body = 'edited';
 
         $this->patch(
-            route('core.comments.update', $comment->id, false),
-            $comment->toArray() + [
+            route('core.comments.update', $this->testModel->id, false),
+            $this->testModel->toArray() + [
                 'taggedUsers' => [],
                 'path' => $this->faker->url,
             ]
@@ -88,19 +78,18 @@ class CommentTest extends TestCase
                 'body' => 'edited',
             ]);
 
-        $this->assertEquals($comment->fresh()->body, 'edited');
+        $this->assertEquals($this->testModel->fresh()->body, 'edited');
     }
 
     /** @test */
     public function can_delete_comment()
     {
-        $comment = factory(Comment::class)->create([
-            'commentable_id' => $this->testModel->id,
-            'commentable_type' => TestModel::class,
-        ]);
+        $this->assertNotNull($this->testModel);
 
-        $this->delete(route('core.comments.destroy', $comment->id, false))
+        $this->delete(route('core.comments.destroy', $this->testModel->id, false))
             ->assertStatus(200);
+
+        $this->assertNull($this->testModel->fresh());
     }
 
     /** @test */
@@ -108,32 +97,29 @@ class CommentTest extends TestCase
     {
         \Notification::fake();
 
-        $comment = factory(Comment::class)->make([
-            'commentable_id' => $this->testModel->id,
-            'commentable_type' => TestModel::class,
-        ]);
-
         $taggedUser = factory(User::class)->create();
-
         $taggedUsers = [[
             'id' => $taggedUser->id,
             'name' => $taggedUser->person->name,
         ]];
 
-        $this->post(
+        $response = $this->post(
             route('core.comments.store', [], false),
-                $comment->toArray() + [
+                $this->postParams->toArray() + [
                     'taggedUsers' => $taggedUsers,
                     'path' => $this->faker->url,
                 ]
             )->assertStatus(200)
             ->assertJsonFragment(['taggedUsers' => $taggedUsers]);
 
+        $commentId = collect($response->decodeResponseJson())
+            ->pluck('id')
+            ->first();
+
         $this->assertEquals(
-            Comment::latest()->first()->taggedUsers()->first()->id,
+            Comment::find($commentId)->taggedUsers()->first()->id,
             $taggedUser->id
         );
-
         \Notification::assertSentTo($taggedUser, CommentTagNotification::class);
     }
 
@@ -142,14 +128,9 @@ class CommentTest extends TestCase
     {
         \Notification::fake();
 
-        $comment = factory(Comment::class)->create([
-            'commentable_id' => $this->testModel->id,
-            'commentable_type' => TestModel::class,
-        ]);
-
         $taggedUser = factory(User::class)->create();
 
-        $comment->body = 'edited';
+        $this->testModel->body = 'edited';
 
         $taggedUsers = [[
             'id' => $taggedUser->id,
@@ -157,8 +138,8 @@ class CommentTest extends TestCase
         ]];
 
         $this->patch(
-            route('core.comments.update', [$comment->id], false),
-                $comment->toArray() + [
+            route('core.comments.update', [$this->testModel->id], false),
+                $this->testModel->toArray() + [
                     'taggedUsers' => $taggedUsers,
                     'path' => $this->faker->url,
                 ]
@@ -166,7 +147,7 @@ class CommentTest extends TestCase
             ->assertJsonFragment(['taggedUsers' => $taggedUsers]);
 
         $this->assertEquals(
-            $comment->taggedUsers()->first()->id,
+            $this->testModel->taggedUsers()->first()->id,
             $taggedUser->id
         );
 
@@ -175,9 +156,10 @@ class CommentTest extends TestCase
 
     private function model()
     {
-        $this->createTestTable();
-
-        return TestModel::create(['name' => 'commentable']);
+        return factory(Comment::class)->create([
+            'commentable_id' => TestModel::create(['name' => 'commentable'])->id,
+            'commentable_type' => TestModel::class,
+        ]);
     }
 
     private function createTestTable()
