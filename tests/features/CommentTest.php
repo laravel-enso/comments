@@ -30,13 +30,10 @@ class CommentTest extends TestCase
 
         $this->faker = Factory::create();
 
-        $this->postParams =  factory(Comment::class)->make([
+        $this->testModel = factory(Comment::class)->create([
             'commentable_id' => TestModel::create(['name' => 'commentable'])->id,
             'commentable_type' => TestModel::class,
         ]);
-
-
-        $this->testModel = $this->model();
     }
 
     /** @test */
@@ -44,14 +41,12 @@ class CommentTest extends TestCase
     {
         $this->post(
             route('core.comments.store'),
-            $this->postParams->toArray() + [
+            $this->postParams()->toArray() + [
                 'taggedUsers' => [],
                 'path' => $this->faker->url
         ]
         )->assertStatus(200)
-        ->assertJsonFragment([
-            'body' => $this->postParams['body'],
-        ]);
+        ->assertJsonStructure(['comment' => ['body']]);
     }
 
     /** @test */
@@ -105,7 +100,7 @@ class CommentTest extends TestCase
 
         $response = $this->post(
             route('core.comments.store', [], false),
-                $this->postParams->toArray() + [
+                $this->postParams()->toArray() + [
                     'taggedUsers' => $taggedUsers,
                     'path' => $this->faker->url,
                 ]
@@ -154,14 +149,6 @@ class CommentTest extends TestCase
         \Notification::assertSentTo($taggedUser, CommentTagNotification::class);
     }
 
-    private function model()
-    {
-        return factory(Comment::class)->create([
-            'commentable_id' => TestModel::create(['name' => 'commentable'])->id,
-            'commentable_type' => TestModel::class,
-        ]);
-    }
-
     private function createTestTable()
     {
         Schema::create('test_models', function ($table) {
@@ -169,6 +156,14 @@ class CommentTest extends TestCase
             $table->string('name');
             $table->timestamps();
         });
+    }
+
+    private function postParams()
+    {
+        return factory(Comment::class)->make([
+            'commentable_id' => TestModel::create(['name' => 'commentable'])->id,
+            'commentable_type' => TestModel::class,
+        ]);
     }
 }
 
