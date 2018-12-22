@@ -21,7 +21,7 @@
     "require": {
         "php": ">=7.1.0",
         "laravel-enso/activitylog": "1.1.*",
-        "laravel-enso/core": "3.2.*",
+        "laravel-enso/core": "3.3.*",
         "laravel-enso/helpers": "1.9.*",
         "laravel-enso/trackwho": "1.7.*",
         "laravel-enso/vuecomponents": "2.5.*",
