@@ -22,9 +22,9 @@
         "php": ">=7.1.0",
         "laravel-enso/activitylog": "1.1.*",
         "laravel-enso/core": "3.4.*",
-        "laravel-enso/helpers": "1.9.*",
+        "laravel-enso/helpers": "1.10.*",
         "laravel-enso/trackwho": "1.7.*",
-        "laravel-enso/vuecomponents": "2.5.*",
+        "laravel-enso/vuecomponents": "2.6.*",
         "laravel-enso/structuremanager": "2.4.*"
     },
     "autoload": {
