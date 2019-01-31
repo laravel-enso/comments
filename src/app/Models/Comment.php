@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
 use LaravelEnso\ActivityLog\app\Traits\LogsActivity;
+use LaravelEnso\Multitenancy\app\Traits\SystemConnection;
 use LaravelEnso\CommentsManager\app\Contracts\NotifiesTaggedUsers;
 
 class Comment extends Model
 {
-    use CreatedBy, UpdatedBy, LogsActivity;
+    use CreatedBy, UpdatedBy, LogsActivity, SystemConnection;
 
     protected $fillable = ['commentable_id', 'commentable_type', 'body'];
 
