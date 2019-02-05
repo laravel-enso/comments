@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
 use LaravelEnso\ActivityLog\app\Traits\LogsActivity;
-use LaravelEnso\Multitenancy\app\Traits\SystemConnection;
+use LaravelEnso\Multitenancy\app\Traits\MixedConnection;
 use LaravelEnso\CommentsManager\app\Contracts\NotifiesTaggedUsers;
 
 class Comment extends Model
 {
-    use CreatedBy, UpdatedBy, LogsActivity, SystemConnection;
+    use CreatedBy, UpdatedBy, LogsActivity, MixedConnection;
 
     protected $fillable = ['commentable_id', 'commentable_type', 'body'];
 
@@ -44,10 +44,9 @@ class Comment extends Model
 
     public function syncTags($attributes)
     {
-        $this->taggedUsers()
-            ->sync(
-                collect($attributes['taggedUsers'])->pluck('id')
-            );
+        $this->taggedUsers()->sync(
+            collect($attributes['taggedUsers'])->pluck('id')
+        );
 
         $this->notify($attributes['path']);
 
@@ -58,10 +57,10 @@ class Comment extends Model
     {
         $this->fresh()
             ->taggedUsers
-            ->each
-            ->notify(
+            ->each->notify(
                 app()->makeWith(NotifiesTaggedUsers::class, [
-                    'commentable' => $this->commentable, 'body' => $this->body, 'path' => $path,
+                    'commentable' => $this->commentable,
+                    'body' => $this->body, 'path' => $path,
                 ])
             );
     }

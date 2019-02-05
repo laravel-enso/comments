@@ -25,7 +25,7 @@ class CommentTest extends TestCase
 
         $this->seed()
             ->actingAs($this->user = User::first());
-        
+
         $this->createTestTable();
 
         $this->faker = Factory::create();
