@@ -33,14 +33,6 @@ class AppServiceProvider extends ServiceProvider
         ], 'enso-config');
 
         $this->publishes([
-            __DIR__.'/resources/js' => resource_path('js'),
-        ], 'comments-assets');
-
-        $this->publishes([
-            __DIR__.'/resources/js' => resource_path('js'),
-        ], 'enso-assets');
-
-        $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/commentsmanager'),
         ], 'comments-email-template');
 
