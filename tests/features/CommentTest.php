@@ -17,7 +17,7 @@ class CommentTest extends TestCase
     private $faker;
     private $testModel;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
