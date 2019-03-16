@@ -28,7 +28,7 @@ The package offers a quick and easy flow for adding comments to any model.
 
 ### Configuration & Usage
 
-Be sure to check out the full documentation for this package available at [docs.laravel-enso.com](https://docs.laravel-enso.com/packages/comments-manager.html)
+Be sure to check out the full documentation for this package available at [docs.laravel-enso.com](https://docs.laravel-enso.com/backend/comments-manager.html)
 
 
 ### Contributions
