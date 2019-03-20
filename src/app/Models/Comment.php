@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
 use LaravelEnso\ActivityLog\app\Traits\LogsActivity;
-use LaravelEnso\CommentsManager\app\Contracts\NotifiesTaggedUsers;
+use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
 
 class Comment extends Model
 {
@@ -57,7 +57,7 @@ class Comment extends Model
         $this->fresh()
             ->taggedUsers
             ->each->notify(
-                app()->makeWith(NotifiesTaggedUsers::class, [
+                app()->makeWith(CommentTagNotification::class, [
                     'commentable' => $this->commentable,
                     'body' => $this->body, 'path' => $path,
                 ])

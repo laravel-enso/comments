@@ -35,8 +35,7 @@
         "laravel": {
             "providers": [
                 "LaravelEnso\\CommentsManager\\AppServiceProvider",
-                "LaravelEnso\\CommentsManager\\AuthServiceProvider",
-                "LaravelEnso\\CommentsManager\\NotificationProvider"
+                "LaravelEnso\\CommentsManager\\AuthServiceProvider"
             ],
             "aliases": {}
         }
