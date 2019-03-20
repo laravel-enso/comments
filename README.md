@@ -1,4 +1,3 @@
-<!--h-->
 # Comments Manager
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d96ab52d782d46b9a94e00ea6059b34c)](https://www.codacy.com/app/laravel-enso/CommentsManager?utm_source=github.com&utm_medium=referral&utm_content=laravel-enso/CommentsManager&utm_campaign=badger)
@@ -9,12 +8,21 @@
 
 Comments Manager for [Laravel Enso](https://github.com/laravel-enso/Enso).
 
+This package works exclusively within the [Enso](https://github.com/laravel-enso/Enso) ecosystem.
+
+There is a front end implementation for this this api in the [accessories](https://github.com/enso-ui/accessories) package.
+
+For live examples and demos, you may visit [laravel-enso.com](https://www.laravel-enso.com)
+
 [![Watch the demo](https://laravel-enso.github.io/commentsmanager/screenshots/bulma_018_thumb.png)](https://laravel-enso.github.io/commentsmanager/videos/bulma_demo_01.webm)
 
 <sup>click on the photo to view a short demo in compatible browsers</sup>
 
+## Installation
 
-### Features
+Comes pre-installed in Enso.
+
+## Features
 
 The package offers a quick and easy flow for adding comments to any model.
 
@@ -25,11 +33,11 @@ The package offers a quick and easy flow for adding comments to any model.
 - uses [TrackWho](https://github.com/laravel-enso/TrackWho) to keep track of the users that are posting comments
 - depends on [Avatar Manager](https://github.com/laravel-enso/AvatarManager) to display user avatars, when available
 - uses a light, internal mechanism for tagged user auto-completion
+- polymorphic relationships are used, which makes it possible to attach comments to any other entity
 
 ### Configuration & Usage
 
-Be sure to check out the full documentation for this package available at [docs.laravel-enso.com](https://docs.laravel-enso.com/packages/comments-manager.html)
-
+Be sure to check out the full documentation for this package available at [docs.laravel-enso.com](https://docs.laravel-enso.com/backend/comments-manager.html)
 
 ### Contributions
 
@@ -38,4 +46,3 @@ are welcome. Pull requests are great, but issues are good too.
 ### License
 
 This package is released under the MIT license.
-<!--/h-->
