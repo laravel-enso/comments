@@ -93,6 +93,7 @@ class CommentTest extends TestCase
         \Notification::fake();
 
         $taggedUser = factory(User::class)->create();
+
         $taggedUsers = [[
             'id' => $taggedUser->id,
             'name' => $taggedUser->person->name,
@@ -115,7 +116,10 @@ class CommentTest extends TestCase
             Comment::find($commentId)->taggedUsers()->first()->id,
             $taggedUser->id
         );
-        \Notification::assertSentTo($taggedUser, CommentTagNotification::class);
+        \Notification::assertSentTo(
+            config('auth.providers.users.model')::find($taggedUser->id),
+            CommentTagNotification::class
+        );
     }
 
     /** @test */
@@ -146,7 +150,10 @@ class CommentTest extends TestCase
             $taggedUser->id
         );
 
-        \Notification::assertSentTo($taggedUser, CommentTagNotification::class);
+        \Notification::assertSentTo(
+            config('auth.providers.users.model')::find($taggedUser->id),
+            CommentTagNotification::class
+        );
     }
 
     private function createTestTable()

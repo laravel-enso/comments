@@ -2,7 +2,6 @@
 
 namespace LaravelEnso\CommentsManager\app\Models;
 
-use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
@@ -26,7 +25,9 @@ class Comment extends Model
 
     public function taggedUsers()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(
+            config('auth.providers.users.model')
+        );
     }
 
     public function isEditable()
