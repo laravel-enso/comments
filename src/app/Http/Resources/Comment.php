@@ -13,7 +13,7 @@ class Comment extends JsonResource
             'id' => $this->id,
             'body' => $this->body,
             'owner' => new TrackWho($this->whenLoaded('createdBy')),
-            'taggedUsers' => $this->whenLoaded('taggedUsers', $this->taggedUserList()),
+            'taggedUsers' => $this->taggedUserList(),
             'isEditable' => $this->isEditable(),
             'isDeletable' => $this->isDeletable(),
             'createdAt' => $this->created_at->toDatetimeString(),
