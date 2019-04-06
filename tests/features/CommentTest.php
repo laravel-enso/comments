@@ -44,17 +44,16 @@ class CommentTest extends TestCase
             $this->postParams()->toArray() + [
                 'taggedUsers' => [],
                 'path' => $this->faker->url
-        ]
-        )->assertStatus(200)
-        ->assertJsonStructure(['comment' => ['body']]);
+            ])->assertStatus(201)
+            ->assertJsonStructure(['body']);
     }
 
     /** @test */
     public function can_get_comments_index()
     {
         $this->get(route('core.comments.index', $this->testModel->toArray(), false))
-        ->assertStatus(200)
-        ->assertJsonStructure([['body']]);
+            ->assertStatus(200)
+            ->assertJsonStructure([['body']]);
     }
 
     /** @test */
@@ -67,13 +66,13 @@ class CommentTest extends TestCase
             $this->testModel->toArray() + [
                 'taggedUsers' => [],
                 'path' => $this->faker->url,
-            ]
-        )->assertStatus(200)
-            ->assertJsonFragment([
-                'body' => 'edited',
-            ]);
+            ])->assertStatus(200)
+            ->assertJsonFragment(['body' => $this->testModel->body]);
 
-        $this->assertEquals($this->testModel->fresh()->body, 'edited');
+        $this->assertEquals(
+            $this->testModel->body,
+            $this->testModel->fresh()->body
+        );
     }
 
     /** @test */
@@ -101,21 +100,19 @@ class CommentTest extends TestCase
 
         $response = $this->post(
             route('core.comments.store', [], false),
-                $this->postParams()->toArray() + [
-                    'taggedUsers' => $taggedUsers,
-                    'path' => $this->faker->url,
-                ]
-            )->assertStatus(200)
+            $this->postParams()->toArray() + [
+                'taggedUsers' => $taggedUsers,
+                'path' => $this->faker->url,
+            ])->assertStatus(201)
             ->assertJsonFragment(['taggedUsers' => $taggedUsers]);
 
-        $commentId = collect($response->decodeResponseJson())
-            ->pluck('id')
-            ->first();
+        $commentId = $response->decodeResponseJson()['id'];
 
         $this->assertEquals(
             Comment::find($commentId)->taggedUsers()->first()->id,
             $taggedUser->id
         );
+
         \Notification::assertSentTo(
             config('auth.providers.users.model')::find($taggedUser->id),
             CommentTagNotification::class
@@ -138,11 +135,10 @@ class CommentTest extends TestCase
 
         $this->patch(
             route('core.comments.update', [$this->testModel->id], false),
-                $this->testModel->toArray() + [
-                    'taggedUsers' => $taggedUsers,
-                    'path' => $this->faker->url,
-                ]
-            )->assertStatus(200)
+            $this->testModel->toArray() + [
+                'taggedUsers' => $taggedUsers,
+                'path' => $this->faker->url,
+            ])->assertStatus(200)
             ->assertJsonFragment(['taggedUsers' => $taggedUsers]);
 
         $this->assertEquals(

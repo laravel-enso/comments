@@ -29,7 +29,9 @@ class CommentController extends Controller
         tap($comment)->update($request->only('body'))
             ->syncTags($request->only('taggedUsers', 'path'));
 
-        return new Resource($comment->load(['createdBy.person', 'taggedUsers.person']));
+        return new Resource($comment->load([
+            'createdBy.person', 'taggedUsers.person'
+        ]));
     }
 
     public function store(ValidateCommentRequest $request, Comment $comment)
@@ -37,20 +39,16 @@ class CommentController extends Controller
         $comment = Comment::create($request->except('taggedUsers'))
             ->syncTags($request->only('taggedUsers', 'path'));
 
-        return [
-            'comment' => new Resource(
-                $comment->load(['createdBy', 'taggedUsers'])
-            ),
-        ];
+        return new Resource($comment->load([
+                'createdBy.person', 'taggedUsers.person'
+        ]));
     }
 
     public function destroy(Comment $comment)
     {
         $this->authorize('destroy', $comment);
 
-        $count = $comment->commentable
-            ->comments()
-            ->count();
+        $count = $comment->commentable->comments()->count();
 
         $comment->delete();
 

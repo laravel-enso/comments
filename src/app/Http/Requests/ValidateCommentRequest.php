@@ -9,6 +9,8 @@ class ValidateCommentRequest extends FormRequest
 {
     public function authorize()
     {
+        $this->checkParams();
+
         return true;
     }
 
@@ -34,18 +36,13 @@ class ValidateCommentRequest extends FormRequest
             : $morphRules + $rules;
     }
 
-    public function withValidator($validator)
+    private function checkParams()
     {
-        if ($this->method() === 'PATCH') {
-            return;
+        if ($this->method() !== 'PATCH'
+            && ! class_exists($this->get('commentable_type'))) {
+            throw new CommentException(
+                'The "commentable_type" property must be a valid model class'
+            );
         }
-
-        $validator->after(function ($validator) {
-            if (! class_exists($this->get('commentable_type'))) {
-                throw new CommentException(
-                    'The "commentable_type" property must be a valid model class'
-                );
-            }
-        });
     }
 }
