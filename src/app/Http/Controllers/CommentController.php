@@ -30,7 +30,7 @@ class CommentController extends Controller
             ->syncTags($request->only('taggedUsers', 'path'));
 
         return new Resource($comment->load([
-            'createdBy.person', 'taggedUsers.person'
+            'createdBy.person', 'taggedUsers.person',
         ]));
     }
 
@@ -40,7 +40,7 @@ class CommentController extends Controller
             ->syncTags($request->only('taggedUsers', 'path'));
 
         return new Resource($comment->load([
-                'createdBy.person', 'taggedUsers.person'
+                'createdBy.person', 'taggedUsers.person',
         ]));
     }
 
