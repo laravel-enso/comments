@@ -3,9 +3,9 @@
 namespace LaravelEnso\CommentsManager\app\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Notifications\Notification;
 
 class CommentTagNotification extends Notification implements ShouldQueue
 {
@@ -32,15 +32,10 @@ class CommentTagNotification extends Notification implements ShouldQueue
         app()->setLocale($notifiable->preferences->global->lang);
 
         return (new MailMessage())
-            ->view('laravel-enso/commentsmanager::emails.tagged',
-                [
-                    'intro'       => __('You were tagged in a message posted in').': '.config('app.name'),
-                    'messageBody' => $this->body,
-                    'action'      => __('To answer, click the button below.'),
-                    'ending'      => __('Thank you'),
-                    'appName'     => config('app.name'),
-                    'appURL'      => $this->link,
-                ]);
+            ->line('You were tagged in a message posted in'.': '.config('app.name'))
+            ->line('Message: '.$this->body)
+            ->line('To answer, click the button below.')
+            ->action(config('app.name'), $this->link);
     }
 
     public function toArray($notifiable)
