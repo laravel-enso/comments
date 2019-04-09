@@ -12,7 +12,7 @@ class Comment extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
-            'owner' => new TrackWho($this->whenLoaded('createdBy.person')),
+            'owner' => new TrackWho($this->whenLoaded('createdBy')),
             'taggedUsers' => $this->taggedUserList(),
             'isEditable' => $this->isEditable(),
             'isDeletable' => $this->isDeletable(),
