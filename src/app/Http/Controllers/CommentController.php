@@ -19,7 +19,9 @@ class CommentController extends Controller
                 ->ordered()
                 ->for($request->validated())
                 ->get()
-            );
+            )->additional([
+                'humanReadableDates' => config('enso.comments.humanReadableDates')
+            ]);
     }
 
     public function update(ValidateCommentRequest $request, Comment $comment)
