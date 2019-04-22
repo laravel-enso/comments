@@ -53,7 +53,7 @@ class CommentTest extends TestCase
     {
         $this->get(route('core.comments.index', $this->testModel->toArray(), false))
             ->assertStatus(200)
-            ->assertJsonStructure([['body']]);
+            ->assertJsonStructure(['data' => 'data']);
     }
 
     /** @test */
