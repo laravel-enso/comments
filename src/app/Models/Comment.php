@@ -17,6 +17,8 @@ class Comment extends Model
     protected $loggableLabel = 'body';
 
     protected $loggable = ['body'];
+    
+    protected $touches = ['commentable'];
 
     public function commentable()
     {
