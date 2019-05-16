@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\CommentsManager\app\Notifications;
+namespace LaravelEnso\Comments\app\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
@@ -44,7 +44,7 @@ class CommentTagNotification extends Notification implements ShouldQueue
 
         return (new MailMessage())
             ->subject(__(config('app.name')).': '.__('Comment Tag Notification'))
-            ->markdown('laravel-enso/commentsmanager::emails.tagged', [
+            ->markdown('laravel-enso/comments::emails.tagged', [
                 'appellative' => $notifiable->person->appellative,
                 'body' => $this->body,
                 'url' => url($this->path),

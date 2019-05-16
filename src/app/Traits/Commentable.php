@@ -1,8 +1,8 @@
 <?php
 
-namespace LaravelEnso\CommentsManager\app\Traits;
+namespace LaravelEnso\Comments\app\Traits;
 
-use LaravelEnso\CommentsManager\app\Models\Comment;
+use LaravelEnso\Comments\app\Models\Comment;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 
 trait Commentable

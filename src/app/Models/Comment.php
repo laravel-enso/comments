@@ -1,22 +1,17 @@
 <?php
 
-namespace LaravelEnso\CommentsManager\app\Models;
+namespace LaravelEnso\Comments\app\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
-use LaravelEnso\ActivityLog\app\Traits\LogsActivity;
-use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
+use LaravelEnso\Comments\app\Notifications\CommentTagNotification;
 
 class Comment extends Model
 {
-    use CreatedBy, UpdatedBy, LogsActivity;
+    use CreatedBy, UpdatedBy;
 
     protected $fillable = ['commentable_id', 'commentable_type', 'body'];
-
-    protected $loggableLabel = 'body';
-
-    protected $loggable = ['body'];
 
     protected $touches = ['commentable'];
 

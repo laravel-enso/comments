@@ -5,9 +5,9 @@ use Tests\TestCase;
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use LaravelEnso\CommentsManager\app\Models\Comment;
-use LaravelEnso\CommentsManager\app\Traits\Commentable;
-use LaravelEnso\CommentsManager\app\Notifications\CommentTagNotification;
+use LaravelEnso\Comments\app\Models\Comment;
+use LaravelEnso\Comments\app\Traits\Commentable;
+use LaravelEnso\Comments\app\Notifications\CommentTagNotification;
 
 class CommentTest extends TestCase
 {

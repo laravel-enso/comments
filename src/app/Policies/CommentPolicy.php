@@ -1,11 +1,11 @@
 <?php
 
-namespace LaravelEnso\CommentsManager\app\Policies;
+namespace LaravelEnso\Comments\app\Policies;
 
 use Carbon\Carbon;
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use LaravelEnso\CommentsManager\app\Models\Comment;
+use LaravelEnso\Comments\app\Models\Comment;
 
 class CommentPolicy
 {

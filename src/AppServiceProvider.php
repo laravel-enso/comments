@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\CommentsManager;
+namespace LaravelEnso\Comments;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
-        $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-enso/commentsmanager');
+        $this->loadViewsFrom(__DIR__.'/resources/views', 'laravel-enso/comments');
 
         return $this;
     }
@@ -36,11 +36,11 @@ class AppServiceProvider extends ServiceProvider
         ], 'enso-config');
 
         $this->publishes([
-            __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/commentsmanager'),
+            __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/comments'),
         ], 'comments-email-template');
 
         $this->publishes([
-            __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/commentsmanager'),
+            __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/comments'),
         ], 'enso-mail');
 
         $this->publishes([

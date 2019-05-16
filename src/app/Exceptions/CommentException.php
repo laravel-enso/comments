@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\CommentsManager\app\Exceptions;
+namespace LaravelEnso\Comments\app\Exceptions;
 
 use LaravelEnso\Helpers\app\Exceptions\EnsoException;
 

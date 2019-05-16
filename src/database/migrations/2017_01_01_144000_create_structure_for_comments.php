@@ -1,8 +1,8 @@
 <?php
 
-use LaravelEnso\StructureManager\app\Classes\StructureMigration;
+use LaravelEnso\Migrator\app\Database\Migration;
 
-class CreateStructureForCommentsManager extends StructureMigration
+class CreateStructureForComments extends Migration
 {
     protected $permissions = [
         ['name' => 'core.comments.index', 'description' => 'List comments for commentable', 'type' => 0, 'is_default' => true],
