@@ -18,6 +18,8 @@ class Comment extends Model
 
     protected $loggable = ['body'];
 
+    protected $touches = ['commentable'];
+
     public function commentable()
     {
         return $this->morphTo();
