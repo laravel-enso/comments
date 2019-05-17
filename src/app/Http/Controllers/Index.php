@@ -6,7 +6,6 @@ use Illuminate\Routing\Controller;
 use LaravelEnso\Comments\app\Models\Comment;
 use LaravelEnso\Comments\app\Http\Requests\ValidateCommentFetch;
 use LaravelEnso\Comments\app\Http\Resources\Comment as Resource;
-use LaravelEnso\Comments\app\Http\Requests\ValidateCommentRequest;
 
 class Index extends Controller
 {
