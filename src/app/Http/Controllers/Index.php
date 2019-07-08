@@ -12,7 +12,7 @@ class Index extends Controller
     public function __invoke(ValidateCommentFetch $request)
     {
         return Resource::collection(
-            Comment::with(['createdBy.person', 'updatedBy', 'taggedUsers'])
+            Comment::with(['createdBy.person', 'createdBy.avatar', 'updatedBy', 'taggedUsers'])
                 ->ordered()
                 ->for($request->validated())
                 ->get()
