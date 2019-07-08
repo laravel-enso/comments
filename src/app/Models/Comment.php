@@ -5,11 +5,12 @@ namespace LaravelEnso\Comments\app\Models;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
+use LaravelEnso\Helpers\app\Traits\UpdateOnTouch;
 use LaravelEnso\Comments\app\Notifications\CommentTagNotification;
 
 class Comment extends Model
 {
-    use CreatedBy, UpdatedBy;
+    use CreatedBy, UpdatedBy, UpdateOnTouch;
 
     protected $fillable = ['commentable_id', 'commentable_type', 'body'];
 
