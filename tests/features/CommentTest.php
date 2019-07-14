@@ -4,9 +4,9 @@ use Faker\Factory;
 use Tests\TestCase;
 use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelEnso\Comments\app\Models\Comment;
 use LaravelEnso\Comments\app\Traits\Commentable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use LaravelEnso\Comments\app\Notifications\CommentTagNotification;
 
 class CommentTest extends TestCase
@@ -31,8 +31,8 @@ class CommentTest extends TestCase
         $this->faker = Factory::create();
 
         $this->testModel = factory(Comment::class)->create([
-            'commentable_id' => TestModel::create(['name' => 'commentable'])->id,
-            'commentable_type' => TestModel::class,
+            'commentable_id' => CommentableTestModel::create(['name' => 'commentable'])->id,
+            'commentable_type' => CommentableTestModel::class,
         ]);
     }
 
@@ -154,7 +154,7 @@ class CommentTest extends TestCase
 
     private function createTestTable()
     {
-        Schema::create('test_models', function ($table) {
+        Schema::create('commentable_test_models', function ($table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
@@ -164,13 +164,13 @@ class CommentTest extends TestCase
     private function postParams()
     {
         return factory(Comment::class)->make([
-            'commentable_id' => TestModel::create(['name' => 'commentable'])->id,
-            'commentable_type' => TestModel::class,
+            'commentable_id' => CommentableTestModel::create(['name' => 'commentable'])->id,
+            'commentable_type' => CommentableTestModel::class,
         ]);
     }
 }
 
-class TestModel extends Model
+class CommentableTestModel extends Model
 {
     use Commentable;
 
