@@ -18,7 +18,7 @@ class Index extends Controller
             ->for($request->validated())
             ->get()
         )->additional([
-            'humanReadableDates' => config('enso.comments.humanReadableDates')
+            'humanReadableDates' => config('enso.comments.humanReadableDates'),
         ]);
     }
 }
