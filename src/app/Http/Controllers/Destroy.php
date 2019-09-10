@@ -14,10 +14,8 @@ class Destroy extends Controller
     {
         $this->authorize('destroy', $comment);
 
-        $count = $comment->commentable->comments()->count();
-
         $comment->delete();
 
-        return ['count' => --$count];
+        return ['count' => $comment->commentable->comments()->count()];
     }
 }

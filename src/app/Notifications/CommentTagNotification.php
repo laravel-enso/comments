@@ -23,12 +23,12 @@ class CommentTagNotification extends Notification implements ShouldQueue
         $this->path = $path;
     }
 
-    public function via($notifiable)
+    public function via()
     {
         return ['mail', 'database', 'broadcast'];
     }
 
-    public function toBroadcast($notifiable)
+    public function toBroadcast()
     {
         return new BroadcastMessage([
             'level' => 'info',
@@ -40,18 +40,17 @@ class CommentTagNotification extends Notification implements ShouldQueue
 
     public function toMail($notifiable)
     {
-        app()->setLocale($notifiable->lang());
-
         return (new MailMessage())
             ->subject(__(config('app.name')).': '.__('Comment Tag Notification'))
             ->markdown('laravel-enso/comments::emails.tagged', [
-                'appellative' => $notifiable->person->appellative,
+                'appellative' => $notifiable->person->appellative
+                    ?? $notifiable->person->name,
                 'body' => $this->body,
                 'url' => url($this->path),
             ]);
     }
 
-    public function toArray($notifiable)
+    public function toArray()
     {
         return [
             'body' => $this->body,

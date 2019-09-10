@@ -20,10 +20,10 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "laravel-enso/core": "4.3.*",
-        "laravel-enso/helpers": "1.11.*",
-        "laravel-enso/track-who": "1.8.*",
-        "laravel-enso/cli": "3.1.*"
+        "laravel-enso/core": "4.4.*",
+        "laravel-enso/helpers": "1.12.*",
+        "laravel-enso/migrator": "1.0.*",
+        "laravel-enso/track-who": "1.8.*"
     },
     "autoload": {
         "psr-4": {

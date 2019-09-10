@@ -32,7 +32,7 @@ class CommentPolicy
 
     private function ownsComment(User $user, Comment $comment)
     {
-        return $user->id === intval($comment->created_by);
+        return $user->id === (int) $comment->created_by;
     }
 
     private function isRecent(Comment $comment)

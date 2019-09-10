@@ -17,10 +17,11 @@ class Update extends Controller
         $this->authorize('update', $comment);
 
         tap($comment)->update($request->only('body'))
-            ->syncTags($request->only('taggedUsers', 'path'));
+            ->syncTags($request->get('taggedUsers'))
+            ->notify($request->get('path'));
 
-        return new Resource($comment->load([
+        return new Resource($comment->load(
             'createdBy.person', 'createdBy.avatar', 'taggedUsers.person',
-        ]));
+        ));
     }
 }

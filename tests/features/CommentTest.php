@@ -114,7 +114,7 @@ class CommentTest extends TestCase
         );
 
         \Notification::assertSentTo(
-            config('auth.providers.users.model')::find($taggedUser->id),
+            User::find($taggedUser->id),
             CommentTagNotification::class
         );
     }
@@ -147,7 +147,7 @@ class CommentTest extends TestCase
         );
 
         \Notification::assertSentTo(
-            config('auth.providers.users.model')::find($taggedUser->id),
+            User::find($taggedUser->id),
             CommentTagNotification::class
         );
     }

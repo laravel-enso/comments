@@ -12,12 +12,13 @@ class Index extends Controller
     public function __invoke(ValidateCommentFetch $request)
     {
         return Resource::collection(
-            Comment::with(['createdBy.person', 'createdBy.avatar', 'updatedBy', 'taggedUsers'])
-                ->ordered()
-                ->for($request->validated())
-                ->get()
-            )->additional([
-                'humanReadableDates' => config('enso.comments.humanReadableDates'),
-            ]);
+            Comment::with(
+                'createdBy.person', 'createdBy.avatar', 'updatedBy', 'taggedUsers'
+            )->ordered()
+            ->for($request->validated())
+            ->get()
+        )->additional([
+            'humanReadableDates' => config('enso.comments.humanReadableDates')
+        ]);
     }
 }
