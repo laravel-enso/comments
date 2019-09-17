@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
 use LaravelEnso\Helpers\app\Traits\UpdatesOnTouch;
-use Illuminate\Database\Eloquent\Relations\Relation;
 use LaravelEnso\Comments\app\Notifications\CommentTagNotification;
 
 class Comment extends Model
@@ -31,10 +30,7 @@ class Comment extends Model
     public function scopeFor($query, array $params)
     {
         $query->whereCommentableId($params['commentable_id'])
-            ->whereCommentableType(
-                Relation::getMorphedModel($params['commentable_type'])
-                    ?? $params['commentable_type']
-            );
+            ->whereCommentableType($params['commentable_type']);
     }
 
     public function scopeOrdered($query)
