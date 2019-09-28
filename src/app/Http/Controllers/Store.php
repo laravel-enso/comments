@@ -17,8 +17,8 @@ class Store extends Controller
             ->syncTags($request->get('taggedUsers'))
             ->notify($request->get('path'));
 
-        return new Resource($comment->load(
+        return new Resource($comment->load([
             'createdBy.person', 'createdBy.avatar', 'taggedUsers.person',
-        ));
+        ]));
     }
 }
