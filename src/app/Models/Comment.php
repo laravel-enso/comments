@@ -2,12 +2,12 @@
 
 namespace LaravelEnso\Comments\app\Models;
 
-use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use LaravelEnso\Comments\app\Notifications\CommentTagNotification;
+use LaravelEnso\Core\app\Models\User;
+use LaravelEnso\Helpers\app\Traits\UpdatesOnTouch;
 use LaravelEnso\TrackWho\app\Traits\CreatedBy;
 use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
-use LaravelEnso\Helpers\app\Traits\UpdatesOnTouch;
-use LaravelEnso\Comments\app\Notifications\CommentTagNotification;
 
 class Comment extends Model
 {

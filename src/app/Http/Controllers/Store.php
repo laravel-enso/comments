@@ -3,9 +3,9 @@
 namespace LaravelEnso\Comments\app\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use LaravelEnso\Comments\app\Models\Comment;
 use LaravelEnso\Comments\app\Http\Requests\ValidateCommentStore;
 use LaravelEnso\Comments\app\Http\Resources\Comment as Resource;
+use LaravelEnso\Comments\app\Models\Comment;
 
 class Store extends Controller
 {

@@ -3,9 +3,9 @@
 namespace LaravelEnso\Comments\app\Policies;
 
 use Carbon\Carbon;
-use LaravelEnso\Core\app\Models\User;
-use LaravelEnso\Comments\app\Models\Comment;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use LaravelEnso\Comments\app\Models\Comment;
+use LaravelEnso\Core\app\Models\User;
 
 class CommentPolicy
 {
