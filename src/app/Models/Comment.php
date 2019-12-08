@@ -50,10 +50,11 @@ class Comment extends Model
     public function notify(string $path)
     {
         $this->taggedUsers->each(function ($user) use ($path) {
-            $user->notify((new CommentTagNotification(
-                $this->commentable, $this->body, $path
-            ))->locale($user->lang())
-            ->onQueue('notifications'));
+            $user->notify(
+                (new CommentTagNotification($this->body, $path))
+                    ->locale($user->lang())
+                    ->onQueue('notifications')
+            );
         });
     }
 
