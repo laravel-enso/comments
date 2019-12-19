@@ -49,13 +49,13 @@ class Comment extends Model
 
     public function notify(string $path)
     {
-        $this->taggedUsers->each(function ($user) use ($path) {
+        $this->taggedUsers->each(fn ($user) => (
             $user->notify(
                 (new CommentTagNotification($this->body, $path))
                     ->locale($user->lang())
                     ->onQueue('notifications')
-            );
-        });
+            )
+        ));
     }
 
     public function getLoggableMorph()
