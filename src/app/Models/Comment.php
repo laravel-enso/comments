@@ -1,13 +1,13 @@
 <?php
 
-namespace LaravelEnso\Comments\app\Models;
+namespace LaravelEnso\Comments\App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\Comments\app\Notifications\CommentTagNotification;
-use LaravelEnso\Core\app\Models\User;
-use LaravelEnso\Helpers\app\Traits\UpdatesOnTouch;
-use LaravelEnso\TrackWho\app\Traits\CreatedBy;
-use LaravelEnso\TrackWho\app\Traits\UpdatedBy;
+use LaravelEnso\Comments\App\Notifications\CommentTagNotification;
+use LaravelEnso\Core\App\Models\User;
+use LaravelEnso\Helpers\App\Traits\UpdatesOnTouch;
+use LaravelEnso\TrackWho\App\Traits\CreatedBy;
+use LaravelEnso\TrackWho\App\Traits\UpdatedBy;
 
 class Comment extends Model
 {
@@ -49,13 +49,11 @@ class Comment extends Model
 
     public function notify(string $path)
     {
-        $this->taggedUsers->each(function ($user) use ($path) {
-            $user->notify(
-                (new CommentTagNotification($this->body, $path))
-                    ->locale($user->lang())
-                    ->onQueue('notifications')
-            );
-        });
+        $this->taggedUsers->each(fn ($user) => $user->notify(
+            (new CommentTagNotification($this->body, $path))
+                ->locale($user->lang())
+                ->onQueue('notifications')
+        ));
     }
 
     public function getLoggableMorph()

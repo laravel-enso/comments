@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Comments\app\Http\Requests;
+namespace LaravelEnso\Comments\App\Http\Requests;
 
 class ValidateCommentStore extends ValidateCommentFetch
 {

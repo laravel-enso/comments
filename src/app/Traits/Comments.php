@@ -1,8 +1,8 @@
 <?php
 
-namespace LaravelEnso\Comments\app\Traits;
+namespace LaravelEnso\Comments\App\Traits;
 
-use LaravelEnso\Comments\app\Models\Comment;
+use LaravelEnso\Comments\App\Models\Comment;
 
 trait Comments
 {
@@ -11,7 +11,7 @@ trait Comments
         return $this->hasMany(Comment::class, 'created_by');
     }
 
-    public function comment_tags()
+    public function commentTags()
     {
         return $this->belongsToMany(Comment::class);
     }

@@ -1,17 +1,17 @@
 <?php
 
-namespace LaravelEnso\Comments\app\Http\Controllers;
+namespace LaravelEnso\Comments\App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use LaravelEnso\Comments\app\Http\Requests\ValidateCommentStore;
-use LaravelEnso\Comments\app\Http\Resources\Comment as Resource;
-use LaravelEnso\Comments\app\Models\Comment;
+use LaravelEnso\Comments\App\Http\Requests\ValidateCommentStore;
+use LaravelEnso\Comments\App\Http\Resources\Comment as Resource;
+use LaravelEnso\Comments\App\Models\Comment;
 
 class Store extends Controller
 {
     public function __invoke(ValidateCommentStore $request, Comment $comment)
     {
-        $comment = $comment->fill($request->except('taggedUsers'));
+        $comment->fill($request->except('taggedUsers'));
 
         tap($comment)->save()
             ->syncTags($request->get('taggedUsers'))

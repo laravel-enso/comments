@@ -1,9 +1,9 @@
 <?php
 
-namespace LaravelEnso\Comments\app\Http\Resources;
+namespace LaravelEnso\Comments\App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use LaravelEnso\TrackWho\app\Http\Resources\TrackWho;
+use LaravelEnso\TrackWho\App\Http\Resources\TrackWho;
 
 class Comment extends JsonResource
 {
@@ -23,13 +23,11 @@ class Comment extends JsonResource
 
     public function isEditable($request)
     {
-        return $request->user()
-            && $request->user()->can('update', $this->resource);
+        return $request->user()->can('update', $this->resource);
     }
 
     public function isDeletable($request)
     {
-        return $request->user()
-            && $request->user()->can('destroy', $this->resource);
+        return $request->user()->can('destroy', $this->resource);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Comments\app\Http\Resources;
+namespace LaravelEnso\Comments\App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
