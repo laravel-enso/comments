@@ -29,26 +29,14 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/config' => config_path('enso'),
-        ], 'comments-config');
-
-        $this->publishes([
-            __DIR__.'/config' => config_path('enso'),
-        ], 'enso-config');
+        ], ['comments-config', 'enso-config']);
 
         $this->publishes([
             __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/comments'),
-        ], 'comments-email-template');
-
-        $this->publishes([
-            __DIR__.'/resources/views' => resource_path('views/vendor/laravel-enso/comments'),
-        ], 'enso-mail');
+        ], ['comments-mail', 'enso-mail']);
 
         $this->publishes([
             __DIR__.'/database/factories' => database_path('factories'),
-        ], 'comments-factory');
-
-        $this->publishes([
-            __DIR__.'/database/factories' => database_path('factories'),
-        ], 'enso-factories');
+        ], ['comments-factory', 'enso-factories']);
     }
 }

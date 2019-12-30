@@ -1,12 +1,12 @@
 <?php
 
-namespace LaravelEnso\Comments\app\Http\Controllers;
+namespace LaravelEnso\Comments\App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller;
-use LaravelEnso\Comments\app\Http\Requests\ValidateCommentUpdate;
-use LaravelEnso\Comments\app\Http\Resources\Comment as Resource;
-use LaravelEnso\Comments\app\Models\Comment;
+use LaravelEnso\Comments\App\Http\Requests\ValidateCommentUpdate;
+use LaravelEnso\Comments\App\Http\Resources\Comment as Resource;
+use LaravelEnso\Comments\App\Models\Comment;
 
 class Update extends Controller
 {

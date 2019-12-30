@@ -1,13 +1,15 @@
 <?php
 
 use Faker\Factory;
-use Tests\TestCase;
-use LaravelEnso\Core\app\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use LaravelEnso\Comments\app\Models\Comment;
-use LaravelEnso\Comments\app\Traits\Commentable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use LaravelEnso\Comments\app\Notifications\CommentTagNotification;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Schema;
+use LaravelEnso\Comments\App\Models\Comment;
+use LaravelEnso\Comments\App\Notifications\CommentTagNotification;
+use LaravelEnso\Comments\App\Traits\Commentable;
+use LaravelEnso\Core\App\Models\User;
+use Tests\TestCase;
 
 class CommentTest extends TestCase
 {
@@ -39,8 +41,7 @@ class CommentTest extends TestCase
     /** @test */
     public function can_create_comment()
     {
-        $this->post(
-            route('core.comments.store'),
+        $this->post(route('core.comments.store'),
             $this->postParams()->toArray() + [
                 'taggedUsers' => [],
                 'path' => $this->faker->url
@@ -89,7 +90,7 @@ class CommentTest extends TestCase
     /** @test */
     public function can_store_with_tagged_user()
     {
-        \Notification::fake();
+        Notification::fake();
 
         $taggedUser = factory(User::class)->create();
 
@@ -113,7 +114,7 @@ class CommentTest extends TestCase
             $taggedUser->id
         );
 
-        \Notification::assertSentTo(
+        Notification::assertSentTo(
             User::find($taggedUser->id),
             CommentTagNotification::class
         );
@@ -122,7 +123,7 @@ class CommentTest extends TestCase
     /** @test */
     public function can_update_with_tagged_user()
     {
-        \Notification::fake();
+        Notification::fake();
 
         $taggedUser = factory(User::class)->create();
 
@@ -146,7 +147,7 @@ class CommentTest extends TestCase
             $taggedUser->id
         );
 
-        \Notification::assertSentTo(
+        Notification::assertSentTo(
             User::find($taggedUser->id),
             CommentTagNotification::class
         );

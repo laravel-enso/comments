@@ -3,13 +3,13 @@
 namespace LaravelEnso\Comments;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use LaravelEnso\Comments\app\Models\Comment;
-use LaravelEnso\Comments\app\Policies\CommentPolicy;
+use LaravelEnso\Comments\App\Models\Comment;
+use LaravelEnso\Comments\App\Policies\Comment as Policy;
 
 class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
-        Comment::class => CommentPolicy::class,
+        Comment::class => Policy::class,
     ];
 
     public function boot()

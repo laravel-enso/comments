@@ -1,28 +1,17 @@
 <?php
 
-namespace LaravelEnso\Comments\app\Traits;
+namespace LaravelEnso\Comments\App\Traits;
 
-use LaravelEnso\Comments\app\Models\Comment;
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use LaravelEnso\Comments\App\Exceptions\CommentConflict;
+use LaravelEnso\Comments\App\Models\Comment;
 
 trait Commentable
 {
     public static function bootCommentable()
     {
-        self::deleting(function ($model) {
-            if (config('enso.comments.onDelete') === 'restrict'
-                && $model->comments()->first() !== null) {
-                throw new ConflictHttpException(
-                    __('The entity has comments and cannot be deleted')
-                );
-            }
-        });
+        self::deleting(fn ($model) => $model->attemptDelete());
 
-        self::deleted(function ($model) {
-            if (config('enso.comments.onDelete') === 'cascade') {
-                $model->comments()->delete();
-            }
-        });
+        self::deleted(fn ($model) => $model->cascadeDelete());
     }
 
     public function comment()
@@ -33,5 +22,20 @@ trait Commentable
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    private function attemptDelete()
+    {
+        if (config('enso.comments.onDelete') === 'restrict'
+            && $this->comments()->first() !== null) {
+            throw CommentConflict::delete();
+        }
+    }
+
+    private function cascadeDelete()
+    {
+        if (config('enso.comments.onDelete') === 'cascade') {
+            $this->comments()->delete();
+        }
     }
 }
