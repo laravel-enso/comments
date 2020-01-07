@@ -20,9 +20,9 @@
     ],
     "require": {
         "laravel-enso/core": "4.7.*",
-        "laravel-enso/helpers": "1.14.*",
-        "laravel-enso/migrator": "1.0.*",
-        "laravel-enso/track-who": "1.8.*"
+        "laravel-enso/helpers": "1.15.*",
+        "laravel-enso/migrator": "1.1.*",
+        "laravel-enso/track-who": "1.9.*"
     },
     "autoload": {
         "psr-4": {

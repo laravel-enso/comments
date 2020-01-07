@@ -9,9 +9,9 @@ trait Commentable
 {
     public static function bootCommentable()
     {
-        self::deleting(fn ($model) => $model->attemptDelete());
+        self::deleting(fn ($model) => $model->attemptCommentableDeletion());
 
-        self::deleted(fn ($model) => $model->cascadeDelete());
+        self::deleted(fn ($model) => $model->cascadeCommentDeletion());
     }
 
     public function comment()
@@ -24,15 +24,15 @@ trait Commentable
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    private function attemptDelete()
+    private function attemptCommentableDeletion()
     {
         if (config('enso.comments.onDelete') === 'restrict'
-            && $this->comments()->first() !== null) {
+            && $this->comments()->exists()) {
             throw CommentConflict::delete();
         }
     }
 
-    private function cascadeDelete()
+    private function cascadeCommentDeletion()
     {
         if (config('enso.comments.onDelete') === 'cascade') {
             $this->comments()->delete();
