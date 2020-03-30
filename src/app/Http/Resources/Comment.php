@@ -3,7 +3,7 @@
 namespace LaravelEnso\Comments\App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use LaravelEnso\TrackWho\App\Http\Resources\TrackWho;
+use LaravelEnso\Core\App\Http\Resources\User;
 
 class Comment extends JsonResource
 {
@@ -12,7 +12,7 @@ class Comment extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
-            'owner' => new TrackWho($this->whenLoaded('createdBy')),
+            'owner' => new User($this->whenLoaded('createdBy')),
             'taggedUsers' => TaggedUser::collection($this->whenLoaded('taggedUsers')),
             'isEditable' => $this->isEditable($request),
             'isDeletable' => $this->isDeletable($request),
