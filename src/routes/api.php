@@ -11,4 +11,6 @@ Route::middleware(['web', 'auth', 'core'])
         Route::post('', 'Store')->name('store');
         Route::patch('{comment}', 'Update')->name('update');
         Route::delete('{comment}', 'Destroy')->name('destroy');
+
+        Route::get('users', 'Users')->name('users');
     });
