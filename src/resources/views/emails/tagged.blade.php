@@ -9,7 +9,7 @@
 
 {{ __('To view the full conversation click the button below.') }}
 
-@component('mail::button', ['url' => $url, 'color' => 'green'])
+@component('mail::button', ['url' => $url, 'color' => 'blue'])
 {{ __('View conversation') }}
 @endcomponent
 
