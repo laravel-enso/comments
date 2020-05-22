@@ -3,10 +3,9 @@
 namespace LaravelEnso\Comments\App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use LaravelEnso\Helpers\App\Contracts\TransformsMorphMap;
 use LaravelEnso\Helpers\App\Traits\TransformMorphMap;
 
-class ValidateCommentFetch extends FormRequest implements TransformsMorphMap
+class ValidateCommentFetch extends FormRequest
 {
     use TransformMorphMap;
 
