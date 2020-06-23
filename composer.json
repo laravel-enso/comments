@@ -10,19 +10,18 @@
     "homepage": "https://github.com/laravel-enso/comments",
     "type": "library",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Adrian Ocneanu",
-            "email": "aocneanu@gmail.com",
-            "homepage": "https://laravel-enso.com",
-            "role": "Developer"
-        }
-    ],
+    "authors": [{
+        "name": "Adrian Ocneanu",
+        "email": "aocneanu@gmail.com",
+        "homepage": "https://laravel-enso.com",
+        "role": "Developer"
+    }],
     "require": {
-        "laravel-enso/core": "4.8.*",
-        "laravel-enso/helpers": "1.15.*",
-        "laravel-enso/migrator": "1.1.*",
-        "laravel-enso/track-who": "1.9.*"
+        "laravel-enso/core": "^5.0",
+        "laravel-enso/dynamic-relations": "^2.0",
+        "laravel-enso/helpers": "^2.0",
+        "laravel-enso/migrator": "^2.0",
+        "laravel-enso/track-who": "^2.0"
     },
     "autoload": {
         "psr-4": {
@@ -33,7 +32,8 @@
         "laravel": {
             "providers": [
                 "LaravelEnso\\Comments\\AppServiceProvider",
-                "LaravelEnso\\Comments\\AuthServiceProvider"
+                "LaravelEnso\\Comments\\AuthServiceProvider",
+                "LaravelEnso\\Comments\\UserServiceProvider"
             ],
             "aliases": {}
         }

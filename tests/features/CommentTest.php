@@ -5,10 +5,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Schema;
-use LaravelEnso\Comments\App\Models\Comment;
-use LaravelEnso\Comments\App\Notifications\CommentTagNotification;
-use LaravelEnso\Comments\App\Traits\Commentable;
-use LaravelEnso\Core\App\Models\User;
+use LaravelEnso\Comments\Models\Comment;
+use LaravelEnso\Comments\Notifications\CommentTagNotification;
+use LaravelEnso\Comments\Traits\Commentable;
+use LaravelEnso\Core\Models\User;
 use Tests\TestCase;
 
 class CommentTest extends TestCase
@@ -41,11 +41,13 @@ class CommentTest extends TestCase
     /** @test */
     public function can_create_comment()
     {
-        $this->post(route('core.comments.store'),
+        $this->post(
+            route('core.comments.store'),
             $this->postParams()->toArray() + [
                 'taggedUsers' => [],
-                'path' => $this->faker->url
-            ])->assertStatus(201)
+                'path' => $this->faker->url,
+            ]
+        )->assertStatus(201)
             ->assertJsonStructure(['body']);
     }
 
@@ -67,7 +69,8 @@ class CommentTest extends TestCase
             $this->testModel->toArray() + [
                 'taggedUsers' => [],
                 'path' => $this->faker->url,
-            ])->assertStatus(200)
+            ]
+        )->assertStatus(200)
             ->assertJsonFragment(['body' => $this->testModel->body]);
 
         $this->assertEquals(
@@ -104,7 +107,8 @@ class CommentTest extends TestCase
             $this->postParams()->toArray() + [
                 'taggedUsers' => $taggedUsers,
                 'path' => $this->faker->url,
-            ])->assertStatus(201)
+            ]
+        )->assertStatus(201)
             ->assertJsonFragment(['taggedUsers' => $taggedUsers]);
 
         $commentId = $response->decodeResponseJson()['id'];
@@ -139,7 +143,8 @@ class CommentTest extends TestCase
             $this->testModel->toArray() + [
                 'taggedUsers' => $taggedUsers,
                 'path' => $this->faker->url,
-            ])->assertStatus(200)
+            ]
+        )->assertStatus(200)
             ->assertJsonFragment(['taggedUsers' => $taggedUsers]);
 
         $this->assertEquals(
