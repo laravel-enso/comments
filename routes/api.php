@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['web', 'auth', 'core'])
+Route::middleware(['api', 'auth', 'core'])
     ->prefix('api/core/comments')
     ->as('core.comments.')
     ->namespace('LaravelEnso\Comments\Http\Controllers')
