@@ -11,7 +11,7 @@ class Store extends Controller
 {
     public function __invoke(ValidateCommentStore $request, Comment $comment)
     {
-        $comment->fill($request->validatedExcept('taggedUsers'));
+        $comment->fill($request->validatedExcept('taggedUsers', 'path'));
 
         tap($comment)->save()
             ->syncTags($request->get('taggedUsers'))
