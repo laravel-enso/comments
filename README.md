@@ -1,6 +1,6 @@
 # Comments
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d96ab52d782d46b9a94e00ea6059b34c)](https://www.codacy.com/app/laravel-enso/comments?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=laravel-enso/comments&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/5510612164da41249665f892c88cffff)](https://www.codacy.com/gh/laravel-enso/comments?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=laravel-enso/comments&amp;utm_campaign=Badge_Grade) 
 [![StyleCI](https://github.styleci.io/repos/85583597/shield?branch=master)](https://github.styleci.io/repos/85583597)
 [![License](https://poser.pugx.org/laravel-enso/comments/license)](https://packagist.org/packages/laravel-enso/comments)
 [![Total Downloads](https://poser.pugx.org/laravel-enso/comments/downloads)](https://packagist.org/packages/laravel-enso/comments)
