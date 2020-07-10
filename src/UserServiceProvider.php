@@ -3,8 +3,8 @@
 namespace LaravelEnso\Comments;
 
 use Illuminate\Support\ServiceProvider;
-use LaravelEnso\Comments\DynamicsRelations\Comments;
-use LaravelEnso\Comments\DynamicsRelations\CommentTags;
+use LaravelEnso\Comments\DynamicRelations\Comments;
+use LaravelEnso\Comments\DynamicRelations\CommentTags;
 use LaravelEnso\Core\Models\User;
 use LaravelEnso\DynamicMethods\Services\Methods;
 
