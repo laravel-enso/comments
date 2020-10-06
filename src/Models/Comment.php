@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use LaravelEnso\Comments\Notifications\CommentTagNotification;
 use LaravelEnso\Core\Models\User;
+use LaravelEnso\Helpers\Traits\HasFactory;
 use LaravelEnso\Helpers\Traits\UpdatesOnTouch;
 use LaravelEnso\TrackWho\Traits\CreatedBy;
 use LaravelEnso\TrackWho\Traits\UpdatedBy;
 
 class Comment extends Model
 {
-    use CreatedBy, UpdatedBy, UpdatesOnTouch;
+    use CreatedBy, HasFactory, UpdatedBy, UpdatesOnTouch;
 
     protected $guarded = ['id'];
 
