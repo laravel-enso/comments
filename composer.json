@@ -17,7 +17,7 @@
         "role": "Developer"
     }],
     "require": {
-        "laravel-enso/core": "^5.0",
+        "laravel-enso/core": "^6.0",
         "laravel-enso/dynamic-methods": "^2.0",
         "laravel-enso/helpers": "^2.0",
         "laravel-enso/migrator": "^2.0",
@@ -25,7 +25,8 @@
     },
     "autoload": {
         "psr-4": {
-            "LaravelEnso\\Comments\\": "src/"
+            "LaravelEnso\\Comments\\": "src/",
+            "LaravelEnso\\Comments\\Database\\Factories\\": "database/factories/"
         }
     },
     "extra": {

@@ -32,7 +32,7 @@ class CommentTest extends TestCase
 
         $this->faker = Factory::create();
 
-        $this->testModel = factory(Comment::class)->create([
+        $this->testModel = Comment::factory()->create([
             'commentable_id' => CommentableTestModel::create(['name' => 'commentable'])->id,
             'commentable_type' => CommentableTestModel::class,
         ]);
@@ -95,7 +95,7 @@ class CommentTest extends TestCase
     {
         Notification::fake();
 
-        $taggedUser = factory(User::class)->create();
+        $taggedUser = User::factory()->create();
 
         $taggedUsers = [[
             'id' => $taggedUser->id,
@@ -111,7 +111,7 @@ class CommentTest extends TestCase
         )->assertStatus(201)
             ->assertJsonFragment(['taggedUsers' => $taggedUsers]);
 
-        $commentId = $response->decodeResponseJson()['id'];
+        $commentId = $response->json()['id'];
 
         $this->assertEquals(
             Comment::find($commentId)->taggedUsers()->first()->id,
@@ -129,7 +129,7 @@ class CommentTest extends TestCase
     {
         Notification::fake();
 
-        $taggedUser = factory(User::class)->create();
+        $taggedUser = User::factory()->create();
 
         $this->testModel->body = 'edited';
 
@@ -169,7 +169,7 @@ class CommentTest extends TestCase
 
     private function postParams()
     {
-        return factory(Comment::class)->make([
+        return Comment::factory()->make([
             'commentable_id' => CommentableTestModel::create(['name' => 'commentable'])->id,
             'commentable_type' => CommentableTestModel::class,
         ]);

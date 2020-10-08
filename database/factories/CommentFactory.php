@@ -1,10 +1,20 @@
 <?php
 
-use Faker\Generator as Faker;
+namespace LaravelEnso\Comments\Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
 use LaravelEnso\Comments\Models\Comment;
 
-$factory->define(Comment::class, fn (Faker $faker) => [
-    'commentable_id' => $faker->randomKey,
-    'commentable_type' => $faker->word,
-    'body' => $faker->sentence,
-]);
+class CommentFactory extends Factory
+{
+    protected $model = Comment::class;
+
+    public function definition()
+    {
+        return [
+            'commentable_id' => $this->faker->randomKey,
+            'commentable_type' => $this->faker->word,
+            'body' => $this->faker->sentence,
+        ];
+    }
+}
