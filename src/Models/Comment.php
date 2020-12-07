@@ -2,6 +2,7 @@
 
 namespace LaravelEnso\Comments\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -29,15 +30,10 @@ class Comment extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function scopeFor($query, array $params)
+    public function scopeFor(Builder $query, array $params): Builder
     {
-        $query->whereCommentableId($params['commentable_id'])
+        return $query->whereCommentableId($params['commentable_id'])
             ->whereCommentableType($params['commentable_type']);
-    }
-
-    public function scopeOrdered($query)
-    {
-        $query->orderBy('created_at', 'desc');
     }
 
     public function syncTags(array $taggedUsers)
