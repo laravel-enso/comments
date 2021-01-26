@@ -4,8 +4,6 @@ namespace LaravelEnso\Comments\Observers;
 
 use Illuminate\Support\Facades\Config;
 use LaravelEnso\Comments\Exceptions\CommentConflict;
-use LaravelEnso\Comments\Models\Comment;
-use LaravelEnso\Core\Models\User;
 
 class Observer
 {
