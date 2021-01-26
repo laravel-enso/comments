@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Comments;
+namespace LaravelEnso\Comments\Services;
 
 use LaravelEnso\Comments\DynamicRelations\Commentable;
 use LaravelEnso\Comments\Observers\Observer;
