@@ -47,10 +47,9 @@ class Comment extends Model
 
     public function notify(string $path)
     {
-        $this->taggedUsers->each->notify(
-            (new CommentTagNotification($this->body, $path))
-                ->onQueue('notifications')
-        );
+        $this->taggedUsers->each
+            ->notify((new CommentTagNotification($this->body, $path))
+                ->onQueue('notifications'));
     }
 
     public function getLoggableMorph()
