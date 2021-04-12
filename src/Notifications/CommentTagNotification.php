@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Config;
 
 class CommentTagNotification extends Notification implements ShouldQueue
 {
@@ -38,8 +39,10 @@ class CommentTagNotification extends Notification implements ShouldQueue
 
     public function toMail($notifiable)
     {
+        $app = Config::get('app.name');
+
         return (new MailMessage())
-            ->subject(__(config('app.name')).': '.__('Comment Tag Notification'))
+            ->subject("[ {$app} ] {$this->subject()}")
             ->markdown('laravel-enso/comments::emails.tagged', [
                 'appellative' => $notifiable->person->appellative(),
                 'body' => $this->body,
@@ -54,5 +57,10 @@ class CommentTagNotification extends Notification implements ShouldQueue
             'path' => $this->path,
             'icon' => 'comment',
         ];
+    }
+
+    private function subject(): string
+    {
+        return __('Comment Tag Notification');
     }
 }
