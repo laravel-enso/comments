@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use LaravelEnso\Comments\Notifications\CommentTagNotification;
-use LaravelEnso\Core\Models\User;
 use LaravelEnso\Helpers\Traits\UpdatesOnTouch;
 use LaravelEnso\TrackWho\Traits\CreatedBy;
 use LaravelEnso\TrackWho\Traits\UpdatedBy;
+use LaravelEnso\Users\Models\User;
 
 class Comment extends Model
 {
@@ -39,7 +39,7 @@ class Comment extends Model
     public function syncTags(array $taggedUsers)
     {
         $this->taggedUsers()->sync(
-            (new Collection($taggedUsers))->pluck('id')
+            Collection::wrap($taggedUsers)->pluck('id')
         );
 
         return $this;

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use LaravelEnso\Comments\Models\Comment;
 use LaravelEnso\Comments\Notifications\CommentTagNotification;
 use LaravelEnso\Comments\Traits\Commentable;
-use LaravelEnso\Core\Models\User;
+use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
 
 class CommentTest extends TestCase
@@ -22,8 +22,6 @@ class CommentTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        // $this->withoutExceptionHandling();
 
         $this->seed()
             ->actingAs($this->user = User::first());

@@ -13,13 +13,10 @@ class CommentTagNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    private $body;
-    private $path;
-
-    public function __construct($body, $path)
-    {
-        $this->body = $body;
-        $this->path = $path;
+    public function __construct(
+        private string $body,
+        private string $path
+    ) {
     }
 
     public function via()
