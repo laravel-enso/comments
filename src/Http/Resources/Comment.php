@@ -3,7 +3,7 @@
 namespace LaravelEnso\Comments\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use LaravelEnso\Core\Http\Resources\User;
+use LaravelEnso\Users\Http\Resources\User;
 
 class Comment extends JsonResource
 {
