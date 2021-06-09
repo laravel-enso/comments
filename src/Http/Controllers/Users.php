@@ -2,7 +2,7 @@
 
 namespace LaravelEnso\Comments\Http\Controllers;
 
-use LaravelEnso\Core\Http\Controllers\Administration\User\Options;
+use LaravelEnso\Users\Http\Controllers\Options;
 
 class Users extends Options
 {
