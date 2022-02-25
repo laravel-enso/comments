@@ -19,10 +19,10 @@
         }
     ],
     "require": {
-        "laravel-enso/core": "^7.0",
+        "laravel-enso/core": "^8.0",
         "laravel-enso/dynamic-methods": "^2.0",
         "laravel-enso/helpers": "^2.0",
-        "laravel-enso/migrator": "^2.0",
+        "laravel-enso/migrator": "^2.1",
         "laravel-enso/track-who": "^2.0"
     },
     "autoload": {
