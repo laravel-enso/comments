@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCommentUserPivotTable extends Migration
+return new class extends Migration
 {
     public function up()
     {
@@ -25,4 +25,4 @@ class CreateCommentUserPivotTable extends Migration
     {
         Schema::drop('comment_user');
     }
-}
+};
