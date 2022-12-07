@@ -29,8 +29,8 @@ class CommentTagNotification extends Notification implements ShouldQueue
         return new BroadcastMessage([
             'level' => 'info',
             'title' => __('New Comment Tag'),
-            'icon' => 'comment',
-            'body' => __('You were just tagged').': '.$this->body,
+            'icon'  => 'comment',
+            'body'  => __('You were just tagged').': '.$this->body,
         ]);
     }
 
@@ -42,8 +42,8 @@ class CommentTagNotification extends Notification implements ShouldQueue
             ->subject("[ {$app} ] {$this->subject()}")
             ->markdown('laravel-enso/comments::emails.tagged', [
                 'appellative' => $notifiable->person->appellative(),
-                'body' => $this->body,
-                'url' => url($this->path),
+                'body'        => $this->body,
+                'url'         => url($this->path),
             ]);
     }
 

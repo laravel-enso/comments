@@ -14,8 +14,8 @@ class ValidateCommentUpdate extends FormRequest
     public function rules()
     {
         return [
-            'body' => 'required',
-            'path' => 'required',
+            'body'        => 'required',
+            'path'        => 'required',
             'taggedUsers' => 'array',
         ];
     }

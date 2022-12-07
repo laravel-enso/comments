@@ -31,7 +31,7 @@ class CommentTest extends TestCase
         $this->faker = Factory::create();
 
         $this->testModel = Comment::factory()->create([
-            'commentable_id' => CommentableTestModel::create(['name' => 'commentable'])->id,
+            'commentable_id'   => CommentableTestModel::create(['name' => 'commentable'])->id,
             'commentable_type' => CommentableTestModel::class,
         ]);
     }
@@ -43,7 +43,7 @@ class CommentTest extends TestCase
             route('core.comments.store'),
             $this->postParams()->toArray() + [
                 'taggedUsers' => [],
-                'path' => $this->faker->url,
+                'path'        => $this->faker->url,
             ]
         )->assertStatus(201)
             ->assertJsonStructure(['body']);
@@ -66,7 +66,7 @@ class CommentTest extends TestCase
             route('core.comments.update', $this->testModel->id, false),
             $this->testModel->toArray() + [
                 'taggedUsers' => [],
-                'path' => $this->faker->url,
+                'path'        => $this->faker->url,
             ]
         )->assertStatus(200)
             ->assertJsonFragment(['body' => $this->testModel->body]);
@@ -96,7 +96,7 @@ class CommentTest extends TestCase
         $taggedUser = User::factory()->create();
 
         $taggedUsers = [[
-            'id' => $taggedUser->id,
+            'id'   => $taggedUser->id,
             'name' => $taggedUser->person->name,
         ]];
 
@@ -104,7 +104,7 @@ class CommentTest extends TestCase
             route('core.comments.store', [], false),
             $this->postParams()->toArray() + [
                 'taggedUsers' => $taggedUsers,
-                'path' => $this->faker->url,
+                'path'        => $this->faker->url,
             ]
         )->assertStatus(201)
             ->assertJsonFragment(['taggedUsers' => $taggedUsers]);
@@ -132,7 +132,7 @@ class CommentTest extends TestCase
         $this->testModel->body = 'edited';
 
         $taggedUsers = [[
-            'id' => $taggedUser->id,
+            'id'   => $taggedUser->id,
             'name' => $taggedUser->person->name,
         ]];
 
@@ -140,7 +140,7 @@ class CommentTest extends TestCase
             route('core.comments.update', [$this->testModel->id], false),
             $this->testModel->toArray() + [
                 'taggedUsers' => $taggedUsers,
-                'path' => $this->faker->url,
+                'path'        => $this->faker->url,
             ]
         )->assertStatus(200)
             ->assertJsonFragment(['taggedUsers' => $taggedUsers]);
@@ -168,7 +168,7 @@ class CommentTest extends TestCase
     private function postParams()
     {
         return Comment::factory()->make([
-            'commentable_id' => CommentableTestModel::create(['name' => 'commentable'])->id,
+            'commentable_id'   => CommentableTestModel::create(['name' => 'commentable'])->id,
             'commentable_type' => CommentableTestModel::class,
         ]);
     }
