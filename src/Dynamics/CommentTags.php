@@ -5,9 +5,15 @@ namespace LaravelEnso\Comments\DynamicRelations;
 use Closure;
 use LaravelEnso\Comments\Models\Comment;
 use LaravelEnso\DynamicMethods\Contracts\Method;
+use LaravelEnso\Users\Models\User;
 
-class Comments implements Method
+class CommentTags implements Method
 {
+    public function bindTo(): array
+    {
+        return [User::class];
+    }
+
     public function name(): string
     {
         return 'comments';
@@ -15,6 +21,6 @@ class Comments implements Method
 
     public function closure(): Closure
     {
-        return fn () => $this->hasMany(Comment::class, 'created_by');
+        return fn ($user) => $user->belongsToMany(Comment::class);
     }
 }
