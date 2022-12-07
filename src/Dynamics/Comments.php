@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Comments\Dynamis;
+namespace LaravelEnso\Comments\Dynamics;
 
 use Closure;
 use Illuminate\Database\Eloquent\Model;
