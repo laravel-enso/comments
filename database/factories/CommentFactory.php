@@ -12,9 +12,9 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            'commentable_id' => $this->faker->randomKey,
+            'commentable_id'   => $this->faker->randomKey,
             'commentable_type' => $this->faker->word,
-            'body' => $this->faker->sentence,
+            'body'             => $this->faker->sentence,
         ];
     }
 }

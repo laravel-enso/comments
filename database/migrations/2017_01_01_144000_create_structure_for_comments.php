@@ -2,8 +2,7 @@
 
 use LaravelEnso\Migrator\Database\Migration;
 
-return new class extends Migration
-{
+return new class() extends Migration {
     protected array $permissions = [
         ['name' => 'core.comments.users', 'description' => 'Get taggable users options for select', 'is_default' => true],
         ['name' => 'core.comments.index', 'description' => 'List comments for commentable', 'is_default' => true],
