@@ -5,7 +5,7 @@ namespace LaravelEnso\Comments\Http\Controllers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Routing\Controller;
 use LaravelEnso\Comments\Http\Requests\ValidateCommentUpdate;
-use LaravelEnso\Comments\Http\Resources;
+use LaravelEnso\Comments\Http\Resources\Comment as Resource;
 use LaravelEnso\Comments\Models\Comment;
 
 class Update extends Controller
@@ -20,7 +20,7 @@ class Update extends Controller
             ->syncTags($request->get('taggedUsers'))
             ->notify($request->get('path'));
 
-        return new Resources\Comment($comment->load([
+        return new Resource($comment->load([
             'createdBy.person', 'createdBy.avatar', 'updatedBy', 'taggedUsers.person',
         ]));
     }

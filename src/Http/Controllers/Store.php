@@ -4,7 +4,7 @@ namespace LaravelEnso\Comments\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use LaravelEnso\Comments\Http\Requests\ValidateCommentStore;
-use LaravelEnso\Comments\Http\Resources;
+use LaravelEnso\Comments\Http\Resources\Comment as Resource;
 use LaravelEnso\Comments\Models\Comment;
 
 class Store extends Controller
@@ -17,7 +17,7 @@ class Store extends Controller
             ->syncTags($request->get('taggedUsers'))
             ->notify($request->get('path'));
 
-        return new Resources\Comment($comment->load([
+        return new Resource($comment->load([
             'createdBy.person', 'createdBy.avatar', 'taggedUsers.person',
         ]));
     }
