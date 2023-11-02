@@ -13,7 +13,9 @@ class Comment
 
     public function before(User $user)
     {
-        return $user->isSuperior();
+        if ($user->isSuperior()) {
+            return true;
+        }
     }
 
     public function update(User $user, Model $comment)
