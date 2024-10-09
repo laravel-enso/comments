@@ -4,6 +4,7 @@ namespace LaravelEnso\Comments\Policies;
 
 use Carbon\Carbon;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Config;
 use LaravelEnso\Comments\Models\Comment as Model;
 use LaravelEnso\Users\Models\User;
 
@@ -37,7 +38,7 @@ class Comment
 
     private function isRecent(Model $comment)
     {
-        return $comment->created_at->diffInSeconds(Carbon::now())
-            < config('enso.comments.editableTimeLimit');
+        return (int) $comment->created_at->diffInSeconds(Carbon::now(), true)
+            < Config::get('enso.comments.editableTimeLimit');
     }
 }
