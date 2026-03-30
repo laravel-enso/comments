@@ -10,6 +10,7 @@ use LaravelEnso\Comments\Notifications\CommentTagNotification;
 use LaravelEnso\Comments\Traits\Commentable;
 use LaravelEnso\Users\Models\User;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class CommentTest extends TestCase
 {
@@ -36,7 +37,7 @@ class CommentTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function can_create_comment()
     {
         $this->post(
@@ -49,7 +50,7 @@ class CommentTest extends TestCase
             ->assertJsonStructure(['body']);
     }
 
-    /** @test */
+    #[Test]
     public function can_get_comments_index()
     {
         $this->get(route('core.comments.index', $this->testModel->toArray(), false))
@@ -57,7 +58,7 @@ class CommentTest extends TestCase
             ->assertJsonStructure(['data' => 'data']);
     }
 
-    /** @test */
+    #[Test]
     public function can_update_comment()
     {
         $this->testModel->body = 'edited';
@@ -77,7 +78,7 @@ class CommentTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function can_delete_comment()
     {
         $this->assertNotNull($this->testModel);
@@ -88,7 +89,7 @@ class CommentTest extends TestCase
         $this->assertNull($this->testModel->fresh());
     }
 
-    /** @test */
+    #[Test]
     public function can_store_with_tagged_user()
     {
         Notification::fake();
@@ -122,7 +123,7 @@ class CommentTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function can_update_with_tagged_user()
     {
         Notification::fake();
