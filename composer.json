@@ -23,7 +23,7 @@
         "laravel-enso/dynamic-methods": "^4.0",
         "laravel-enso/helpers": "^4.0",
         "laravel-enso/migrator": "^2.1",
-        "laravel-enso/track-who": "^2.0",
+        "laravel-enso/track-who": "^3.0",
         "laravel-enso/users": "^2.0"
     },
     "autoload": {
