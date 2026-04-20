@@ -3,14 +3,16 @@
 use Faker\Factory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Schema;
 use LaravelEnso\Comments\Models\Comment;
 use LaravelEnso\Comments\Notifications\CommentTagNotification;
 use LaravelEnso\Comments\Traits\Commentable;
 use LaravelEnso\Users\Models\User;
-use Tests\TestCase;
 use PHPUnit\Framework\Attributes\Test;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use Tests\TestCase;
 
 class CommentTest extends TestCase
 {
@@ -59,6 +61,16 @@ class CommentTest extends TestCase
     }
 
     #[Test]
+    public function comment_index_includes_human_readable_dates_flag_from_config()
+    {
+        Config::set('enso.comments.humanReadableDates', false);
+
+        $this->get(route('core.comments.index', $this->testModel->toArray(), false))
+            ->assertStatus(200)
+            ->assertJsonPath('humanReadableDates', false);
+    }
+
+    #[Test]
     public function can_update_comment()
     {
         $this->testModel->body = 'edited';
@@ -87,6 +99,24 @@ class CommentTest extends TestCase
             ->assertStatus(200);
 
         $this->assertNull($this->testModel->fresh());
+    }
+
+    #[Test]
+    public function cannot_store_comment_without_required_fields()
+    {
+        $this->post(route('core.comments.store', [], false), [
+            'commentable_id' => $this->testModel->commentable_id,
+            'commentable_type' => $this->testModel->commentable_type,
+            'taggedUsers' => [],
+        ])->assertInvalid(['body', 'path']);
+    }
+
+    #[Test]
+    public function cannot_update_comment_without_required_fields()
+    {
+        $this->patch(route('core.comments.update', $this->testModel->id, false), [
+            'taggedUsers' => [],
+        ])->assertInvalid(['body', 'path']);
     }
 
     #[Test]
@@ -154,6 +184,52 @@ class CommentTest extends TestCase
         Notification::assertSentTo(
             User::find($taggedUser->id),
             CommentTagNotification::class
+        );
+    }
+
+    #[Test]
+    public function cannot_delete_a_commentable_while_having_restrict_comments()
+    {
+        Config::set('enso.comments.onDelete', 'restrict');
+
+        $this->expectException(ConflictHttpException::class);
+
+        CommentableTestModel::destroy($this->testModel->commentable_id);
+    }
+
+    #[Test]
+    public function can_delete_a_commentable_while_having_cascade_comments()
+    {
+        Config::set('enso.comments.onDelete', 'cascade');
+
+        CommentableTestModel::destroy($this->testModel->commentable_id);
+
+        $this->assertNull($this->testModel->fresh());
+    }
+
+    #[Test]
+    public function updates_the_parent_timestamp_when_a_comment_changes()
+    {
+        $commentable = $this->testModel->commentable;
+        $payload = $this->testModel->toArray();
+
+        $commentable->forceFill([
+            'updated_at' => now()->subMinute(),
+        ])->saveQuietly();
+
+        $previousUpdatedAt = $commentable->fresh()->updated_at;
+        $payload['body'] = 'edited';
+
+        $this->patch(
+            route('core.comments.update', $this->testModel->id, false),
+            $payload + [
+                'taggedUsers' => [],
+                'path' => $this->faker->url,
+            ]
+        )->assertStatus(200);
+
+        $this->assertTrue(
+            $commentable->fresh()->updated_at->gt($previousUpdatedAt)
         );
     }
 
