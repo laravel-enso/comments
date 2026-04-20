@@ -124,6 +124,10 @@ Required Enso packages:
 - [`laravel-enso/track-who`](https://docs.laravel-enso.com/backend/track-who.html) [↗](https://github.com/laravel-enso/track-who)
 - [`laravel-enso/users`](https://docs.laravel-enso.com/backend/users.html) [↗](https://github.com/laravel-enso/users)
 
+Companion frontend package:
+
+- [`@enso-ui/comments`](https://docs.laravel-enso.com/frontend/comments.html) [↗](https://github.com/enso-ui/comments)
+
 ## Contributions
 
 are welcome. Pull requests are great, but issues are good too.
