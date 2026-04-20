@@ -22,7 +22,7 @@ class ValidateCommentFetch extends FormRequest
     public function rules()
     {
         return [
-            'commentable_id' => 'required',
+            'commentable_id'   => 'required',
             'commentable_type' => 'required|string',
         ];
     }

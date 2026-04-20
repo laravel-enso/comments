@@ -14,7 +14,10 @@ use LaravelEnso\Users\Models\User;
 
 class Comment extends Model
 {
-    use CreatedBy, HasFactory, UpdatedBy, UpdatesOnTouch;
+    use CreatedBy;
+    use HasFactory;
+    use UpdatedBy;
+    use UpdatesOnTouch;
 
     protected $guarded = ['id'];
 

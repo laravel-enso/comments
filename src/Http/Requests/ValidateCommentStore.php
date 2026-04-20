@@ -11,8 +11,8 @@ class ValidateCommentStore extends ValidateCommentFetch
     public function rules()
     {
         return parent::rules() + [
-            'body' => 'required',
-            'path' => 'required',
+            'body'        => 'required',
+            'path'        => 'required',
             'taggedUsers' => 'array',
         ];
     }
