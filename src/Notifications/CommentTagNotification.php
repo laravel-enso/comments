@@ -8,6 +8,7 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
 
 class CommentTagNotification extends Notification implements ShouldQueue
 {
@@ -43,7 +44,7 @@ class CommentTagNotification extends Notification implements ShouldQueue
             ->markdown('laravel-enso/comments::emails.tagged', [
                 'appellative' => $notifiable->person->appellative(),
                 'body'        => $this->body,
-                'url'         => url($this->path),
+                'url'         => URL::to($this->path),
             ]);
     }
 

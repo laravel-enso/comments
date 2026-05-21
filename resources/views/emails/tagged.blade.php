@@ -1,9 +1,13 @@
 @component('mail::message')
+@component('mail::title')
+{{ __('Comment Tag Notification') }}
+@endcomponent
+
 {{ __('Hi :appellative', ['appellative' => $appellative]) }},
 
 {{ __("You were just tagged in a comment:") }}
 
-@component('mail::panel')
+@component('mail::quote')
 {{ $body }}
 @endcomponent
 
@@ -13,6 +17,6 @@
 {{ __('View conversation') }}
 @endcomponent
 
-{{ __('Thank you') }},<br>
-{{ __(config('app.name')) }}
+@component('mail::signature')
+@endcomponent
 @endcomponent
