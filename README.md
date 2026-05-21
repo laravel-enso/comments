@@ -54,6 +54,7 @@ return [
 
 - Polymorphic one-to-one and one-to-many comments through the `Commentable` trait.
 - Tagged users stored on a pivot table and notified through queued notifications.
+- Shared mail layout and preview registration through `laravel-enso/mails`.
 - Comments API with list, create, update, destroy, and user option endpoints.
 - Configurable delete strategy via `restrict` or `cascade`.
 - Automatic parent touching for updated commentable records.
@@ -120,6 +121,7 @@ Required Enso packages:
 - [`laravel-enso/core`](https://docs.laravel-enso.com/backend/core.html) [↗](https://github.com/laravel-enso/core)
 - [`laravel-enso/dynamic-methods`](https://docs.laravel-enso.com/backend/dynamic-methods.html) [↗](https://github.com/laravel-enso/dynamic-methods)
 - [`laravel-enso/helpers`](https://docs.laravel-enso.com/backend/helpers.html) [↗](https://github.com/laravel-enso/helpers)
+- [`laravel-enso/mails`](https://github.com/laravel-enso/mails) [↗](https://github.com/laravel-enso/mails)
 - [`laravel-enso/migrator`](https://docs.laravel-enso.com/backend/migrator.html) [↗](https://github.com/laravel-enso/migrator)
 - [`laravel-enso/track-who`](https://docs.laravel-enso.com/backend/track-who.html) [↗](https://github.com/laravel-enso/track-who)
 - [`laravel-enso/users`](https://docs.laravel-enso.com/backend/users.html) [↗](https://github.com/laravel-enso/users)
